@@ -2,6 +2,35 @@
 
 ![Spotted](https://media.giphy.com/media/F3iTD8JI4OPIs/giphy.gif)
 
+## Prerequisites
+
+* Node >= X
+* PHP >= 7
+* Composer
+* MariaDB
+
+## Getting start
+
+Command line interfaces are accessible through their related directory in `src/`
+
+Start the api
+
+```
+php bin/console server:start
+```
+
+You can easily interact with the API using Postman
+
+Api documentation is accessible at `http://localhost:XXXX/api/doc`
+
+Start the front-end dev environment
+
+```
+npm start
+```
+
+Follow your dreams at `localhost:XXXX`
+
 ## API roadmap
 
 * Authentication
