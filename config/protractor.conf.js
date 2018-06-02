@@ -11,10 +11,7 @@ exports.config = {
   /**
    * Use `npm run e2e`
    */
-  specs: [
-    helpers.root('src/**/**.e2e.ts'),
-    helpers.root('src/**/*.e2e.ts')
-  ],
+  specs: [helpers.root('src/**/**.e2e.ts'), helpers.root('src/**/*.e2e.ts')],
   exclude: [],
 
   framework: 'jasmine',
@@ -26,15 +23,20 @@ exports.config = {
     showColors: true,
     isVerbose: false,
     includeStackTrace: false,
-    defaultTimeoutInterval: 40000
+    defaultTimeoutInterval: 40000,
   },
 
   directConnect: true,
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=800x600", "--no-sandbox" ]
-    }
+      args: [
+        '--headless',
+        '--disable-gpu',
+        '--window-size=800x600',
+        '--no-sandbox',
+      ],
+    },
   },
 
   onPrepare: function() {
@@ -47,7 +49,7 @@ exports.config = {
    * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
    * `rootEl`
    */
-   useAllAngular2AppRoots: true,
+  useAllAngular2AppRoots: true,
 
-   SELENIUM_PROMISE_MANAGER: false,
+  SELENIUM_PROMISE_MANAGER: false,
 };

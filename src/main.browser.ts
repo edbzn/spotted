@@ -17,7 +17,7 @@ export function main(): Promise<any> {
   return platformBrowserDynamic()
     .bootstrapModule(AppModule)
     .then(environment.decorateModuleRef)
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 }
 
 /**
@@ -35,6 +35,6 @@ switch (document.readyState) {
 }
 
 function _domReadyHandler() {
- document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
- main();
+  document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
+  main();
 }

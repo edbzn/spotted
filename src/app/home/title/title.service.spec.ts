@@ -3,17 +3,20 @@ import {
   async,
   TestBed,
   ComponentFixture,
-  getTestBed
+  getTestBed,
 } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Title } from './title.service';
 
 describe('Title', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [Title]
+      providers: [Title],
     });
   });
 
@@ -27,9 +30,8 @@ describe('Title', () => {
 
     title.getData();
     expect(console.log).toHaveBeenCalled();
-    title.getData().subscribe( (result) => {
+    title.getData().subscribe(result => {
       expect(result).toEqual({ value: 'AngularClass' });
     });
   }));
-
 });

@@ -1,5 +1,3 @@
 import { DevModuleComponent } from './dev-module.component';
 
-export const routes = [
-  { path: 'dev-module', component: DevModuleComponent }
-];
+export const routes = [{ path: 'dev-module', component: DevModuleComponent }];

@@ -15,11 +15,7 @@ console.log('`Barrel` bundle loaded asynchronously');
      */
     BarrelComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [CommonModule, FormsModule, RouterModule.forChild(routes)],
 })
 export class BarrelModule {
   public static routes = routes;

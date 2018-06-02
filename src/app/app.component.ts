@@ -12,9 +12,7 @@ import { AppState } from './app.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
+  styleUrls: ['./app.component.css'],
   template: `
     <nav>
       <a [routerLink]=" ['./'] "
@@ -57,7 +55,7 @@ import { AppState } from './app.service';
         </a>
       </div>
     </footer>
-  `
+  `,
 })
 export class AppComponent implements OnInit {
   public name = 'Angular Starter';
@@ -66,14 +64,11 @@ export class AppComponent implements OnInit {
   public url = 'https://tipe.io';
   public showDevModule: boolean = environment.showDevModule;
 
-  constructor(
-    public appState: AppState
-  ) {}
+  constructor(public appState: AppState) {}
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
   }
-
 }
 
 /**
