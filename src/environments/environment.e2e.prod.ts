@@ -20,7 +20,5 @@ export const environment: Environment = {
     disableDebugTools();
     return modRef;
   },
-  ENV_PROVIDERS: [
-
-  ]
+  ENV_PROVIDERS: [],
 };

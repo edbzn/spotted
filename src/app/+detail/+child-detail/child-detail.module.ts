@@ -15,11 +15,7 @@ console.log('`ChildDetail` bundle loaded asynchronously');
      */
     ChildDetailComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [CommonModule, FormsModule, RouterModule.forChild(routes)],
 })
 export class ChildDetailModule {
   public static routes = routes;

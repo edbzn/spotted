@@ -24,10 +24,7 @@ import '../styles/styles.scss';
 import '../styles/headings.css';
 
 // Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
+const APP_PROVIDERS = [...APP_RESOLVER_PROVIDERS, AppState];
 
 interface StoreType {
   state: InternalStateType;
@@ -39,13 +36,13 @@ interface StoreType {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     AboutComponent,
     HomeComponent,
     NoContentComponent,
-    XLargeDirective
+    XLargeDirective,
   ],
   /**
    * Import Angular's modules.
@@ -57,7 +54,7 @@ interface StoreType {
     HttpClientModule,
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules
+      preloadingStrategy: PreloadAllModules,
     }),
 
     /**
@@ -65,14 +62,11 @@ interface StoreType {
      * When the module is not imported it will get tree shaked.
      * This is a simple example, a big app should probably implement some logic
      */
-    ...environment.showDevModule ? [ DevModuleModule ] : [],
+    ...(environment.showDevModule ? [DevModuleModule] : []),
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.
    */
-  providers: [
-    environment.ENV_PROVIDERS,
-    APP_PROVIDERS
-  ]
+  providers: [environment.ENV_PROVIDERS, APP_PROVIDERS],
 })
 export class AppModule {}

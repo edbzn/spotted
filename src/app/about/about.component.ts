@@ -1,13 +1,9 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'about',
-  styles: [`
-  `],
+  styles: [``],
   template: `
     <h1>About</h1>
     <div>
@@ -20,24 +16,19 @@ import { ActivatedRoute } from '@angular/router';
       </h3>
     </div>
     <pre>this.localState = {{ localState | json }}</pre>
-  `
+  `,
 })
 export class AboutComponent implements OnInit {
-
   public localState: any;
-  constructor(
-    public route: ActivatedRoute
-  ) {}
+  constructor(public route: ActivatedRoute) {}
 
   public ngOnInit() {
-    this.route
-      .data
-      .subscribe((data: any) => {
-        /**
-         * Your resolved data from route.
-         */
-        this.localState = data.yourData;
-      });
+    this.route.data.subscribe((data: any) => {
+      /**
+       * Your resolved data from route.
+       */
+      this.localState = data.yourData;
+    });
 
     console.log('hello `About` component');
     /**
@@ -55,14 +46,10 @@ export class AboutComponent implements OnInit {
      * remember that 'es6-promise-loader' is a promise
      */
     setTimeout(() => {
-
-      System.import('../../assets/mock-data/mock-data.json')
-        .then((json) => {
-          console.log('async mockData', json);
-          this.localState = json;
-        });
-
+      System.import('../../assets/mock-data/mock-data.json').then(json => {
+        console.log('async mockData', json);
+        this.localState = json;
+      });
     });
   }
-
 }

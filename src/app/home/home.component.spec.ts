@@ -4,10 +4,13 @@ import {
   async,
   TestBed,
   ComponentFixture,
-  getTestBed
+  getTestBed,
 } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 /**
  * Load the implementations that should be tested.
@@ -31,7 +34,7 @@ describe(`Home`, () => {
       declarations: [HomeComponent],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [HttpClientTestingModule],
-      providers: [AppState, Title]
+      providers: [AppState, Title],
     })
 
       /**
@@ -71,5 +74,4 @@ describe(`Home`, () => {
     comp.ngOnInit();
     expect(console.log).toHaveBeenCalled();
   });
-
 });

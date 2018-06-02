@@ -10,11 +10,8 @@ import { DevModuleComponent } from './dev-module.component';
       e.g. `console.log('something')` is a side effect.
 */
 @NgModule({
-  declarations: [ DevModuleComponent ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-  ],
+  declarations: [DevModuleComponent],
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
 export class DevModuleModule {
   public static routes = routes;

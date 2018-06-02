@@ -7,22 +7,26 @@ HtmlElementsPlugin.prototype.apply = function(compiler) {
   compiler.plugin('compilation', function(compilation) {
     compilation.options.htmlElements = compilation.options.htmlElements || {};
 
-    compilation.plugin('html-webpack-plugin-before-html-generation', function(htmlPluginData, callback) {
+    compilation.plugin('html-webpack-plugin-before-html-generation', function(
+      htmlPluginData,
+      callback
+    ) {
       const locations = self.locations;
 
       if (locations) {
         const publicPath = htmlPluginData.assets.publicPath;
 
         Object.getOwnPropertyNames(locations).forEach(function(loc) {
-          compilation.options.htmlElements[loc] = getHtmlElementString(locations[loc], publicPath);
+          compilation.options.htmlElements[loc] = getHtmlElementString(
+            locations[loc],
+            publicPath
+          );
         });
       }
-
 
       callback(null, htmlPluginData);
     });
   });
-
 };
 
 const RE_ENDS_WITH_BS = /\/$/;
@@ -49,7 +53,9 @@ function createTag(tagName, attrMap, publicPath) {
   }
 
   const attributes = Object.getOwnPropertyNames(attrMap)
-    .filter(function(name) { return name[0] !== '='; } )
+    .filter(function(name) {
+      return name[0] !== '=';
+    })
     .map(function(name) {
       var value = attrMap[name];
 
@@ -58,7 +64,9 @@ function createTag(tagName, attrMap, publicPath) {
          * Check if we have explicit instruction, use it if so (e.g: =herf: false)
          * if no instruction, use public path if it's href attribute.
          */
-        const usePublicPath = attrMap.hasOwnProperty('=' + name) ? !!attrMap['=' + name] : name === 'href';
+        const usePublicPath = attrMap.hasOwnProperty('=' + name)
+          ? !!attrMap['=' + name]
+          : name === 'href';
 
         if (usePublicPath) {
           /**
@@ -100,9 +108,11 @@ function getHtmlElementString(dataSource, publicPath) {
   return Object.getOwnPropertyNames(dataSource)
     .map(function(name) {
       if (Array.isArray(dataSource[name])) {
-        return dataSource[name].map(function(attrs) { return createTag(name, attrs, publicPath); } );
+        return dataSource[name].map(function(attrs) {
+          return createTag(name, attrs, publicPath);
+        });
       } else {
-        return [ createTag(name, dataSource[name], publicPath) ];
+        return [createTag(name, dataSource[name], publicPath)];
       }
     })
     .reduce(function(arr, curr) {

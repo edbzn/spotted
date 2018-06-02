@@ -1,21 +1,13 @@
-import {
-  Component,
-  Directive,
-  ElementRef,
-  Renderer
-} from '@angular/core';
+import { Component, Directive, ElementRef, Renderer } from '@angular/core';
 /**
  * Directive
  * XLarge is a simple directive to show how one is made
  */
 @Directive({
-  selector: '[x-large]' // using [ ] means selecting attributes
+  selector: '[x-large]', // using [ ] means selecting attributes
 })
 export class XLargeDirective {
-  constructor(
-    public element: ElementRef,
-    public renderer: Renderer
-  ) {
+  constructor(public element: ElementRef, public renderer: Renderer) {
     /**
      * Simple DOM manipulation to set font size to x-large
      * `nativeElement` is the direct reference to the DOM element
@@ -23,6 +15,6 @@ export class XLargeDirective {
      *
      * for server/webworker support use the renderer
      */
-     renderer.setElementStyle(element.nativeElement, 'fontSize', 'x-large');
+    renderer.setElementStyle(element.nativeElement, 'fontSize', 'x-large');
   }
 }

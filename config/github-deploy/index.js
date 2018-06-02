@@ -22,7 +22,7 @@ function getRepoName(remoteName) {
   remoteName = remoteName || 'origin';
 
   var stdout = execSync('git remote show ' + remoteName),
-      match = REPO_NAME_RE.exec(stdout);
+    match = REPO_NAME_RE.exec(stdout);
 
   if (!match) {
     throw new Error('Could not find a repository on remote ' + remoteName);
@@ -32,7 +32,6 @@ function getRepoName(remoteName) {
 }
 
 function stripTrailing(str, char) {
-
   if (str[0] === char) {
     str = str.substr(1);
   }
@@ -60,7 +59,7 @@ function safeUrl(url) {
 }
 
 function replaceHtmlWebpackPlugin(plugins, ghRepoName) {
-  for (var i=0; i<plugins.length; i++) {
+  for (var i = 0; i < plugins.length; i++) {
     if (plugins[i] instanceof HtmlWebpackPlugin) {
       /**
        * Remove the old instance of the html plugin.
@@ -72,19 +71,24 @@ function replaceHtmlWebpackPlugin(plugins, ghRepoName) {
          * This also means all resource URIs (CSS/Images/JS) will have this prefix added by the browser
          * unless they are absolute (start with '/'). We will handle it via `output.publicPath`
          */
-        baseUrl: '/' + ghRepoName + '/' + safeUrl(htmlPlug.options.metadata.baseUrl)
+        baseUrl:
+          '/' + ghRepoName + '/' + safeUrl(htmlPlug.options.metadata.baseUrl),
       });
 
       /**
        * Add the new instance of the html plugin.
        */
-      plugins.splice(i, 0, new HtmlWebpackPlugin({
-        template: htmlPlug.options.template,
-        title: htmlPlug.options.title,
-        chunksSortMode: htmlPlug.options.chunksSortMode,
-        metadata: METADATA,
-        inject: htmlPlug.options.inject
-      }));
+      plugins.splice(
+        i,
+        0,
+        new HtmlWebpackPlugin({
+          template: htmlPlug.options.template,
+          title: htmlPlug.options.title,
+          chunksSortMode: htmlPlug.options.chunksSortMode,
+          metadata: METADATA,
+          inject: htmlPlug.options.inject,
+        })
+      );
       return;
     }
   }
