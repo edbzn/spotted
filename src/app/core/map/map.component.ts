@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { WINDOW } from 'src/app/window.provider';
 
 @Component({
   selector: 'spt-map',
@@ -6,10 +7,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  public lat: number;
+  public lng: number;
 
-  constructor() {}
+  constructor(@Inject(WINDOW) private window: Window) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const { navigator } = this.window;
+
+    // Try HTML5 geolocation.
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { latitude, longitude } = position.coords;
+          this.lat = latitude;
+          this.lng = longitude;
+        },
+        () => {
+          // @todo center map, handle error
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      // @todo center map, handle error
+    }
+  }
 }

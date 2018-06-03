@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { MapComponent } from './core/map/map.component';
 import { OverviewComponent } from './core/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { WINDOW_PROVIDERS } from './window.provider';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
     ...(environment.showDevModule ? [] : []),
   ],
 
-  providers: [environment.ENV_PROVIDERS],
+  providers: [environment.ENV_PROVIDERS, WINDOW_PROVIDERS],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
