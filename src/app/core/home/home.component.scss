@@ -1,0 +1,16 @@
+section,
+aside {
+  height: 100%;
+}
+
+:host {
+  display: flex;
+
+  #map-wrapper {
+    flex: 2;
+  }
+
+  #map-overview-wraper {
+    flex: 1;
+  }
+}

@@ -37,14 +37,13 @@
   </a>
 </mat-toolbar>
 
-<mat-spinner *ngIf="loading"></mat-spinner>
-
-<main [hidden]="loading">
-  <router-outlet></router-outlet>
+<main>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <router-outlet [hidden]="loading"></router-outlet>
 </main>
 
 <footer id="app-footer">
-  <span>Spotted by
+  <span>Crafted in a dark room by
     <a [href]="twitter">@edouardbozon</a>
   </span>
 </footer>
