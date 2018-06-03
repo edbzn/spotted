@@ -1,0 +1,15 @@
+$navbar-height: 64px;
+$footer-height: 44px;
+$outer-main-height: $navbar-height + $footer-height;
+
+main {
+  height: calc(100vh - #{$outer-main-height});
+  > *:not(router-outlet) {
+    display: block;
+    height: 100%;
+  }
+}
+
+#app-footer {
+  padding: 14px 0;
+}

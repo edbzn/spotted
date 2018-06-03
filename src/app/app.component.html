@@ -1,42 +1,49 @@
-<nav>
+<mat-toolbar>
   <a [routerLink]=" ['./'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
-    Index
+    Spotted
   </a>
-  <a [routerLink]=" ['./home'] "
+  <a mat-button
+    [routerLink]=" ['./home'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
     Home
   </a>
-  <a [routerLink]=" ['./detail'] "
+  <a mat-button
+    [routerLink]=" ['./detail'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
     Detail
   </a>
-  <a [routerLink]=" ['./barrel'] "
+  <a mat-button
+    [routerLink]=" ['./barrel'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
     Barrel
   </a>
-  <a [routerLink]=" ['./about'] "
+  <a mat-button
+    [routerLink]=" ['./about'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
     About
   </a>
-  <a *ngIf="showDevModule"
+  <a mat-button
+    *ngIf="showDevModule"
     [routerLink]=" ['./dev-module'] "
     routerLinkActive="active"
     [routerLinkActiveOptions]="{exact: true}">
     DevModule
   </a>
-</nav>
+</mat-toolbar>
 
-<main>
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<main [hidden]="loading">
   <router-outlet></router-outlet>
 </main>
 
-<footer>
+<footer id="app-footer">
   <span>Spotted by
     <a [href]="twitter">@edouardbozon</a>
   </span>

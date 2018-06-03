@@ -4,9 +4,7 @@ import { Environment } from './model';
 
 export const environment: Environment = {
   production: false,
-
   showDevModule: true,
-
   /**
    * Angular debug tools in the dev console
    * https://github.com/angular/angular/blob/86405345b781a9dc2438c0fbe3e9409245647019/TOOLS_JS.md
@@ -23,5 +21,8 @@ export const environment: Environment = {
     (<any>window).ng.coreTokens = _ng.coreTokens;
     return modRef;
   },
+
   ENV_PROVIDERS: [],
+
+  googleMapApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
 };

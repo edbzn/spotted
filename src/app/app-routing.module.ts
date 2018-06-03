@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
-import { NoContentComponent } from './core/no-content';
 import { routes } from './app.routes';
 import { SharedModule } from './shared/shared.module';
 

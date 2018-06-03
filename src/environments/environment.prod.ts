@@ -15,5 +15,8 @@ export const environment: Environment = {
     disableDebugTools();
     return modRef;
   },
+
   ENV_PROVIDERS: [],
+
+  googleMapApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
 };
