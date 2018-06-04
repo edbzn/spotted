@@ -2,6 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,7 @@ import { SharedModule } from './shared/shared.module';
 import { MapComponent } from './core/map/map.component';
 import { OverviewComponent } from './core/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
-import { WINDOW_PROVIDERS } from './window.provider';
+import { WINDOW_PROVIDERS } from './core/window.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,11 @@ import { WINDOW_PROVIDERS } from './window.provider';
      * This is a simple example, a big app should probably implement some logic
      */
     ...(environment.showDevModule ? [] : []),
+
+    // service worker only used in production build
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
 
   providers: [environment.ENV_PROVIDERS, WINDOW_PROVIDERS],

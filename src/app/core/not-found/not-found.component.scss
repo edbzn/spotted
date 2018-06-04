@@ -6,10 +6,9 @@
 }
 
 .gif {
-  background: no-repeat
-    url('https://media.giphy.com/media/3oriO3TIAR3cnAOcTK/giphy.gif');
+  background: no-repeat;
   height: 50%;
-  background-size: cover;
+  background-size: contain;
   background-position: 50% 50%;
   padding: 10% 0;
 
