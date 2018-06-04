@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { WINDOW } from 'src/app/window.provider';
+import { WINDOW } from 'src/app/core/window.service';
 
 @Component({
   selector: 'spt-map',
