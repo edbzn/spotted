@@ -9,8 +9,8 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './core/home/home.component';
 import { SharedModule } from './shared/shared.module';
-import { MapComponent } from './core/map/map.component';
-import { OverviewComponent } from './core/overview/overview.component';
+import { MapComponent } from './core/home/map/map.component';
+import { OverviewComponent } from './core/home/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { WINDOW_PROVIDERS } from './core/window.service';
 

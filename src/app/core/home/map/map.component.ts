@@ -13,6 +13,10 @@ export class MapComponent implements OnInit {
   constructor(@Inject(WINDOW) private window: Window) {}
 
   ngOnInit() {
+    this.tryGeoloc();
+  }
+
+  private tryGeoloc(): void {
     const { navigator } = this.window;
 
     // Try HTML5 geolocation.

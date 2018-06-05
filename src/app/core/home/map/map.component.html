@@ -1,0 +1,13 @@
+<form class="search-bar">
+  <mat-form-field>
+    <input matInput
+      placeholder="Search by spot, by city..."
+      type="search">
+  </mat-form-field>
+</form>
+<agm-map [latitude]="lat"
+  [longitude]="lng">
+  <agm-marker [latitude]="lat"
+    [longitude]="lng">
+  </agm-marker>
+</agm-map>
