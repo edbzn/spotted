@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+agm-map {
+  height: calc(100% - (57.25px / 2));
+  display: block;
+}
+
+.search-bar {
+  padding: 0 16px;
+}
