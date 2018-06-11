@@ -7,10 +7,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { WINDOW } from 'src/app/core/window.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { MapsAPILoader } from '@agm/core';
-import { GoogleMap } from '@agm/core/services/google-maps-types';
 import { HttpClient } from '@angular/common/http';
-import { GooglePlacesClientService } from '../../../google-places-client.service';
 
 @Component({
   selector: 'spt-map',
@@ -27,8 +24,6 @@ export class MapComponent implements OnInit {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private mapsAPILoader: MapsAPILoader,
-    private googlePlaces: GooglePlacesClientService,
     private fb: FormBuilder
   ) {}
 
@@ -44,7 +39,7 @@ export class MapComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(200),
         switchMap(formValue => {
-          return this.googlePlaces.get(formValue.query);
+          // return this.googlePlaces.get(formValue.query);
         })
       )
       .subscribe(console.log);
