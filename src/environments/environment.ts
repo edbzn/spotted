@@ -1,6 +1,7 @@
 import { enableDebugTools } from '@angular/platform-browser';
 import { ApplicationRef, NgModuleRef } from '@angular/core';
 import { Environment } from './model';
+import { ApiMockClient } from '../app/api-client-mock.service';
 
 export const environment: Environment = {
   production: false,
@@ -22,7 +23,5 @@ export const environment: Environment = {
     return modRef;
   },
 
-  ENV_PROVIDERS: [],
-
-  googleMapApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
+  ENV_PROVIDERS: [ApiMockClient],
 };
