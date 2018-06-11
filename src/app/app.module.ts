@@ -28,6 +28,7 @@ import { WINDOW_PROVIDERS } from './core/window.service';
 
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapApiKey,
+      libraries: ['places'],
     }),
 
     /**
