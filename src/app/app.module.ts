@@ -1,7 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,11 +24,6 @@ import { WINDOW_PROVIDERS } from './core/window.service';
   imports: [
     SharedModule,
     AppRoutingModule,
-
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleMapApiKey,
-      libraries: ['places'],
-    }),
 
     /**
      * This section will import the `void` only in certain build types.
