@@ -17,6 +17,4 @@ export const environment: Environment = {
   },
 
   ENV_PROVIDERS: [],
-
-  googleMapApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
 };
