@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './core/home/home.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MapComponent } from './core/home/map/map.component';
 import { NgModule } from '@angular/core';
 import { NotFoundComponent } from './core/not-found/not-found.component';
@@ -25,6 +26,12 @@ import { WINDOW_PROVIDERS } from './core/window.service';
   imports: [
     SharedModule,
     AppRoutingModule,
+
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+
+    LeafletModule,
 
     /**
      * This section will import the module only in certain build types.
