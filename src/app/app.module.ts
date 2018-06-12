@@ -1,5 +1,3 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -13,6 +11,7 @@ import { OverviewComponent } from './core/home/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { WINDOW_PROVIDERS } from './core/window.service';
 import { SpotsService } from './spots.service';
+import { AngularFireModule } from 'angularfire2';
 
 @NgModule({
   declarations: [
