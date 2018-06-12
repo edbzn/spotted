@@ -6,6 +6,8 @@ import {
   MatCardModule,
   MatProgressSpinnerModule,
   MatInputModule,
+  MatTabsModule,
+  MatListModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,6 +22,9 @@ const materialModules = [
   MatIconModule,
   MatCardModule,
   MatInputModule,
+  MatTabsModule,
+  MatListModule,
+  MatIconModule,
 ];
 
 @NgModule({
