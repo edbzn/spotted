@@ -12,6 +12,7 @@ import { MapComponent } from './core/home/map/map.component';
 import { OverviewComponent } from './core/home/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { WINDOW_PROVIDERS } from './core/window.service';
+import { SpotsService } from './spots.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { WINDOW_PROVIDERS } from './core/window.service';
     }),
   ],
 
-  providers: [environment.ENV_PROVIDERS, WINDOW_PROVIDERS],
+  providers: [environment.ENV_PROVIDERS, WINDOW_PROVIDERS, SpotsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
