@@ -2,12 +2,14 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
+  catchError,
 } from 'rxjs/internal/operators';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { WINDOW } from 'src/app/core/window.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { empty, Observable, Subscription, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ApiMockClient } from '../../../api-client-mock.service';
 
 @Component({
   selector: 'spt-map',
@@ -24,6 +26,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     @Inject(WINDOW) private window: Window,
+    @Optional() private apiMock: ApiMockClient,
     private fb: FormBuilder
   ) {}
 
@@ -39,7 +42,7 @@ export class MapComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(200),
         switchMap(formValue => {
-          // return this.googlePlaces.get(formValue.query);
+          return this.apiMock.get(formValue.query);
         })
       )
       .subscribe(console.log);
