@@ -17,4 +17,13 @@ export const environment: Environment = {
   },
 
   ENV_PROVIDERS: [],
+
+  firebase: {
+    apiKey: 'AIzaSyBuBD4A_IkayjEIqwjUO_6ewKC38eKAX4k',
+    authDomain: 'spotted-1528021262358.firebaseapp.com',
+    databaseURL: 'https://spotted-1528021262358.firebaseio.com',
+    projectId: 'spotted-1528021262358',
+    storageBucket: '',
+    messagingSenderId: '530601209274',
+  },
 };
