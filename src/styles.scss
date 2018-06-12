@@ -1,10 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 html body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 300;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.p0 {
+  padding: 0.8rem 1rem;
 }
 
 html,
@@ -95,7 +103,9 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
+
 article,
 aside,
 details,
@@ -109,17 +119,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -127,6 +141,7 @@ q:after {
   content: '';
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;

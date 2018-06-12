@@ -1,0 +1,45 @@
+<section class="p0">
+  <form [formGroup]="createSpotForm">
+    <mat-form-field class="full-width">
+      <input matInput
+        type="text"
+        placeholder="name"
+        formControlName="name">
+    </mat-form-field>
+    <div [formGroup]="locationForm">
+      <mat-form-field class="full-width">
+        <input matInput
+          type="text"
+          placeholder="country"
+          formControlName="country">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput
+          type="text"
+          placeholder="city"
+          formControlName="city">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput
+          type="number"
+          placeholder="postalCode"
+          formControlName="postalCode">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput
+          type="number"
+          placeholder="latitude"
+          formControlName="latitude">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput
+          type="number"
+          placeholder="longitude"
+          formControlName="longitude">
+      </mat-form-field>
+    </div>
+    <button mat-raised-button
+      color="primary"
+      type="submit">Create</button>
+  </form>
+</section>

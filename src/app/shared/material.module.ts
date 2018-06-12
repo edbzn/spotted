@@ -19,6 +19,7 @@ const materialModules = [
   MatToolbarModule,
   MatIconModule,
   MatCardModule,
+  MatInputModule,
 ];
 
 @NgModule({
