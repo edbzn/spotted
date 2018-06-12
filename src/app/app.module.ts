@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
-import { ServiceWorkerModule } from '@angular/service-worker';
-
-import { AppRoutingModule } from './app-routing.module';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './core/home/home.component';
-import { SharedModule } from './shared/shared.module';
 import { MapComponent } from './core/home/map/map.component';
-import { OverviewComponent } from './core/home/overview/overview.component';
+import { NgModule } from '@angular/core';
 import { NotFoundComponent } from './core/not-found/not-found.component';
-import { WINDOW_PROVIDERS } from './core/window.service';
+import { OverviewComponent } from './core/home/overview/overview.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { SharedModule } from './shared/shared.module';
 import { SpotsService } from './core/spots.service';
-import { AngularFireModule } from 'angularfire2';
+import { WINDOW_PROVIDERS } from './core/window.service';
 
 @NgModule({
   declarations: [
