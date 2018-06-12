@@ -10,7 +10,7 @@ import { MapComponent } from './core/home/map/map.component';
 import { OverviewComponent } from './core/home/overview/overview.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { WINDOW_PROVIDERS } from './core/window.service';
-import { SpotsService } from './spots.service';
+import { SpotsService } from './core/spots.service';
 import { AngularFireModule } from 'angularfire2';
 
 @NgModule({
@@ -26,9 +26,7 @@ import { AngularFireModule } from 'angularfire2';
     AppRoutingModule,
 
     /**
-     * This section will import the `void` only in certain build types.
-     * When the module is not imported it will get tree shaked.
-     * This is a simple example, a big app should probably implement some logic
+     * This section will import the module only in certain build types.
      */
     ...(environment.showDevModule ? [] : []),
 
