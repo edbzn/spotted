@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { empty, Observable, Subscription, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiMockClient } from '../../../api-client-mock.service';
+import { tileLayer, latLng } from 'leaflet';
 
 @Component({
   selector: 'spt-map',
@@ -23,6 +24,17 @@ export class MapComponent implements OnInit {
 
   public searchForm: FormGroup;
   private formChange$: Subscription;
+
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '...',
+      }),
+    ],
+    zoom: 5,
+    center: latLng(this.lat, this.lng),
+  };
 
   constructor(
     @Inject(WINDOW) private window: Window,

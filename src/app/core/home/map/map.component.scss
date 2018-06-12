@@ -3,8 +3,8 @@
   height: 100%;
 }
 
-agm-map {
-  height: calc(100% - (61.25px / 2));
+.map {
+  height: calc(100% - 61px);
   display: block;
 }
 
