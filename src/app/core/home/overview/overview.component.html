@@ -1,24 +1,8 @@
 <mat-tab-group>
   <mat-tab label="Near from me">
     <mat-list dense>
-      <mat-list-item>
-        Pepper
-        <button class="pull-right"
-          type="button"
-          mat-button>
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        Salt
-        <button class="pull-right"
-          type="button"
-          mat-button>
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        Paprika
+      <mat-list-item *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
+        {{ spot.name || spot.address }}
         <button class="pull-right"
           type="button"
           mat-button>
@@ -29,7 +13,9 @@
   </mat-tab>
   <mat-tab label="Add a spot">
     <section class="p0">
-      <form [formGroup]="createSpotForm">
+      <form [formGroup]="createSpotForm"
+        (submit)="createSpot()"
+        novalidate>
         <mat-form-field class="full-width">
           <input matInput
             type="text"
@@ -70,7 +56,9 @@
         </div>
         <button mat-raised-button
           color="primary"
-          type="submit">Create</button>
+          type="submit">
+          Create
+        </button>
       </form>
     </section>
   </mat-tab>
