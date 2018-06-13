@@ -1,16 +1,22 @@
 section,
 aside {
   height: 100%;
+  @media screen and (max-width: 600px) {
+    height: 50%;
+  }
 }
 
 :host {
   display: flex;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 
-  #map-wrapper {
+  .map-wrapper {
     flex: 2;
   }
 
-  #map-overview-wrapper {
+  .map-overview-wrapper {
     flex: 1;
   }
 }

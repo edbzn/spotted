@@ -9,6 +9,7 @@ import { Api } from '../../../../types/api';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
+  searchForm: FormGroup;
   createSpotForm: FormGroup;
 
   get locationForm(): FormGroup {
@@ -33,6 +34,10 @@ export class OverviewComponent implements OnInit {
         latitude: null,
         longitude: null,
       }),
+    });
+
+    this.searchForm = this.fb.group({
+      query: '',
     });
   }
 

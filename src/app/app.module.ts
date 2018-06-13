@@ -31,7 +31,7 @@ import { WINDOW_PROVIDERS } from './core/window.service';
     AngularFirestoreModule,
     AngularFireStorageModule,
 
-    LeafletModule,
+    LeafletModule.forRoot(),
 
     /**
      * This section will import the module only in certain build types.

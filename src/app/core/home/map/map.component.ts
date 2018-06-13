@@ -3,14 +3,15 @@ import {
   debounceTime,
   switchMap,
   catchError,
+  filter,
 } from 'rxjs/internal/operators';
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { WINDOW } from 'src/app/core/window.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { empty, Observable, Subscription, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ApiMockClient } from '../../../api-client-mock.service';
 import { tileLayer, latLng } from 'leaflet';
+import { SpotsService } from '../../spots.service';
 
 @Component({
   selector: 'spt-map',
@@ -18,46 +19,26 @@ import { tileLayer, latLng } from 'leaflet';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  public zoom = 3;
-  public lat = 100;
-  public lng = 100;
-
   public searchForm: FormGroup;
   private formChange$: Subscription;
 
-  options = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '...',
-      }),
-    ],
-    zoom: 5,
+  public zoom = 3;
+  public lat = 100;
+  public lng = 100;
+  public options = {
+    zoom: 18,
     center: latLng(this.lat, this.lng),
+    altitude: 100,
   };
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    @Optional() private apiMock: ApiMockClient,
     private fb: FormBuilder
+    private spotsService: SpotsService
   ) {}
 
   ngOnInit() {
-    this.createSearchForm();
-
-    this.setPosition(this.lat, this.lng);
-
     this.tryGeoloc();
-
-    this.formChange$ = this.searchForm.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(200),
-        switchMap(formValue => {
-          return this.apiMock.get(formValue.query);
-        })
-      )
-      .subscribe(console.log);
   }
 
   private tryGeoloc(): void {
@@ -80,15 +61,15 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private createSearchForm(): void {
-    this.searchForm = this.fb.group({
-      query: '',
-    });
-  }
-
   private setPosition(latitude: number, longitude: number): void {
     this.lat = latitude;
     this.lng = longitude;
     this.zoom = 12;
+
+    this.options = {
+      zoom: this.zoom,
+      center: latLng(this.lat, this.lng),
+      altitude: 100,
+    };
   }
 }
