@@ -33,7 +33,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private fb: FormBuilder
+    private fb: FormBuilder,
     private spotsService: SpotsService
   ) {}
 
