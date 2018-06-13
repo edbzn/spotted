@@ -10,7 +10,7 @@ import { WINDOW } from 'src/app/core/window.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { empty, Observable, Subscription, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { tileLayer, latLng } from 'leaflet';
+import { tileLayer, latLng, polygon, circle, LatLng, Layer } from 'leaflet';
 import { SpotsService } from '../../spots.service';
 
 @Component({
@@ -22,14 +22,29 @@ export class MapComponent implements OnInit {
   public searchForm: FormGroup;
   private formChange$: Subscription;
 
-  public zoom = 3;
-  public lat = 100;
-  public lng = 100;
+  public zoom = 10;
+  public maxZoom = 20;
+
+  public lat = 46.879966;
+  public lng = -121.726909;
+
+  public layers: Layer[] = [
+    tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: this.maxZoom,
+    }),
+  ];
+
   public options = {
-    zoom: 18,
+    layers: this.layers,
+    zoom: this.zoom,
     center: latLng(this.lat, this.lng),
-    altitude: 100,
   };
+
+  public layersControl = {};
+
+  get center(): LatLng {
+    return latLng(this.lat, this.lng);
+  }
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -64,12 +79,5 @@ export class MapComponent implements OnInit {
   private setPosition(latitude: number, longitude: number): void {
     this.lat = latitude;
     this.lng = longitude;
-    this.zoom = 12;
-
-    this.options = {
-      zoom: this.zoom,
-      center: latLng(this.lat, this.lng),
-      altitude: 100,
-    };
   }
 }
