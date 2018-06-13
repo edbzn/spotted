@@ -4,6 +4,7 @@
 @import './reset.scss';
 
 html body {
+  overflow-y: hidden;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 300;
