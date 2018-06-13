@@ -1,3 +1,4 @@
+import { Api } from '../../types/api';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -10,29 +11,29 @@ export class SpotsService {
   /**
    * Firebase collection
    */
-  private spotsCollection: AngularFirestoreCollection<any>;
+  private spotsCollection: AngularFirestoreCollection<Api.Spot>;
 
   /**
    * Exposed Spots
    */
-  public spots: Observable<any[]>;
+  public spots: Observable<Api.Spot[]>;
 
   constructor(readonly db: AngularFirestore) {
-    this.spotsCollection = db.collection<any>('spots');
+    this.spotsCollection = db.collection<Api.Spot>('spots');
     this.spots = this.spotsCollection.valueChanges();
   }
 
   /**
    * Add a Spot
    */
-  public add(spot: any): void {
+  public add(spot: Api.Spot): void {
     this.spotsCollection.add(spot);
   }
 
   /**
    * Update a Spot
    */
-  public update(id: string, spot: any): void {
+  public update(id: string, spot: Api.Spot): void {
     this.spotsCollection.doc(id).update(spot);
   }
 
