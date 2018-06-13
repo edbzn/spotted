@@ -1,14 +1,16 @@
+@import '~src/variables.scss';
+
 section,
 aside {
   height: 100%;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $mediaMidWidth) {
     height: 50%;
   }
 }
 
 :host {
   display: flex;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $mediaMidWidth) {
     flex-direction: column;
   }
 
