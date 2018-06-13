@@ -1,6 +1,4 @@
-$navbar-height: 64px;
-$footer-height: 44px;
-$outer-main-height: $navbar-height + $footer-height;
+@import '~src/variables.scss';
 
 main {
   height: calc(100vh - #{$outer-main-height});
