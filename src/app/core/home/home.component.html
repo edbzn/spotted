@@ -1,6 +1,8 @@
 <section class="map-wrapper">
-  <spt-map></spt-map>
+  <spt-map #map
+    (spotAdded)="onSpotAdded($event)">
+  </spt-map>
 </section>
 <aside class="map-overview-wrapper">
-  <spt-overview></spt-overview>
+  <spt-overview #overview></spt-overview>
 </aside>

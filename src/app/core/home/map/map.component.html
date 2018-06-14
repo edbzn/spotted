@@ -6,8 +6,9 @@
   [leafletZoom]="zoom"
   [leafletOptions]="options"
   [leafletLayersControl]="layersControl"
-  (contextmenu)="onClick($event)"
-  (click)="onClick($event)">
+  (contextmenu)="onMapClick($event)"
+  (click)="onMapClick($event)"
+  (leafletMapReady)="onMapReady($event)">
   <div class="click-handler"
     [matMenuTriggerFor]="appMenu"
     [style.top]="mouseY + 'px'"
@@ -16,5 +17,8 @@
 </div>
 
 <mat-menu #appMenu="matMenu">
-  <button mat-menu-item>Add a spot</button>
+  <button mat-menu-item
+    (click)="addSpot()">
+    Add a spot
+  </button>
 </mat-menu>

@@ -1,3 +1,4 @@
+import { latLng, LatLng } from 'leaflet';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
@@ -11,6 +12,8 @@ import { Api } from '../../../../types/api';
 export class OverviewComponent implements OnInit {
   searchForm: FormGroup;
   createSpotForm: FormGroup;
+
+  selectedTab = 0;
 
   get locationForm(): FormGroup {
     return this.createSpotForm.get('location') as FormGroup;
@@ -48,5 +51,15 @@ export class OverviewComponent implements OnInit {
 
   trackByFn(i: number, spot: Api.Spot): string {
     return spot.id;
+  }
+
+  activeSpotTab(): void {
+    this.selectedTab = 1;
+  }
+
+  fillSpotForm(latLng: LatLng): void {
+    this.createSpotForm.patchValue({
+      location: { latitude: latLng.lat, longitude: latLng.lng },
+    });
   }
 }

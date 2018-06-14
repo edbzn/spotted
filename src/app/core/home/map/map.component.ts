@@ -1,5 +1,22 @@
-import { circle, latLng, LatLng, Layer, polygon, tileLayer } from 'leaflet';
-import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
+import {
+  circle,
+  latLng,
+  LatLng,
+  Layer,
+  polygon,
+  tileLayer,
+  Map,
+} from 'leaflet';
+import {
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+  ViewChild,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { empty, Observable, observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +38,11 @@ import {
 })
 export class MapComponent implements OnInit {
   /**
+   * Map ref
+   */
+  map: Map;
+
+  /**
    * Display the map menu with right X position
    */
   mouseX: number;
@@ -34,6 +56,11 @@ export class MapComponent implements OnInit {
    * Menu displayed on the map when clicking
    */
   @ViewChild(MatMenuTrigger) matMenu: MatMenuTrigger;
+
+  /**
+   * Emit the Lat & Lng to create a Spot at the click position
+   */
+  @Output() spotAdded: EventEmitter<LatLng> = new EventEmitter<LatLng>();
 
   /**
    * Map zoom
@@ -95,7 +122,11 @@ export class MapComponent implements OnInit {
     this.tryBrowserGeoLocalization();
   }
 
-  onClick(event: Event): void {
+  onMapReady(map: Map): void {
+    this.map = map;
+  }
+
+  onMapClick(event: MouseEvent): void {
     event.preventDefault();
 
     if (event instanceof MouseEvent) {
@@ -103,6 +134,10 @@ export class MapComponent implements OnInit {
       this.mouseX = event.offsetX;
       this.matMenu.openMenu();
     }
+  }
+
+  addSpot(event: Event): void {
+    this.spotAdded.emit(this.map.getCenter());
   }
 
   private tryBrowserGeoLocalization(): void {

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { OverviewComponent } from './overview/overview.component';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { LatLng } from 'leaflet';
+import { MapComponent } from './map/map.component';
 
 @Component({
   selector: 'spt-home',
@@ -6,5 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('map') map: MapComponent;
+  @ViewChild('overview') overview: OverviewComponent;
+
   ngOnInit(): void {}
+
+  onSpotAdded(latLng: LatLng): void {
+    this.overview.activeSpotTab();
+    this.overview.fillSpotForm(latLng);
+  }
 }
