@@ -1,3 +1,11 @@
+import { circle, latLng, LatLng, Layer, polygon, tileLayer } from 'leaflet';
+import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
+import { empty, Observable, observable, Subscription } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { MatMenuTrigger } from '@angular/material';
+import { SpotsService } from '../../spots.service';
+import { WINDOW } from 'src/app/core/window.service';
 import {
   distinctUntilChanged,
   debounceTime,
@@ -5,13 +13,6 @@ import {
   catchError,
   filter,
 } from 'rxjs/internal/operators';
-import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { WINDOW } from 'src/app/core/window.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { empty, Observable, Subscription, observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { tileLayer, latLng, polygon, circle, LatLng, Layer } from 'leaflet';
-import { SpotsService } from '../../spots.service';
 
 @Component({
   selector: 'spt-map',
@@ -19,29 +20,67 @@ import { SpotsService } from '../../spots.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  public searchForm: FormGroup;
-  private formChange$: Subscription;
+  /**
+   * Display the map menu with right X position
+   */
+  mouseX: number;
 
-  public zoom = 10;
-  public maxZoom = 20;
+  /**
+   * Display the map menu with right Y position
+   */
+  mouseY: number;
 
-  public lat = 46.879966;
-  public lng = -121.726909;
+  /**
+   * Menu displayed on the map when clicking
+   */
+  @ViewChild(MatMenuTrigger) matMenu: MatMenuTrigger;
 
-  public layers: Layer[] = [
+  /**
+   * Map zoom
+   */
+  zoom = 13;
+
+  /**
+   * Max zoom that can be reached
+   */
+  maxZoom = 20;
+
+  /**
+   * Latitude
+   */
+  lat = 46.879966;
+
+  /**
+   * Longitude
+   */
+  lng = -121.726909;
+
+  /**
+   * Map layers
+   */
+  layers: Layer[] = [
     tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: this.maxZoom,
     }),
   ];
 
-  public options = {
+  /**
+   * Map options
+   */
+  options = {
     layers: this.layers,
     zoom: this.zoom,
     center: latLng(this.lat, this.lng),
   };
 
-  public layersControl = {};
+  /**
+   * Map layers control
+   */
+  layersControl = {};
 
+  /**
+   * Lat & Long computed user to center Leaflet map
+   */
   get center(): LatLng {
     return latLng(this.lat, this.lng);
   }
@@ -53,10 +92,20 @@ export class MapComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.tryGeoloc();
+    this.tryBrowserGeoLocalization();
   }
 
-  private tryGeoloc(): void {
+  onClick(event: Event): void {
+    event.preventDefault();
+
+    if (event instanceof MouseEvent) {
+      this.mouseY = event.offsetY;
+      this.mouseX = event.offsetX;
+      this.matMenu.openMenu();
+    }
+  }
+
+  private tryBrowserGeoLocalization(): void {
     const { navigator } = this.window;
 
     // Try HTML5 geolocation.
