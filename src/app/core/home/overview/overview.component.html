@@ -9,7 +9,7 @@
     </mat-form-field>
   </form>
 </div> -->
-<mat-tab-group>
+<mat-tab-group [(selectedIndex)]="selectedTab">
   <mat-tab label="Near from me">
     <mat-list dense>
       <mat-list-item *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
