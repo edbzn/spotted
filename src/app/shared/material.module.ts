@@ -17,7 +17,6 @@ const materialModules = [
   MatInputModule,
   MatToolbarModule,
   MatButtonModule,
-  MatMenuModule,
   MatToolbarModule,
   MatIconModule,
   MatCardModule,
@@ -25,6 +24,7 @@ const materialModules = [
   MatTabsModule,
   MatListModule,
   MatIconModule,
+  MatMenuModule,
 ];
 
 @NgModule({
