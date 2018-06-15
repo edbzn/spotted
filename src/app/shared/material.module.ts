@@ -8,6 +8,7 @@ import {
   MatInputModule,
   MatTabsModule,
   MatListModule,
+  MatSnackBarModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -25,6 +26,7 @@ const materialModules = [
   MatListModule,
   MatIconModule,
   MatMenuModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({
