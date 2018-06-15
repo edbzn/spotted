@@ -5,6 +5,8 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from 'angularfire2/firestore';
+import { tap, delay } from 'rxjs/internal/operators';
+import { ProgressBarService } from './progress-bar.service';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
@@ -18,9 +20,21 @@ export class SpotsService {
    */
   public spots: Observable<Api.Spot[]>;
 
-  constructor(readonly db: AngularFirestore) {
+  constructor(
+    readonly db: AngularFirestore,
+    private progressBar: ProgressBarService
+  ) {
     this.spotsCollection = db.collection<Api.Spot>('spots');
     this.spots = this.spotsCollection.valueChanges();
+
+    this.spotsCollection
+      .stateChanges()
+      .pipe(
+        tap(() => this.progressBar.increase()),
+        delay(Math.floor(Math.random() * (1000 - 200 + 1) + 200)), // random between 200ms and 1000ms
+        tap(() => this.progressBar.decrease())
+      )
+      .subscribe();
   }
 
   /**
