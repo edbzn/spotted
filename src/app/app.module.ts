@@ -14,6 +14,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { SharedModule } from './shared/shared.module';
 import { SpotsService } from './core/spots.service';
 import { WINDOW_PROVIDERS } from './core/window.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ProgressInterceptor } from './shared/progress.interceptor';
+import { ProgressBarService } from './core/progress-bar.service';
+import { TimingInterceptor } from './shared/timing.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,18 @@ import { WINDOW_PROVIDERS } from './core/window.service';
     }),
   ],
 
-  providers: [environment.ENV_PROVIDERS, WINDOW_PROVIDERS, SpotsService],
+  providers: [
+    environment.ENV_PROVIDERS,
+    WINDOW_PROVIDERS,
+    SpotsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ProgressInterceptor,
+      multi: true,
+      deps: [ProgressBarService],
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
