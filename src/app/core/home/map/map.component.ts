@@ -37,6 +37,11 @@ export class MapComponent implements OnInit {
   map: Map;
 
   /**
+   * Animation duration when flying to a point (in s)
+   */
+  mapMoveDuration = 1;
+
+  /**
    * Display the map menu with right X position
    */
   mouseX: number;
@@ -169,6 +174,8 @@ export class MapComponent implements OnInit {
     this.lat = latitude;
     this.lng = longitude;
 
-    this.map.flyTo(new LatLng(this.lat, this.lng));
+    this.map.flyTo(new LatLng(this.lat, this.lng), this.zoom, {
+      duration: this.mapMoveDuration,
+    });
   }
 }
