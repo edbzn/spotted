@@ -1,38 +1,62 @@
 <mat-tab-group [(selectedIndex)]="selectedTab">
-  <mat-tab label="{{ 'map.spotsAround' | translate }}">
+  <mat-tab label="{{ 'overview.spotsAround' | translate }}">
     <mat-list dense>
       <mat-list-item *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
-        {{ spot.name || spot.address }}
-        <button class="pull-right" type="button" mat-button>
+        {{ spot.name }} {{ spot.location.latitude }} {{ spot.location.longitude }}
+        <button class="pull-right"
+          type="button"
+          mat-button>
           <mat-icon>remove_red_eye</mat-icon>
         </button>
       </mat-list-item>
     </mat-list>
   </mat-tab>
-  <mat-tab label="{{ 'map.addSpot' | translate }}">
+  <mat-tab label="{{ 'overview.addSpot' | translate }}">
     <section class="p0">
-      <form [formGroup]="createSpotForm" (submit)="createSpot()" novalidate>
+      <form [formGroup]="createSpotForm"
+        (submit)="createSpot()"
+        novalidate>
         <mat-form-field class="full-width">
-          <input matInput type="text" placeholder="name" formControlName="name">
+          <input matInput
+            type="text"
+            placeholder="{{ 'overview.addSpotForm.name' | translate }}"
+            formControlName="name">
         </mat-form-field>
         <div [formGroup]="locationForm">
           <mat-form-field class="full-width">
-            <input matInput type="text" placeholder="country" formControlName="country">
+            <input matInput
+              type="text"
+              placeholder="{{ 'overview.addSpotForm.country' | translate }}"
+              formControlName="country">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="text" placeholder="city" formControlName="city">
+            <input matInput
+              type="text"
+              placeholder="{{ 'overview.addSpotForm.city' | translate }}"
+              formControlName="city">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" placeholder="postalCode" formControlName="postalCode">
+            <input matInput
+              type="number"
+              placeholder="{{ 'overview.addSpotForm.postalCode' | translate }}"
+              formControlName="postalCode">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" placeholder="latitude" formControlName="latitude">
+            <input matInput
+              type="number"
+              placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
+              formControlName="latitude">
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput type="number" placeholder="longitude" formControlName="longitude">
+            <input matInput
+              type="number"
+              placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
+              formControlName="longitude">
           </mat-form-field>
         </div>
-        <button mat-raised-button color="primary" type="submit">
+        <button mat-raised-button
+          color="primary"
+          type="submit">
           Create
         </button>
       </form>
