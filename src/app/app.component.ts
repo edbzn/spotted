@@ -1,3 +1,4 @@
+import { StorageService } from './core/storage.service';
 import { Component, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { environment } from '../environments/environment';
 import {
@@ -28,6 +29,7 @@ export class AppComponent implements AfterViewInit {
     private router: Router,
     private translateService: TranslateService,
     private progressBarService: ProgressBarService,
+    private storage: StorageService,
     private snackBar: MatSnackBar,
     private title: Title,
     private meta: Meta
@@ -37,10 +39,10 @@ export class AppComponent implements AfterViewInit {
     this.title.setTitle('Spotted');
 
     // @todo add meta creation
-
     this.checkBrowserFeatures();
-    this.translateService.setDefaultLang('fr');
-    this.translateService.use('fr');
+    const defaultLang = this.storage.get('defaultLang') || 'fr';
+    this.translateService.setDefaultLang(defaultLang);
+    this.translateService.use(defaultLang);
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -59,6 +61,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   changeLanguage(language: Language): void {
+    this.storage.store('defaultLang', language);
     this.translateService.use(language).subscribe(() => {
       // @todo load translated menus
     });
