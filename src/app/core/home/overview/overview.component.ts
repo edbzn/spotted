@@ -1,6 +1,6 @@
 import { LatLng } from 'leaflet';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
 
@@ -14,6 +14,14 @@ export class OverviewComponent implements OnInit {
   createSpotForm: FormGroup;
 
   selectedTab = 0;
+
+  get valid(): boolean {
+    return this.createSpotForm.valid;
+  }
+
+  get dirty(): boolean {
+    return this.createSpotForm.dirty;
+  }
 
   get locationForm(): FormGroup {
     return this.createSpotForm.get('location') as FormGroup;
@@ -30,12 +38,12 @@ export class OverviewComponent implements OnInit {
       pictures: this.fb.array([]),
       videos: this.fb.array([]),
       location: this.fb.group({
-        address: '',
-        city: '',
-        postalCode: null,
-        country: '',
-        latitude: null,
-        longitude: null,
+        address: ['', Validators.required],
+        city: ['', Validators.required],
+        postalCode: ['', Validators.required],
+        country: ['', Validators.required],
+        latitude: ['', Validators.required],
+        longitude: ['', Validators.required],
       }),
     });
 
