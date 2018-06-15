@@ -115,11 +115,7 @@ export class MapComponent implements OnInit {
     return latLng(this.lat, this.lng);
   }
 
-  constructor(
-    @Inject(WINDOW) private window: Window,
-    private fb: FormBuilder,
-    private spotsService: SpotsService
-  ) {}
+  constructor(@Inject(WINDOW) private window: Window) {}
 
   ngOnInit() {
     this.tryBrowserGeoLocalization();
