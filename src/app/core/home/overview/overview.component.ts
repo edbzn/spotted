@@ -10,33 +10,35 @@ import { Api } from '../../../../types/api';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
-  searchForm: FormGroup;
-  createSpotForm: FormGroup;
+  spotForm: FormGroup;
 
   selectedTab = 0;
 
   get valid(): boolean {
-    return this.createSpotForm.valid;
+    return this.spotForm.valid;
   }
 
   get dirty(): boolean {
-    return this.createSpotForm.dirty;
+    return this.spotForm.dirty;
   }
 
-  get locationForm(): FormGroup {
-    return this.createSpotForm.get('location') as FormGroup;
+  get location(): FormGroup {
+    return this.spotForm.get('location') as FormGroup;
+  }
+
+  get media(): FormGroup {
+    return this.spotForm.get('media') as FormGroup;
   }
 
   constructor(private fb: FormBuilder, public spotsService: SpotsService) {}
 
   ngOnInit() {
-    this.createSpotForm = this.fb.group({
+    this.spotForm = this.fb.group({
       name: '',
+      description: '',
       difficulty: '',
       tags: this.fb.array([]),
       disciplines: this.fb.array([]),
-      pictures: this.fb.array([]),
-      videos: this.fb.array([]),
       location: this.fb.group({
         address: ['', Validators.required],
         city: ['', Validators.required],
@@ -45,16 +47,17 @@ export class OverviewComponent implements OnInit {
         latitude: ['', Validators.required],
         longitude: ['', Validators.required],
       }),
-    });
-
-    this.searchForm = this.fb.group({
-      query: '',
+      media: this.fb.group({
+        pictures: this.fb.array([]),
+        videos: this.fb.array([]),
+      }),
     });
   }
 
   createSpot(): void {
-    const spot = { ...this.createSpotForm.value, id: 1 } as Api.Spot;
-    this.spotsService.add(spot);
+    const { value } = this.spotForm;
+    this.spotsService.add({ id: 1, ...value });
+    this.spotForm.reset();
   }
 
   trackByFn(i: number, spot: Api.Spot): string {
@@ -66,7 +69,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fillSpotForm(latLng: LatLng): void {
-    this.createSpotForm.patchValue({
+    this.spotForm.patchValue({
       location: { latitude: latLng.lat, longitude: latLng.lng },
     });
   }

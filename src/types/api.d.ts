@@ -5,9 +5,11 @@ export declare namespace Api {
     difficulty: Difficulty;
     disciplines: Disciplines;
     location: Location;
-    pictures: Array<Picture>;
-    videos: Array<Video>;
     tags: Array<Tag>;
+    media: {
+      pictures: Array<Picture>;
+      videos: Array<Video>;
+    };
   }
 
   interface Location {
