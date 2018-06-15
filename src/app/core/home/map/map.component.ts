@@ -62,11 +62,6 @@ export class MapComponent implements OnInit {
   @Output() spotAdded: EventEmitter<LatLng> = new EventEmitter<LatLng>();
 
   /**
-   * Emit the Point where user clicked to center the map on it
-   */
-  @Output() pointAdded: EventEmitter<Point> = new EventEmitter<Point>();
-
-  /**
    * The last Point to emit
    */
   point: Point;
