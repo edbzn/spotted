@@ -1,5 +1,5 @@
 import { OverviewComponent } from './overview/overview.component';
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { MapComponent } from './map/map.component';
 
