@@ -7,6 +7,9 @@ import {
   NavigationCancel,
 } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material';
+
+declare const Modernizr;
 
 @Component({
   selector: 'spt-root',
@@ -21,12 +24,15 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngAfterViewInit() {
+    this.checkBrowserFeatures();
     this.translateService.setDefaultLang('fr');
     this.translateService.use('fr');
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.loading = true;
@@ -37,5 +43,27 @@ export class AppComponent implements AfterViewInit {
         this.loading = false;
       }
     });
+  }
+
+  private checkBrowserFeatures() {
+    let supported = true;
+    for (const feature in Modernizr) {
+      if (
+        Modernizr.hasOwnProperty(feature) &&
+        typeof Modernizr[feature] === 'boolean' &&
+        Modernizr[feature] === false
+      ) {
+        supported = false;
+        break;
+      }
+    }
+
+    if (!supported) {
+      this.translateService.get(['updateBrowser']).subscribe(texts => {
+        this.snackBar.open(texts['updateBrowser'], 'OK');
+      });
+    }
+
+    return supported;
   }
 }
