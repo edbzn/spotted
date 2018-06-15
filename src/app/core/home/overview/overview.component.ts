@@ -1,4 +1,4 @@
-import { latLng, LatLng } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpotsService } from '../../spots.service';

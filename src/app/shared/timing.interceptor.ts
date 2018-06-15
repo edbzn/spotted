@@ -21,11 +21,6 @@ export class TimingInterceptor implements HttpInterceptor {
       tap(
         (response: HttpEvent<any>) => {
           if (response instanceof HttpResponse) {
-            for (const key in response) {
-              if (response.hasOwnProperty(key)) {
-                const prop = response[key];
-              }
-            }
             const elapsed = Date.now() - started;
             console.log(`Request for ${req.urlWithParams} took ${elapsed} ms.`);
           }
