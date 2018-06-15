@@ -1,21 +1,33 @@
 {
-    "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
-    "home": "Hello",
-    "footer": "Crafted in a dark room",
-    "overview": {
-        "spotsAround": "Around me",
-        "addSpot": "Add a new spot",
-        "addSpotForm": {
-            "name": "name of the spot",
-            "address": "address",
-            "country": "country",
-            "city": "city",
-            "postalCode": "postal code",
-            "latitude": "latitude",
-            "longitude": "longitude",
-            "difficulty": "difficulty",
-            "disciplines": "disciplines",
-            "tags": "tags"
-        }
+  "updateBrowser":
+    "Oops, your browser is too old to navigate this page. Please upgrade.",
+  "home": "Hello",
+  "footer": "Crafted in a dark room",
+  "map": {
+    "addSpotBtn": "Add a spot here"
+  },
+  "overview": {
+    "stepper": {
+      "description": "Description",
+      "location": "Location",
+      "done": "Done"
+    },
+    "spotsAround": "Around me",
+    "addSpot": "Add a new spot",
+    "help": "Right click the map to automatically fill the location part",
+    "addSpotForm": {
+      "name": "name of the spot",
+      "address": "address",
+      "country": "country",
+      "city": "city",
+      "postalCode": "postal code",
+      "latitude": "latitude",
+      "longitude": "longitude",
+      "difficulty": "difficulty",
+      "disciplines": "disciplines",
+      "tags": "tags",
+      "submit": "Add this spot",
+      "reset": "Reset"
     }
+  }
 }
