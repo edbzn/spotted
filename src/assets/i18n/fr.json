@@ -10,7 +10,7 @@
     "spotsAround": "Aux alentours",
     "addSpot": "Ajouter un spot",
     "help":
-      "Clic droit sur la carte pour remplir la partie position automatiquement",
+      "Clic droit sur la carte pour remplir automatiquement la partie position",
     "addSpotForm": {
       "stepper": {
         "description": "Description",

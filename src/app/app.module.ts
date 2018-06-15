@@ -1,3 +1,4 @@
+import { StorageService } from './core/storage.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -63,6 +64,7 @@ import { HttpLoaderFactory } from './app.translate.factory';
     WINDOW_PROVIDERS,
     SpotsService,
     ProgressBarService,
+    StorageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
