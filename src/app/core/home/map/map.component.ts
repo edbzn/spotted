@@ -168,5 +168,7 @@ export class MapComponent implements OnInit {
   private setPosition(latitude: number, longitude: number): void {
     this.lat = latitude;
     this.lng = longitude;
+
+    this.map.flyTo(new LatLng(this.lat, this.lng));
   }
 }
