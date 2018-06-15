@@ -1,4 +1,9 @@
 {
   "updateBrowser": "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
-  "home": "Bonjour"
+  "home": "Bonjour",
+  "footer": "Façonné dans une chambre obscure",
+  "map": {
+    "spotsAround": "Les spots aux alentours",
+    "addSpot": "Ajouter un spot"
+  }
 }

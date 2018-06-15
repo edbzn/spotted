@@ -1,4 +1,9 @@
 {
   "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
-  "home": "Hello"
+  "home": "Hello",
+  "footer": "Crafted in a dark room",
+  "map": {
+    "spotsAround": "Spots around me",
+    "addSpot": "Add a new spot"
+  }
 }

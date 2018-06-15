@@ -1,11 +1,17 @@
 @import '~src/variables.scss';
-
 main {
   height: calc(100vh - #{$outer-main-height});
-  > *:not(router-outlet) {
+  >*:not(router-outlet) {
     display: block;
     height: 100%;
   }
+}
+
+.progress-bar {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 5px;
 }
 
 #app-footer {
