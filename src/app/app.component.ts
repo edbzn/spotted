@@ -8,6 +8,9 @@ import {
 } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material';
+import { ProgressBarService } from './core/progress-bar.service';
+import { Language } from '../types/global';
+import { Title, Meta } from '@angular/platform-browser';
 
 declare const Modernizr;
 
@@ -18,17 +21,24 @@ declare const Modernizr;
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements AfterViewInit {
-  public showDevModule: boolean = environment.showDevModule;
-  public twitter = 'http://twitter.com/edouardbozon';
-  public loading = true;
+  loading = true;
+  progressBarMode: string;
+  showDevModule: boolean = environment.showDevModule;
 
   constructor(
     private router: Router,
     private translateService: TranslateService,
-    private snackBar: MatSnackBar
+    private progressBarService: ProgressBarService,
+    private snackBar: MatSnackBar,
+    private title: Title,
+    private meta: Meta
   ) {}
 
   ngAfterViewInit() {
+    this.title.setTitle('Spotted');
+
+    // @todo add meta creation
+
     this.checkBrowserFeatures();
     this.translateService.setDefaultLang('fr');
     this.translateService.use('fr');
@@ -43,9 +53,19 @@ export class AppComponent implements AfterViewInit {
         this.loading = false;
       }
     });
+
+    this.progressBarService.updateProgressBar$.subscribe((mode: string) => {
+      this.progressBarMode = mode;
+    });
   }
 
-  private checkBrowserFeatures() {
+  changeLanguage(language: Language): void {
+    this.translateService.use(language).subscribe(() => {
+      // @todo load translated menus
+    });
+  }
+
+  private checkBrowserFeatures(): boolean {
     let supported = true;
     for (const feature in Modernizr) {
       if (
