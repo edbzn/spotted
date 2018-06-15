@@ -21,7 +21,6 @@ declare const Modernizr;
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements AfterViewInit {
-  loading = true;
   progressBarMode: string;
   showDevModule: boolean = environment.showDevModule;
 
@@ -45,12 +44,12 @@ export class AppComponent implements AfterViewInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.loading = true;
+        this.progressBarService.increase();
       } else if (
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel
       ) {
-        this.loading = false;
+        this.progressBarService.decrease();
       }
     });
 
