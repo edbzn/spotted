@@ -6,6 +6,7 @@ import {
   NavigationEnd,
   NavigationCancel,
 } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'spt-root',
@@ -18,9 +19,14 @@ export class AppComponent implements AfterViewInit {
   public twitter = 'http://twitter.com/edouardbozon';
   public loading = true;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private translateService: TranslateService
+  ) {}
 
   ngAfterViewInit() {
+    this.translateService.setDefaultLang('fr');
+    this.translateService.use('fr');
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.loading = true;
