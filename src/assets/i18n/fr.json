@@ -1,21 +1,34 @@
 {
-    "updateBrowser": "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
-    "home": "Bonjour",
-    "footer": "Façonné dans une chambre obscure",
-    "overview": {
-        "spotsAround": "Aux alentours",
-        "addSpot": "Ajouter un spot",
-        "addSpotForm": {
-            "name": "nom du spot",
-            "address": "adresse",
-            "country": "pays",
-            "city": "ville",
-            "postalCode": "code postale",
-            "latitude": "lattitude",
-            "longitude": "longitude",
-            "difficulty": "difficulté",
-            "disciplines": "disciplines",
-            "tags": "tags"
-        }
+  "updateBrowser":
+    "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
+  "home": "Bonjour",
+  "footer": "Façonné dans une chambre obscure",
+  "map": {
+    "addSpotBtn": "Ajouter un spot ici"
+  },
+  "overview": {
+    "spotsAround": "Aux alentours",
+    "addSpot": "Ajouter un spot",
+    "help":
+      "Clic droit sur la carte pour remplir la partie position automatiquement",
+    "addSpotForm": {
+      "stepper": {
+        "description": "Description",
+        "location": "Position",
+        "done": "Fin"
+      },
+      "name": "nom du spot",
+      "address": "adresse",
+      "country": "pays",
+      "city": "ville",
+      "postalCode": "code postale",
+      "latitude": "lattitude",
+      "longitude": "longitude",
+      "difficulty": "difficulté",
+      "disciplines": "disciplines",
+      "tags": "tags",
+      "submit": "Ajouter un spot",
+      "reset": "Effacer"
     }
+  }
 }

@@ -1,5 +1,4 @@
 <mat-tab-group [(selectedIndex)]="selectedTab">
-
   <mat-tab label="{{ 'overview.spotsAround' | translate }}">
     <mat-list dense>
       <mat-list-item *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
@@ -12,112 +11,98 @@
       </mat-list-item>
     </mat-list>
   </mat-tab>
-
-
-
   <mat-tab label="{{ 'overview.addSpot' | translate }}">
     <section class="p0">
       <form [formGroup]="spotForm"
         (submit)="createSpot()"
         novalidate>
-
-        <mat-form-field class="full-width">
-          <input matInput
-            type="text"
-            placeholder="{{ 'overview.addSpotForm.name' | translate }}"
-            formControlName="name">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput
-            type="text"
-            placeholder="{{ 'overview.addSpotForm.difficulty' | translate }}"
-            formControlName="difficulty">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput
-            type="text"
-            placeholder="{{ 'overview.addSpotForm.disciplines' | translate }}">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput
-            type="text"
-            placeholder="{{ 'overview.addSpotForm.tags' | translate }}">
-        </mat-form-field>
-
-        <div [formGroup]="location">
-          <mat-form-field class="full-width">
-            <input matInput
-              type="address"
-              placeholder="{{ 'overview.addSpotForm.address' | translate }}"
-              formControlName="address">
-          </mat-form-field>
-          <mat-form-field class="full-width">
-            <input matInput
-              type="text"
-              placeholder="{{ 'overview.addSpotForm.country' | translate }}"
-              formControlName="country">
-          </mat-form-field>
-          <mat-form-field class="full-width">
-            <input matInput
-              type="text"
-              placeholder="{{ 'overview.addSpotForm.city' | translate }}"
-              formControlName="city">
-          </mat-form-field>
-          <mat-form-field class="full-width">
-            <input matInput
-              type="number"
-              placeholder="{{ 'overview.addSpotForm.postalCode' | translate }}"
-              formControlName="postalCode">
-          </mat-form-field>
-          <mat-form-field class="full-width">
-            <input matInput
-              type="number"
-              placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
-              formControlName="latitude">
-          </mat-form-field>
-          <mat-form-field class="full-width">
-            <input matInput
-              type="number"
-              placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
-              formControlName="longitude">
-          </mat-form-field>
-        </div>
-
-        <!-- <mat-vertical-stepper #stepper>
+        <mat-card>
+          <mat-card-content>
+            <mat-icon>help</mat-icon> {{ 'overview.help' | translate }}
+          </mat-card-content>
+        </mat-card>
+        <mat-vertical-stepper #stepper>
           <mat-step [stepControl]="description">
-            <ng-template matStepLabel>Fill out the spot</ng-template>
-            <div>
-              <button mat-button
-                matStepperNext>Next</button>
-            </div>
+            <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
+            <mat-form-field class="full-width">
+              <input matInput
+                type="text"
+                placeholder="{{ 'overview.addSpotForm.name' | translate }}"
+                formControlName="name">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput
+                type="text"
+                placeholder="{{ 'overview.addSpotForm.difficulty' | translate }}"
+                formControlName="difficulty">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput
+                type="text"
+                placeholder="{{ 'overview.addSpotForm.disciplines' | translate }}">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput
+                type="text"
+                placeholder="{{ 'overview.addSpotForm.tags' | translate }}">
+            </mat-form-field>
           </mat-step>
           <mat-step [stepControl]="location">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-
-            <div>
-              <button mat-button
-                matStepperPrevious>Back</button>
-              <button mat-button
-                matStepperNext>Next</button>
+            <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
+            <div [formGroup]="location">
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="address"
+                  placeholder="{{ 'overview.addSpotForm.address' | translate }}"
+                  formControlName="address">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="text"
+                  placeholder="{{ 'overview.addSpotForm.country' | translate }}"
+                  formControlName="country">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="text"
+                  placeholder="{{ 'overview.addSpotForm.city' | translate }}"
+                  formControlName="city">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="number"
+                  placeholder="{{ 'overview.addSpotForm.postalCode' | translate }}"
+                  formControlName="postalCode">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="number"
+                  placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
+                  formControlName="latitude">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput
+                  type="number"
+                  placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
+                  formControlName="longitude">
+              </mat-form-field>
             </div>
           </mat-step>
           <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            You are now done.
+            <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
             <button mat-button
-              matStepperPrevious>Back</button>
-            <button mat-button
-              (click)="stepper.reset()">Reset</button>
+              type="button"
+              (click)="spotForm.reset()">
+              {{ 'overview.addSpotForm.reset' | translate }}
+            </button>
+            <button mat-raised-button
+              [disabled]="!valid"
+              color="primary"
+              type="submit">
+              {{ 'overview.addSpotForm.submit' | translate }}
+            </button>
           </mat-step>
-        </mat-vertical-stepper> -->
-
-        <br>
-        <button mat-raised-button
-          [disabled]="!valid"
-          color="primary"
-          type="submit">
-          Add my spot
-        </button>
+        </mat-vertical-stepper>
       </form>
     </section>
   </mat-tab>
