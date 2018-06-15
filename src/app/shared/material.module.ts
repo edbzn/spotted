@@ -10,6 +10,7 @@ import {
   MatListModule,
   MatSnackBarModule,
   MatProgressBarModule,
+  MatStepperModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,6 +30,7 @@ const materialModules = [
   MatMenuModule,
   MatSnackBarModule,
   MatProgressBarModule,
+  MatStepperModule
 ];
 
 @NgModule({
