@@ -5,6 +5,7 @@ import {
   tileLayer,
   Map,
   MapOptions,
+  Point,
 } from 'leaflet';
 import {
   Component,
@@ -54,6 +55,16 @@ export class MapComponent implements OnInit {
    * Emit the Lat & Lng to create a Spot at the click position
    */
   @Output() spotAdded: EventEmitter<LatLng> = new EventEmitter<LatLng>();
+
+  /**
+   * Emit the Point where user clicked to center the map on it
+   */
+  @Output() pointAdded: EventEmitter<Point> = new EventEmitter<Point>();
+
+  /**
+   * The last Point to emit
+   */
+  point: Point;
 
   /**
    * Map zoom
@@ -123,12 +134,15 @@ export class MapComponent implements OnInit {
     if (event instanceof MouseEvent) {
       this.mouseY = event.offsetY;
       this.mouseX = event.offsetX;
+      this.point = new Point(this.mouseX, this.mouseY);
       this.matMenu.openMenu();
     }
   }
 
-  addSpot(event: Event): void {
-    this.spotAdded.emit(this.map.getCenter());
+  addSpot(): void {
+    const latitudeLongitude = this.map.containerPointToLatLng(this.point);
+    this.spotAdded.emit(latitudeLongitude);
+    this.map.flyTo(latitudeLongitude);
   }
 
   private tryBrowserGeoLocalization(): void {
