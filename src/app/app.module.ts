@@ -14,10 +14,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { SharedModule } from './shared/shared.module';
 import { SpotsService } from './core/spots.service';
 import { WINDOW_PROVIDERS } from './core/window.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ProgressInterceptor } from './shared/progress.interceptor';
 import { ProgressBarService } from './core/progress-bar.service';
 import { TimingInterceptor } from './shared/timing.interceptor';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from './app.translate.factory';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,14 @@ import { TimingInterceptor } from './shared/timing.interceptor';
   imports: [
     SharedModule,
     AppRoutingModule,
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
@@ -52,6 +62,7 @@ import { TimingInterceptor } from './shared/timing.interceptor';
     environment.ENV_PROVIDERS,
     WINDOW_PROVIDERS,
     SpotsService,
+    ProgressBarService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
