@@ -6,6 +6,7 @@ import {
   polygon,
   tileLayer,
   Map,
+  MapOptions,
 } from 'leaflet';
 import {
   Component,
@@ -94,10 +95,12 @@ export class MapComponent implements OnInit {
   /**
    * Map options
    */
-  options = {
+  options: MapOptions = {
     layers: this.layers,
     zoom: this.zoom,
     center: latLng(this.lat, this.lng),
+    tap: true,
+    zoomControl: false,
   };
 
   /**
