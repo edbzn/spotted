@@ -1,17 +1,21 @@
 {
-  "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
-  "home": "Hello",
-  "footer": "Crafted in a dark room",
-  "overview": {
-    "spotsAround": "Spots around me",
-    "addSpot": "Add a new spot",
-    "addSpotForm": {
-      "name": "name of the spot",
-      "country": "country",
-      "city": "city",
-      "postalCode": "postal code",
-      "latitude": "latitude",
-      "longitude": "longitude"
+    "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
+    "home": "Hello",
+    "footer": "Crafted in a dark room",
+    "overview": {
+        "spotsAround": "Around me",
+        "addSpot": "Add a new spot",
+        "addSpotForm": {
+            "name": "name of the spot",
+            "address": "address",
+            "country": "country",
+            "city": "city",
+            "postalCode": "postal code",
+            "latitude": "latitude",
+            "longitude": "longitude",
+            "difficulty": "difficulty",
+            "disciplines": "disciplines",
+            "tags": "tags"
+        }
     }
-  }
 }
