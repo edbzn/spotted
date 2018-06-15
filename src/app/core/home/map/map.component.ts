@@ -1,9 +1,7 @@
 import {
-  circle,
   latLng,
   LatLng,
   Layer,
-  polygon,
   tileLayer,
   Map,
   MapOptions,
@@ -12,17 +10,11 @@ import {
   Component,
   Inject,
   OnInit,
-  Optional,
   ViewChild,
   EventEmitter,
-  Input,
   Output,
 } from '@angular/core';
-import { empty, Observable, observable, Subscription } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { MatMenuTrigger } from '@angular/material';
-import { SpotsService } from '../../spots.service';
 import { WINDOW } from 'src/app/core/window.service';
 import {
   distinctUntilChanged,
