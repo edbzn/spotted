@@ -1,5 +1,11 @@
 import { LatLng } from 'leaflet';
-import { Component, OnInit, ViewRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewRef,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
@@ -37,6 +43,12 @@ export class OverviewComponent implements OnInit {
    * @todo move it in a config provider with dynamic mapping
    */
   types: Api.Type[] = ['bowl', 'dirt', 'park', 'street', 'street-park'];
+
+  /**
+   * Emit the newly created spot to remove helper marker on the map
+   */
+  @Output()
+  spotFormSubmitted: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
 
   /**
    * Form valid
@@ -90,7 +102,9 @@ export class OverviewComponent implements OnInit {
     }
 
     const { value } = this.spotForm;
-    this.spotsService.add({ id: 1, ...value }); // <- temporary id overwritten in SpotService
+    const spot: Api.Spot = { id: 1, ...value }; // <- temporary id overwritten in SpotService
+    this.spotsService.add(spot);
+    this.spotFormSubmitted.emit(spot);
     this.spotForm.reset();
   }
 
