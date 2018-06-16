@@ -11,16 +11,43 @@ import { MatStepper } from '@angular/material';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
+  /**
+   * Form ref
+   */
   spotForm: FormGroup;
 
+  /**
+   * Stepper ref
+   */
   stepper: MatStepper;
 
+  /**
+   * Tap index
+   */
   selectedTab = 0;
 
+  /**
+   * Disciplines used in form select
+   * @todo move it in a config provider with dynamic mapping
+   */
+  disciplines: Api.Disciplines[] = ['BMX', 'roller', 'skate'];
+
+  /**
+   * Spot types used in form select
+   * @todo move it in a config provider with dynamic mapping
+   */
+  types: Api.Type[] = ['bowl', 'dirt', 'park', 'street', 'street-park'];
+
+  /**
+   * Form valid
+   */
   get valid(): boolean {
     return this.spotForm.valid;
   }
 
+  /**
+   * Form touched
+   */
   get dirty(): boolean {
     return this.spotForm.dirty;
   }
@@ -40,8 +67,8 @@ export class OverviewComponent implements OnInit {
       name: '',
       description: '',
       difficulty: '',
-      tags: this.fb.array([]),
-      disciplines: this.fb.array([]),
+      type: ['', Validators.required],
+      disciplines: [[], Validators.required],
       location: this.fb.group({
         address: ['', Validators.required],
         city: ['', Validators.required],
@@ -58,8 +85,12 @@ export class OverviewComponent implements OnInit {
   }
 
   createSpot(): void {
+    if (!this.valid) {
+      return;
+    }
+
     const { value } = this.spotForm;
-    this.spotsService.add({ id: 1, ...value });
+    this.spotsService.add({ id: 1, ...value }); // <- temporary id overwritten in SpotService
     this.spotForm.reset();
   }
 
