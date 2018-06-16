@@ -26,7 +26,7 @@
       "longitude": "longitude",
       "difficulty": "difficulty",
       "disciplines": "disciplines",
-      "tags": "tags",
+      "type": "type",
       "submit": "Add this spot",
       "reset": "Reset"
     }

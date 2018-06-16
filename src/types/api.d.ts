@@ -2,11 +2,11 @@ export declare namespace Api {
   interface Spot {
     id: string;
     name: string;
+    type: Type;
     description: string;
     difficulty: Difficulty;
-    disciplines: Disciplines;
+    disciplines: Array<Disciplines>;
     location: Location;
-    tags: Array<Tag>;
     media: {
       pictures: Array<Picture>;
       videos: Array<Video>;
@@ -32,12 +32,9 @@ export declare namespace Api {
 
   interface Picture extends Media {}
 
-  interface Tag {
-    id: string;
-    name: string;
-  }
-
   type Difficulty = 'low' | 'mid' | 'hard' | 'pro' | 'hammer';
 
-  type Disciplines = Array<'BMX' | 'skate' | 'roller'>;
+  type Disciplines = 'BMX' | 'skate' | 'roller';
+
+  type Type = 'park' | 'street' | 'dirt' | 'street-park' | 'bowl';
 }

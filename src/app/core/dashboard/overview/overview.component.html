@@ -46,14 +46,23 @@
                 formControlName="difficulty">
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput
-                type="text"
-                placeholder="{{ 'overview.addSpotForm.disciplines' | translate }}">
+              <mat-select multiple
+                placeholder="Disciplines"
+                formControlName="disciplines">
+                <mat-option *ngFor="let discipline of disciplines"
+                  [value]="discipline">
+                  {{ discipline }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput
-                type="text"
-                placeholder="{{ 'overview.addSpotForm.tags' | translate }}">
+              <mat-select placeholder="Type"
+                formControlName="type">
+                <mat-option *ngFor="let type of types"
+                  [value]="type">
+                  {{ type }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </mat-step>
           <mat-step [stepControl]="location">
