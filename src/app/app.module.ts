@@ -5,12 +5,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
-import { HomeComponent } from './core/home/home.component';
+import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './core/home/map/map.component';
+import { MapComponent } from './core/dashboard/map/map.component';
 import { NgModule } from '@angular/core';
 import { NotFoundComponent } from './core/not-found/not-found.component';
-import { OverviewComponent } from './core/home/overview/overview.component';
+import { OverviewComponent } from './core/dashboard/overview/overview.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SharedModule } from './shared/shared.module';
 import { SpotsService } from './core/spots.service';
@@ -25,7 +25,7 @@ import { HttpLoaderFactory } from './app.translate.factory';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    DashboardComponent,
     MapComponent,
     OverviewComponent,
     NotFoundComponent,

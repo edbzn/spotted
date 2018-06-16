@@ -4,18 +4,18 @@ import { LatLng } from 'leaflet';
 import { MapComponent } from './map/map.component';
 
 @Component({
-  selector: 'spt-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'spt-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   @ViewChild('map') map: MapComponent;
   @ViewChild('overview') overview: OverviewComponent;
 
   ngOnInit(): void {}
 
   onSpotAdded(latLng: LatLng): void {
-    this.overview.activeSpotTab();
+    this.overview.activateSpotTab();
     this.overview.fillSpotForm(latLng);
   }
 }
