@@ -121,8 +121,8 @@ export class MapComponent implements OnInit {
    * Icon config for markers
    */
   iconConfig: IconOptions = {
-    iconSize: [41, 41],
-    iconAnchor: [41, 41],
+    iconSize: [30, 30],
+    iconAnchor: [30, 30],
     iconUrl: 'assets/images/std-spot-marker.png',
   };
 
@@ -152,6 +152,11 @@ export class MapComponent implements OnInit {
    * Keep markers by spots to only append new marker when spot changes
    */
   spotsMarked: string[] = [];
+
+  /**
+   * Help marker ref to ensure only one is present
+   */
+  helpMarker: Layer;
 
   /**
    * Lat & Long computed user to center Leaflet map
@@ -207,10 +212,14 @@ export class MapComponent implements OnInit {
   }
 
   addSpot(): void {
+    // ensure one help marker is present at a time
+    if (this.helpMarker) {
+      this.map.removeLayer(this.helpMarker);
+    }
+
     const latitudeLongitude = this.map.containerPointToLatLng(this.point);
     const helpMarkerOptions: IconOptions = {
       ...this.iconConfig,
-      iconSize: [41, 41],
       iconUrl: 'assets/images/create-spot-marker.png',
     };
 
@@ -228,6 +237,7 @@ export class MapComponent implements OnInit {
       }
     });
 
+    this.helpMarker = helpMarker;
     this.map.addLayer(helpMarker);
     this.spotAdded.emit(latitudeLongitude);
     this.map.flyTo(latitudeLongitude);
