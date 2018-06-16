@@ -6,12 +6,8 @@ import {
   Map,
   MapOptions,
   Point,
-  Marker,
-  Circle,
   marker,
   icon,
-  polyline,
-  circle,
   IconOptions,
   Icon,
 } from 'leaflet';
@@ -22,18 +18,10 @@ import {
   ViewChild,
   EventEmitter,
   Output,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from 'src/app/core/window.service';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  switchMap,
-  catchError,
-  filter,
-  tap,
-} from 'rxjs/internal/operators';
+import { tap } from 'rxjs/internal/operators';
 import { SpotsService } from '../../spots.service';
 
 @Component({
