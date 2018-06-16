@@ -2,6 +2,7 @@ export declare namespace Api {
   interface Spot {
     id: string;
     name: string;
+    description: string;
     difficulty: Difficulty;
     disciplines: Disciplines;
     location: Location;
