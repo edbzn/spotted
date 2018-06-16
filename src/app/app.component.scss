@@ -25,3 +25,9 @@ main {
   text-decoration: none;
   color: $primary;
 }
+
+.pull-right {
+  > button {
+    margin-right: 12px;
+  }
+}
