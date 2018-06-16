@@ -250,6 +250,10 @@ export class MapComponent implements OnInit {
     this.map.flyTo(latitudeLongitude);
   }
 
+  removeHelpMarker(): void {
+    this.map.removeLayer(this.helpMarker);
+  }
+
   private tryBrowserGeoLocalization(): void {
     const { navigator } = this.window;
 

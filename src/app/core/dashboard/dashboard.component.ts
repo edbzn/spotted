@@ -2,6 +2,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { MapComponent } from './map/map.component';
+import { Api } from 'src/types/api';
 
 @Component({
   selector: 'spt-dashboard',
@@ -17,5 +18,9 @@ export class DashboardComponent implements OnInit {
   onSpotAdded(latLng: LatLng): void {
     this.overview.activateSpotTab();
     this.overview.fillSpotForm(latLng);
+  }
+
+  onSpotFormSubmitted(spot: Api.Spot): void {
+    this.map.removeHelpMarker();
   }
 }

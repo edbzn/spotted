@@ -4,5 +4,6 @@
   </spt-map>
 </section>
 <aside class="map-overview-wrapper">
-  <spt-overview #overview></spt-overview>
+  <spt-overview #overview
+    (spotFormSubmitted)="onSpotFormSubmitted($event)"></spt-overview>
 </aside>
