@@ -6,6 +6,7 @@
   "map": {
     "addSpotBtn": "Add a spot here"
   },
+  "connection": "connection",
   "overview": {
     "stepper": {
       "description": "Description",

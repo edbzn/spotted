@@ -6,6 +6,7 @@
   "map": {
     "addSpotBtn": "Ajouter un spot ici"
   },
+  "connection": "connexion",
   "overview": {
     "spotsAround": "Aux alentours",
     "addSpot": "Ajouter un spot",

@@ -1,5 +1,4 @@
 import {
-  latLng,
   LatLng,
   Layer,
   tileLayer,
@@ -10,6 +9,7 @@ import {
   icon,
   IconOptions,
   Icon,
+  latLng,
 } from 'leaflet';
 import {
   Component,
@@ -147,6 +147,11 @@ export class MapComponent implements OnInit {
   };
 
   /**
+   * Keep markers by spots to only append new marker when spot changes
+   */
+  spotsMarked: string[] = [];
+
+  /**
    * Lat & Long computed user to center Leaflet map
    */
   get center(): LatLng {
@@ -174,7 +179,14 @@ export class MapComponent implements OnInit {
               spot.location.latitude,
               spot.location.longitude
             );
-            this.addMarker(latitudeLongitude);
+            const layer = marker(latitudeLongitude, {
+              icon: this.iconConfig,
+            });
+
+            if (!this.spotsMarked.includes(latitudeLongitude.toString())) {
+              this.spotsMarked.push(latitudeLongitude.toString());
+              this.map.addLayer(layer);
+            }
           });
         })
       )
@@ -196,14 +208,6 @@ export class MapComponent implements OnInit {
     const latitudeLongitude = this.map.containerPointToLatLng(this.point);
     this.spotAdded.emit(latitudeLongitude);
     this.map.flyTo(latitudeLongitude);
-  }
-
-  private addMarker(latitudeLongitude?: LatLng): void {
-    this.map.addLayer(
-      marker(latitudeLongitude || this.map.containerPointToLatLng(this.point), {
-        icon: this.iconConfig,
-      })
-    );
   }
 
   private tryBrowserGeoLocalization(): void {
