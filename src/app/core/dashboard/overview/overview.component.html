@@ -1,5 +1,10 @@
 <mat-tab-group [(selectedIndex)]="selectedTab">
-  <mat-tab label="{{ 'overview.spotsAround' | translate }}">
+  <mat-tab>
+    <ng-template mat-tab-label>
+
+      <mat-icon>location_on</mat-icon>
+      {{ 'overview.spotsAround' | translate }}
+    </ng-template>
     <mat-list dense>
       <mat-list-item *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
         {{ spot.name }} {{ spot.location.latitude }} {{ spot.location.longitude }}
@@ -11,7 +16,11 @@
       </mat-list-item>
     </mat-list>
   </mat-tab>
-  <mat-tab label="{{ 'overview.addSpot' | translate }}">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>add_location</mat-icon>
+      {{ 'overview.addSpot' | translate }}
+    </ng-template>
     <section class="p0">
       <form [formGroup]="spotForm"
         (submit)="createSpot()"
