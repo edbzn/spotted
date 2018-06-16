@@ -12,4 +12,5 @@ if (environment.production) {
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
+  .then(environment.decorateModuleRef)
   .catch(err => console.log(err));
