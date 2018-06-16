@@ -10,7 +10,8 @@ export const environment: Environment = {
    * https://github.com/angular/angular/blob/86405345b781a9dc2438c0fbe3e9409245647019/TOOLS_JS.md
    * @param modRef
    * @return {any}
-   */ decorateModuleRef(modRef: NgModuleRef<any>): any {
+   */
+  decorateModuleRef(modRef: NgModuleRef<any>): any {
     const appRef = modRef.injector.get(ApplicationRef);
     const cmpRef = appRef.components[0];
 
