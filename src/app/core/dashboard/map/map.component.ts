@@ -6,6 +6,8 @@ import {
   Map,
   MapOptions,
   Point,
+  Marker,
+  Circle,
 } from 'leaflet';
 import {
   Component,
@@ -23,7 +25,9 @@ import {
   switchMap,
   catchError,
   filter,
+  tap,
 } from 'rxjs/internal/operators';
+import { SpotsService } from '../../spots.service';
 
 @Component({
   selector: 'spt-map',
@@ -89,27 +93,22 @@ export class MapComponent implements OnInit {
   /**
    * Map layers
    */
-  layers: Layer[] = [
-    tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: this.maxZoom,
-    }),
-  ];
+  layers: Layer[] = [];
 
   /**
    * Map options
    */
   options: MapOptions = {
-    layers: this.layers,
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: this.maxZoom,
+      }),
+    ],
     zoom: this.zoom,
-    center: latLng(this.lat, this.lng),
+    center: this.center,
     tap: true,
     zoomControl: false,
   };
-
-  /**
-   * Map layers control
-   */
-  layersControl = {};
 
   /**
    * Lat & Long computed user to center Leaflet map
@@ -118,7 +117,10 @@ export class MapComponent implements OnInit {
     return latLng(this.lat, this.lng);
   }
 
-  constructor(@Inject(WINDOW) private window: Window) {}
+  constructor(
+    @Inject(WINDOW) private window: Window,
+    private spotsService: SpotsService
+  ) {}
 
   ngOnInit() {
     this.tryBrowserGeoLocalization();
@@ -126,6 +128,18 @@ export class MapComponent implements OnInit {
 
   onMapReady(map: Map): void {
     this.map = map;
+
+    // this.spotsService.spots
+    //   .pipe(
+    //     tap(spots => {
+    //       spots.forEach(spot =>
+    //         this.addMarker(
+    //           new LatLng(spot.location.latitude, spot.location.latitude)
+    //         )
+    //       );
+    //     })
+    //   )
+    //   .subscribe(console.log);
   }
 
   onMapClick(event: MouseEvent): void {
@@ -144,6 +158,15 @@ export class MapComponent implements OnInit {
     this.spotAdded.emit(latitudeLongitude);
     this.map.flyTo(latitudeLongitude);
   }
+
+  // private addMarker(latitudeLongitude: LatLng): void {
+  //   this.layers.push(
+  //     new Circle(
+  //       latitudeLongitude || this.map.containerPointToLatLng(this.point),
+  //       { radius: 5000 }
+  //     )
+  //   );
+  // }
 
   private tryBrowserGeoLocalization(): void {
     const { navigator } = this.window;

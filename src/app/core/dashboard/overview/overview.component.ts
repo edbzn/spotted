@@ -1,8 +1,9 @@
 import { LatLng } from 'leaflet';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
+import { MatStepper } from '@angular/material';
 
 @Component({
   selector: 'spt-overview',
@@ -11,6 +12,8 @@ import { Api } from '../../../../types/api';
 })
 export class OverviewComponent implements OnInit {
   spotForm: FormGroup;
+
+  stepper: MatStepper;
 
   selectedTab = 0;
 
@@ -64,7 +67,7 @@ export class OverviewComponent implements OnInit {
     return spot.id;
   }
 
-  activeSpotTab(): void {
+  activateSpotTab(): void {
     this.selectedTab = 1;
   }
 
