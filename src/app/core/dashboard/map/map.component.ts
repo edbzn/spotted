@@ -71,7 +71,7 @@ export class MapComponent implements OnInit {
   /**
    * Map zoom
    */
-  zoom = 13;
+  zoom = 15;
 
   /**
    * Max zoom that can be reached
@@ -159,7 +159,7 @@ export class MapComponent implements OnInit {
   helpMarker: Layer;
 
   /**
-   * Lat & Long computed user to center Leaflet map
+   * Lat & Long computed
    */
   get center(): LatLng {
     return latLng(this.lat, this.lng);
@@ -233,12 +233,19 @@ export class MapComponent implements OnInit {
     // bind marker drag event to the spot creation form
     helpMarker.on('drag', (event: LeafletMouseEvent) => {
       if (event.hasOwnProperty('latlng')) {
-        this.spotAdded.emit(latLng(event.latlng.lat, event.latlng.lng));
+        const { lat, lng } = event.latlng;
+        const latitudeLongitudeChange = latLng(lat, lng);
+        this.spotAdded.emit(latitudeLongitudeChange);
+
+        helpMarker.on('dragend', () => {
+          this.setPosition(lat, lng);
+        });
       }
     });
 
     this.helpMarker = helpMarker;
     this.map.addLayer(helpMarker);
+
     this.spotAdded.emit(latitudeLongitude);
     this.map.flyTo(latitudeLongitude);
   }
@@ -263,11 +270,15 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private setPosition(latitude: number, longitude: number): void {
+  private setPosition(
+    latitude: number,
+    longitude: number,
+    zoom?: number
+  ): void {
     this.lat = latitude;
     this.lng = longitude;
 
-    this.map.flyTo(new LatLng(this.lat, this.lng), this.zoom, {
+    this.map.flyTo(this.center, zoom || this.map.getZoom(), {
       duration: this.mapMoveDuration,
     });
   }
