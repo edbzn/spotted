@@ -8,6 +8,12 @@ import {
   Point,
   Marker,
   Circle,
+  marker,
+  icon,
+  polyline,
+  circle,
+  IconOptions,
+  Icon,
 } from 'leaflet';
 import {
   Component,
@@ -16,6 +22,7 @@ import {
   ViewChild,
   EventEmitter,
   Output,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from 'src/app/core/window.service';
@@ -96,14 +103,55 @@ export class MapComponent implements OnInit {
   layers: Layer[] = [];
 
   /**
+   * Gmap tile Layer
+   */
+  googleMaps: Layer = tileLayer(
+    'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+    {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      detectRetina: true,
+    }
+  );
+
+  /**
+   * Gmap street tile Layer
+   */
+  googleHybrid: Layer = tileLayer(
+    'http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+    {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      detectRetina: true,
+    }
+  );
+
+  /**
+   * Icon config for markers
+   */
+  iconConfig: Icon<IconOptions> = icon({
+    iconSize: [25, 41],
+    iconAnchor: [13, 41],
+    iconUrl: 'assets/marker-icon.png',
+    shadowUrl: 'assets/marker-shadow.png',
+  });
+
+  /**
+   * Layers control object with our two base layers and the three overlay layers
+   */
+  layersControl = {
+    baseLayers: {
+      'Google Maps': this.googleMaps,
+      'Google Street': this.googleHybrid,
+    },
+    overlays: {},
+  };
+
+  /**
    * Map options
    */
   options: MapOptions = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: this.maxZoom,
-      }),
-    ],
+    layers: [this.googleMaps],
     zoom: this.zoom,
     center: this.center,
     tap: true,
@@ -129,17 +177,20 @@ export class MapComponent implements OnInit {
   onMapReady(map: Map): void {
     this.map = map;
 
-    // this.spotsService.spots
-    //   .pipe(
-    //     tap(spots => {
-    //       spots.forEach(spot =>
-    //         this.addMarker(
-    //           new LatLng(spot.location.latitude, spot.location.latitude)
-    //         )
-    //       );
-    //     })
-    //   )
-    //   .subscribe(console.log);
+    // bind spots to marker creation on the map
+    this.spotsService.spots
+      .pipe(
+        tap(spots => {
+          spots.forEach(spot => {
+            const latitudeLongitude = new LatLng(
+              spot.location.latitude,
+              spot.location.longitude
+            );
+            this.addMarker(latitudeLongitude);
+          });
+        })
+      )
+      .subscribe();
   }
 
   onMapClick(event: MouseEvent): void {
@@ -159,14 +210,13 @@ export class MapComponent implements OnInit {
     this.map.flyTo(latitudeLongitude);
   }
 
-  // private addMarker(latitudeLongitude: LatLng): void {
-  //   this.layers.push(
-  //     new Circle(
-  //       latitudeLongitude || this.map.containerPointToLatLng(this.point),
-  //       { radius: 5000 }
-  //     )
-  //   );
-  // }
+  private addMarker(latitudeLongitude?: LatLng): void {
+    this.map.addLayer(
+      marker(latitudeLongitude || this.map.containerPointToLatLng(this.point), {
+        icon: this.iconConfig,
+      })
+    );
+  }
 
   private tryBrowserGeoLocalization(): void {
     const { navigator } = this.window;
