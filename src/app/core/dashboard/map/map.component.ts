@@ -10,6 +10,9 @@ import {
   IconOptions,
   Icon,
   latLng,
+  DragEndEvent,
+  LeafletEvent,
+  LeafletMouseEvent,
 } from 'leaflet';
 import {
   Component,
@@ -117,12 +120,11 @@ export class MapComponent implements OnInit {
   /**
    * Icon config for markers
    */
-  iconConfig: Icon<IconOptions> = icon({
-    iconSize: [25, 41],
-    iconAnchor: [13, 41],
-    iconUrl: 'assets/marker-icon.png',
-    shadowUrl: 'assets/marker-shadow.png',
-  });
+  iconConfig: IconOptions = {
+    iconSize: [41, 41],
+    iconAnchor: [41, 41],
+    iconUrl: 'assets/images/std-spot-marker.png',
+  };
 
   /**
    * Layers control object with our two base layers and the three overlay layers
@@ -180,7 +182,7 @@ export class MapComponent implements OnInit {
               spot.location.longitude
             );
             const layer = marker(latitudeLongitude, {
-              icon: this.iconConfig,
+              icon: icon(this.iconConfig),
             });
 
             if (!this.spotsMarked.includes(latitudeLongitude.toString())) {
@@ -206,6 +208,27 @@ export class MapComponent implements OnInit {
 
   addSpot(): void {
     const latitudeLongitude = this.map.containerPointToLatLng(this.point);
+    const helpMarkerOptions: IconOptions = {
+      ...this.iconConfig,
+      iconSize: [41, 41],
+      iconUrl: 'assets/images/create-spot-marker.png',
+    };
+
+    // create help marker
+    const helpMarker = marker(latitudeLongitude, {
+      icon: icon(helpMarkerOptions),
+      draggable: true,
+      title: 'helpMarker',
+    });
+
+    // bind marker drag event to the spot creation form
+    helpMarker.on('drag', (event: LeafletMouseEvent) => {
+      if (event.hasOwnProperty('latlng')) {
+        this.spotAdded.emit(latLng(event.latlng.lat, event.latlng.lng));
+      }
+    });
+
+    this.map.addLayer(helpMarker);
     this.spotAdded.emit(latitudeLongitude);
     this.map.flyTo(latitudeLongitude);
   }
