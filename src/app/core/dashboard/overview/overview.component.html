@@ -22,12 +22,14 @@
             <button mat-icon-button
               NguCarouselPrev
               class="left-arrow"
+              type="button"
               (click)="onCarouselMove($event, spot)">
               <mat-icon>arrow_left</mat-icon>
             </button>
             <button mat-icon-button
               NguCarouselNext
               class="right-arrow"
+              type="button"
               (click)="onCarouselMove($event, spot)">
               <mat-icon>arrow_right</mat-icon>
             </button>
@@ -105,11 +107,13 @@
                 </ngu-tile>
                 <button mat-icon-button
                   NguCarouselPrev
+                  type="button"
                   class="left-arrow">
                   <mat-icon>arrow_left</mat-icon>
                 </button>
                 <button mat-icon-button
                   NguCarouselNext
+                  type="button"
                   class="right-arrow">
                   <mat-icon>arrow_right</mat-icon>
                 </button>
@@ -121,6 +125,7 @@
               </ng-template>
               <div>
                 <button (click)="fileInput.click()"
+                  type="button"
                   mat-raised-button>
                   <mat-icon>photo</mat-icon>
                   <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
