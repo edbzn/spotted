@@ -13,6 +13,7 @@ import {
   MatStepperModule,
   MatSelectModule,
   MatRadioModule,
+  MatBadgeModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -35,6 +36,7 @@ const materialModules = [
   MatStepperModule,
   MatSelectModule,
   MatRadioModule,
+  MatBadgeModule,
 ];
 
 @NgModule({
