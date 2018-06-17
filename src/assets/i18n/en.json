@@ -28,6 +28,7 @@
       "difficulty": "difficulty",
       "disciplines": "disciplines",
       "type": "type",
+      "uploadPlaceholder": "Please add at least one picture",
       "submit": "Add this spot",
       "reset": "Reset"
     }
