@@ -1,4 +1,4 @@
-import { LatLng } from 'leaflet';
+import { LatLng, latLng } from 'leaflet';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
@@ -13,6 +13,7 @@ import {
   distinctUntilChanged,
   debounceTime,
 } from 'rxjs/internal/operators';
+import { NguCarouselStore, NguCarousel } from '@ngu/carousel';
 
 @Component({
   selector: 'spt-overview',
@@ -59,6 +60,11 @@ export class OverviewComponent implements OnInit {
   @Output() removeHelpMarker: EventEmitter<void> = new EventEmitter<void>();
 
   /**
+   * Point to the given LatLng on the map
+   */
+  @Output() flyTo: EventEmitter<LatLng> = new EventEmitter<LatLng>();
+
+  /**
    * Uploaded pictures
    */
   pictures: string[] = [];
@@ -67,6 +73,23 @@ export class OverviewComponent implements OnInit {
    * Handle automatic form filling and query Geocoder API with given LatLng
    */
   fillSpotFormHandler = new Subject<LatLng>();
+
+  /**
+   * Carousel options
+   */
+  carousel: NguCarousel = {
+    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
+    slide: 1,
+    speed: 400,
+    interval: 4000,
+    point: {
+      visible: true,
+    },
+    load: 2,
+    touch: true,
+    loop: true,
+    custom: 'banner',
+  };
 
   /**
    * Form valid
@@ -118,15 +141,15 @@ export class OverviewComponent implements OnInit {
 
     this.fillSpotFormHandler
       .pipe(
-        tap(latLng => {
+        tap(latitudeLongitude => {
           this.location.patchValue({
-            latitude: latLng.lat,
-            longitude: latLng.lng,
+            latitude: latitudeLongitude.lat,
+            longitude: latitudeLongitude.lng,
           });
         }),
         distinctUntilChanged(),
         debounceTime(400),
-        flatMap(latLng => this.geocoder.search(latLng)),
+        flatMap(latitudeLongitude => this.geocoder.search(latitudeLongitude)),
         tap(results => {
           const nearest = results[0];
           const address = nearest.formatted_address;
@@ -158,8 +181,8 @@ export class OverviewComponent implements OnInit {
     this.selectedTab = 1;
   }
 
-  fillSpotForm(latLng: LatLng): void {
-    this.fillSpotFormHandler.next(latLng);
+  fillSpotForm(latitudeLongitude: LatLng): void {
+    this.fillSpotFormHandler.next(latitudeLongitude);
   }
 
   onFileAdded(event: Event): void {
@@ -167,6 +190,10 @@ export class OverviewComponent implements OnInit {
       this.pictures.push(path);
       this.media.get('pictures').setValue(this.pictures);
     });
+  }
+
+  onCarouselMove(event: any, spot: Api.Spot): void {
+    this.flyTo.emit(latLng(spot.location.latitude, spot.location.longitude));
   }
 
   reset(): void {

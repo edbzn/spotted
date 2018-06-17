@@ -1,6 +1,7 @@
 <aside class="map-overview-wrapper mat-elevation-z5">
   <spt-overview #overview
-    (removeHelpMarker)="onSpotFormSubmitted($event)">
+    (removeHelpMarker)="onSpotFormSubmitted($event)"
+    (flyTo)="onFlyTo($event)">
   </spt-overview>
 </aside>
 <main class="map-wrapper">

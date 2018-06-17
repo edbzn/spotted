@@ -23,4 +23,8 @@ export class DashboardComponent implements OnInit {
   onSpotFormSubmitted(spot: Api.Spot): void {
     this.map.removeHelpMarker();
   }
+
+  onFlyTo(latLng: LatLng): void {
+    this.map.setPosition(latLng);
+  }
 }
