@@ -235,7 +235,7 @@ export class MapComponent implements OnInit {
         this.spotAdded.emit(latitudeLongitudeChange);
 
         helpMarker.on('dragend', () => {
-          this.setPosition(lat, lng);
+          this.setPosition(latitudeLongitude);
         });
       }
     });
@@ -251,6 +251,15 @@ export class MapComponent implements OnInit {
     this.map.removeLayer(this.helpMarker);
   }
 
+  setPosition(latitudeLongitude: LatLng, zoom?: number): void {
+    this.lat = latitudeLongitude.lat;
+    this.lng = latitudeLongitude.lng;
+
+    this.map.flyTo(this.center, zoom || this.map.getZoom(), {
+      duration: this.mapMoveDuration,
+    });
+  }
+
   private tryBrowserGeoLocalization(): void {
     const { navigator } = this.window;
 
@@ -259,7 +268,7 @@ export class MapComponent implements OnInit {
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
-          this.setPosition(latitude, longitude);
+          this.setPosition(latLng(latitude, longitude));
         },
         () => {
           // @todo center map, handle error
@@ -269,18 +278,5 @@ export class MapComponent implements OnInit {
       // Browser doesn't support Geolocation
       // @todo center map, handle error
     }
-  }
-
-  private setPosition(
-    latitude: number,
-    longitude: number,
-    zoom?: number
-  ): void {
-    this.lat = latitude;
-    this.lng = longitude;
-
-    this.map.flyTo(this.center, zoom || this.map.getZoom(), {
-      duration: this.mapMoveDuration,
-    });
   }
 }
