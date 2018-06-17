@@ -67,12 +67,17 @@
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
+            <div class="pictures"
+              *ngFor="let picture of pictures">
+              <img [src]="picture">
+            </div>
             <div>
               <button (click)="fileInput.click()"
                 mat-raised-button>
                 <mat-icon>photo</mat-icon>
                 <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
                 <input #fileInput
+                  accept=".png,.jpg"
                   type="file"
                   (change)="onFileAdded($event)"
                   class="hidden" />
@@ -124,7 +129,7 @@
             <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
             <button mat-button
               type="button"
-              (click)="spotForm.reset()">
+              (click)="reset()">
               {{ 'overview.addSpotForm.reset' | translate }}
             </button>
             <button mat-raised-button

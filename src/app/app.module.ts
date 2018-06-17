@@ -21,6 +21,7 @@ import { ProgressBarService } from './core/progress-bar.service';
 import { TimingInterceptor } from './shared/timing.interceptor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './app.translate.factory';
+import { UploadService } from './core/upload.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { HttpLoaderFactory } from './app.translate.factory';
     SpotsService,
     ProgressBarService,
     StorageService,
+    UploadService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
