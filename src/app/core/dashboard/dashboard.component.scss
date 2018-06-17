@@ -10,6 +10,8 @@ aside {
 
 :host {
   display: flex;
+  height: 95vh;
+
   @media screen and (max-width: $mediaMidWidth) {
     flex-direction: column;
   }

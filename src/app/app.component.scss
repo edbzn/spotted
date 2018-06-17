@@ -2,7 +2,6 @@
 @import '~src/theme.scss';
 main {
   height: 100vh;
-  z-index: -1;
   > *:not(router-outlet) {
     display: block;
     height: 100%;
@@ -31,8 +30,4 @@ main {
   > button {
     margin-right: 12px;
   }
-}
-
-.toolbar {
-  z-index: 2;
 }
