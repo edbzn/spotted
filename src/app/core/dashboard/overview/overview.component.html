@@ -65,6 +65,20 @@
               </mat-select>
             </mat-form-field>
           </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
+            <div>
+              <button (click)="fileInput.click()"
+                mat-raised-button>
+                <mat-icon>photo</mat-icon>
+                <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
+                <input #fileInput
+                  type="file"
+                  (change)="onFileAdded($event)"
+                  class="hidden" />
+              </button>
+            </div>
+          </mat-step>
           <mat-step [stepControl]="location">
             <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
             <div [formGroup]="location">

@@ -121,4 +121,8 @@ export class OverviewComponent implements OnInit {
       location: { latitude: latLng.lat, longitude: latLng.lng },
     });
   }
+
+  onFileAdded(event): void {
+    console.log(event);
+  }
 }
