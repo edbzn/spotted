@@ -23,6 +23,7 @@ declare const Modernizr;
 })
 export class AppComponent implements AfterViewInit {
   progressBarMode: string;
+
   showDevModule: boolean = environment.showDevModule;
 
   constructor(

@@ -1,3 +1,5 @@
+import { AgmCoreModule } from '@agm/core';
+import { GooglePlacesService } from './core/google-places.service';
 import { StorageService } from './core/storage.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -49,6 +51,11 @@ import { UploadService } from './core/upload.service';
 
     LeafletModule.forRoot(),
 
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleApiKey,
+      libraries: ['places'],
+    }),
+
     /**
      * This section will import the module only in certain build types.
      */
@@ -67,6 +74,7 @@ import { UploadService } from './core/upload.service';
     ProgressBarService,
     StorageService,
     UploadService,
+    GooglePlacesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,

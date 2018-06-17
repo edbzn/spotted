@@ -4,6 +4,7 @@ export interface Environment {
   production: boolean;
   ENV_PROVIDERS: any;
   showDevModule: boolean;
+  googleApiKey: string;
   firebase: {
     apiKey: string;
     authDomain: string;

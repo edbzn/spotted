@@ -16,6 +16,7 @@ export const environment: Environment = {
     return modRef;
   },
   ENV_PROVIDERS: [],
+  googleApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
   firebase: {
     apiKey: 'AIzaSyBuBD4A_IkayjEIqwjUO_6ewKC38eKAX4k',
     authDomain: 'spotted-1528021262358.firebaseapp.com',
