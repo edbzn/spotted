@@ -161,7 +161,7 @@
                 </mat-form-field>
               </div>
             </mat-step>
-            <mat-step>
+            <mat-step [completed]="valid">
               <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
               <button mat-button
                 class="mr"

@@ -188,7 +188,7 @@ export class OverviewComponent implements OnInit {
   onFileAdded(event: Event): void {
     this.upload.file(event).subscribe(path => {
       this.pictures.push(path);
-      this.media.get('pictures').setValue(this.pictures);
+      this.media.get('pictures').patchValue(this.pictures);
     });
   }
 

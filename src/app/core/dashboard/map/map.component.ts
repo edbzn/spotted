@@ -183,12 +183,13 @@ export class MapComponent implements OnInit {
               spot.location.latitude,
               spot.location.longitude
             );
-            const layer = marker(latitudeLongitude, {
-              icon: icon(this.iconConfig),
-            });
+            const key = latitudeLongitude.toString();
 
-            if (!this.spotsMarked.includes(latitudeLongitude.toString())) {
-              this.spotsMarked.push(latitudeLongitude.toString());
+            if (!this.spotsMarked.includes(key)) {
+              const layer = marker(latitudeLongitude, {
+                icon: icon(this.iconConfig),
+              });
+              this.spotsMarked.push(key);
               this.map.addLayer(layer);
             }
           });
@@ -242,9 +243,8 @@ export class MapComponent implements OnInit {
 
     this.helpMarker = helpMarker;
     this.map.addLayer(helpMarker);
-
+    this.setPosition(latitudeLongitude);
     this.spotAdded.emit(latitudeLongitude);
-    this.map.flyTo(latitudeLongitude);
   }
 
   removeHelpMarker(): void {
@@ -257,6 +257,7 @@ export class MapComponent implements OnInit {
 
     this.map.flyTo(this.center, zoom || this.map.getZoom(), {
       duration: this.mapMoveDuration,
+      animate: false,
     });
   }
 
