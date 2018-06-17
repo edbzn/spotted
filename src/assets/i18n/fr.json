@@ -9,8 +9,7 @@
   "overview": {
     "spotsAround": "Aux alentours",
     "addSpot": "Ajouter un spot",
-    "help":
-      "Clic droit sur la carte pour remplir automatiquement la partie position",
+    "help": "Clic droit sur la carte pour remplir automatiquement la position",
     "stepper": {
       "media": "Media",
       "mediaBtn": "Ajouter des photos du spot",

@@ -1,11 +1,11 @@
+<main class="map-wrapper">
+  <spt-map #map
+    (spotAdded)="onSpotAdded($event)">
+  </spt-map>
+</main>
 <aside class="map-overview-wrapper mat-elevation-z5">
   <spt-overview #overview
     (removeHelpMarker)="onSpotFormSubmitted($event)"
     (flyTo)="onFlyTo($event)">
   </spt-overview>
 </aside>
-<main class="map-wrapper">
-  <spt-map #map
-    (spotAdded)="onSpotAdded($event)">
-  </spt-map>
-</main>
