@@ -40,12 +40,6 @@
                 formControlName="name">
             </mat-form-field>
             <mat-form-field class="full-width">
-              <input matInput
-                type="text"
-                placeholder="{{ 'overview.addSpotForm.difficulty' | translate }}"
-                formControlName="difficulty">
-            </mat-form-field>
-            <mat-form-field class="full-width">
               <mat-select multiple
                 placeholder="Disciplines"
                 formControlName="disciplines">
@@ -64,6 +58,14 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-radio-group class="full-width"
+              formControlName="difficulty">
+              <mat-radio-button class="radio"
+                *ngFor="let difficulty of difficulties"
+                [value]="difficulty">
+                {{ difficulty }}
+              </mat-radio-button>
+            </mat-radio-group>
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
