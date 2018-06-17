@@ -58,7 +58,7 @@ export class OverviewComponent implements OnInit {
   pictures: string[] = [];
 
   /**
-   *
+   * Handle automatic form filling and query Geocoder API with given LatLng
    */
   fillSpotFormHandler = new Subject<LatLng>();
 
@@ -86,7 +86,7 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private googlePlaces: GeocoderService,
+    private geocoder: GeocoderService,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -120,7 +120,7 @@ export class OverviewComponent implements OnInit {
         }),
         distinctUntilChanged(),
         debounceTime(400),
-        flatMap(latLng => this.googlePlaces.search(latLng)),
+        flatMap(latLng => this.geocoder.search(latLng)),
         tap(results => {
           const nearest = results[0];
           const address = nearest.formatted_address;
