@@ -67,3 +67,8 @@
   @extend .arrow;
   right: 2%;
 }
+
+.upload-carousel-item {
+  min-height: 150px;
+  max-height: 250px;
+}

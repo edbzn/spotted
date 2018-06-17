@@ -20,13 +20,13 @@
           </ngu-tile>
           <button mat-icon-button
             NguCarouselPrev
-            class='left-arrow'
+            class="left-arrow"
             (click)="onCarouselMove($event, spot)">
             <mat-icon>arrow_left</mat-icon>
           </button>
           <button mat-icon-button
             NguCarouselNext
-            class='right-arrow'
+            class="right-arrow"
             (click)="onCarouselMove($event, spot)">
             <mat-icon>arrow_right</mat-icon>
           </button>
@@ -52,11 +52,6 @@
       <form [formGroup]="spotForm"
         (submit)="createSpot()"
         novalidate>
-        <mat-card>
-          <mat-card-content class="help-card">
-            <mat-icon>help</mat-icon> {{ 'overview.help' | translate }}
-          </mat-card-content>
-        </mat-card>
         <mat-vertical-stepper #stepper>
           <mat-step>
             <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
@@ -96,10 +91,24 @@
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
-            <div class="pictures"
-              *ngFor="let picture of pictures">
-              <img [src]="picture">
-            </div>
+            <ngu-carousel [inputs]="carousel"
+              *ngIf="pictures.length > 0">
+              <ngu-tile NguCarouselItem
+                *ngFor="let picture of pictures"
+                [style.backgroundImage]="'url(' + picture + ')'"
+                class="spot-carousel-item upload-carousel-item">
+              </ngu-tile>
+              <button mat-icon-button
+                NguCarouselPrev
+                class="left-arrow">
+                <mat-icon>arrow_left</mat-icon>
+              </button>
+              <button mat-icon-button
+                NguCarouselNext
+                class="right-arrow">
+                <mat-icon>arrow_right</mat-icon>
+              </button>
+            </ngu-carousel>
             <div>
               <button (click)="fileInput.click()"
                 mat-raised-button>
@@ -115,6 +124,11 @@
           </mat-step>
           <mat-step [stepControl]="location">
             <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
+            <mat-card>
+              <mat-card-content class="help-card">
+                <mat-icon>help</mat-icon> {{ 'overview.help' | translate }}
+              </mat-card-content>
+            </mat-card>
             <div [formGroup]="location">
               <mat-form-field class="full-width">
                 <input matInput

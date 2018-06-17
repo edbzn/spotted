@@ -9,7 +9,7 @@
   "overview": {
     "spotsAround": "Around me",
     "addSpot": "Add a new spot",
-    "help": "Right click the map to automatically fill the location part",
+    "help": "Right click the map to automatically fill the location",
     "stepper": {
       "media": "Media",
       "mediaBtn": "Upload spot pictures",
