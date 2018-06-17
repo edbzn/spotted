@@ -2,8 +2,10 @@
   class="group">
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr">location_on</mat-icon>
-      {{ 'overview.spotsAround' | translate }}
+      <mat-icon class="mr"
+        [matBadge]="((spotsService.spots | async) || []).length"
+        matBadgePosition="above after">location_on</mat-icon>
+      <span>{{ 'overview.spotsAround' | translate }}</span>
     </ng-template>
     <div class="wrapper">
       <mat-card class="spot"
