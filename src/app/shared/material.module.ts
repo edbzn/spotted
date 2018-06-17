@@ -12,6 +12,7 @@ import {
   MatProgressBarModule,
   MatStepperModule,
   MatSelectModule,
+  MatRadioModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -33,6 +34,7 @@ const materialModules = [
   MatProgressBarModule,
   MatStepperModule,
   MatSelectModule,
+  MatRadioModule,
 ];
 
 @NgModule({

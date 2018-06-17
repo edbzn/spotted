@@ -48,6 +48,12 @@ export class OverviewComponent implements OnInit {
   types: Api.Type[] = ['bowl', 'dirt', 'park', 'street', 'street-park'];
 
   /**
+   * Spot difficulty used in form select
+   * @todo move it in a config provider with dynamic mapping
+   */
+  difficulties: Api.Difficulty[] = ['hammer', 'pro', 'hard', 'mid', 'low'];
+
+  /**
    * Emit the newly created spot to remove helper marker on the map
    */
   @Output() removeHelpMarker: EventEmitter<void> = new EventEmitter<void>();
