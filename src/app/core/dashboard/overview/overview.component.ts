@@ -50,8 +50,7 @@ export class OverviewComponent implements OnInit {
   /**
    * Emit the newly created spot to remove helper marker on the map
    */
-  @Output()
-  spotFormSubmitted: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
+  @Output() removeHelpMarker: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * Uploaded pictures
@@ -141,7 +140,7 @@ export class OverviewComponent implements OnInit {
     const { value } = this.spotForm;
     const spot: Api.Spot = { id: 1, ...value }; // <- temporary id overwritten in SpotService
     this.spotsService.add(spot);
-    this.spotFormSubmitted.emit(spot);
+    this.removeHelpMarker.emit();
     this.reset();
   }
 
@@ -167,5 +166,6 @@ export class OverviewComponent implements OnInit {
   reset(): void {
     this.pictures = [];
     this.spotForm.reset();
+    this.removeHelpMarker.emit();
   }
 }
