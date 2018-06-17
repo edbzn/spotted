@@ -1,9 +1,10 @@
-<section class="map-wrapper">
+<main class="map-wrapper">
   <spt-map #map
     (spotAdded)="onSpotAdded($event)">
   </spt-map>
-</section>
+</main>
 <aside class="map-overview-wrapper">
   <spt-overview #overview
-    (spotFormSubmitted)="onSpotFormSubmitted($event)"></spt-overview>
+    (spotFormSubmitted)="onSpotFormSubmitted($event)">
+  </spt-overview>
 </aside>

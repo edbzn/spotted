@@ -12,12 +12,14 @@
     "addSpot": "Ajouter un spot",
     "help":
       "Clic droit sur la carte pour remplir automatiquement la partie position",
+    "stepper": {
+      "media": "Media",
+      "mediaBtn": "Ajouter des photos du spot",
+      "description": "Description",
+      "location": "Position",
+      "done": "Fin"
+    },
     "addSpotForm": {
-      "stepper": {
-        "description": "Description",
-        "location": "Position",
-        "done": "Fin"
-      },
       "name": "nom du spot",
       "address": "adresse",
       "country": "pays",
