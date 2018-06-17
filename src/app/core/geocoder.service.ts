@@ -18,33 +18,38 @@ export class GeocoderService {
     this.progress.increase();
 
     return new Observable<GeoResult[]>(observer => {
-      this.mapsAPILoader.load().then(() => {
-        const result: GeoResult[] = [];
-        const displaySuggestions = (
-          results: GeoResult[],
-          status: google.maps.GeocoderStatus
-        ) => {
-          if (status !== google.maps.GeocoderStatus.OK) {
+      this.mapsAPILoader
+        .load()
+        .then(() => {
+          const result: GeoResult[] = [];
+          const displaySuggestions = (
+            results: GeoResult[],
+            status: google.maps.GeocoderStatus
+          ) => {
+            if (status !== google.maps.GeocoderStatus.OK) {
+              this.progress.decrease();
+              return observer.error(status);
+            }
+
+            results.forEach(prediction => {
+              result.push(prediction);
+            });
+
             this.progress.decrease();
+            observer.next(result);
+            observer.complete();
+          };
 
-            return observer.error(status);
-          }
-
-          results.forEach(prediction => {
-            result.push(prediction);
-          });
-
+          const geoService = new google.maps.Geocoder();
+          geoService.geocode(
+            { location: new google.maps.LatLng(query.lat, query.lng) },
+            displaySuggestions
+          );
+        })
+        .catch(err => {
           this.progress.decrease();
-          observer.next(result);
-          observer.complete();
-        };
-
-        const geoService = new google.maps.Geocoder();
-        geoService.geocode(
-          { location: new google.maps.LatLng(query.lat, query.lng) },
-          displaySuggestions
-        );
-      });
+          return observer.error(err);
+        });
     });
   }
 }
