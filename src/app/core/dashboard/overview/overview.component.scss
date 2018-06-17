@@ -20,3 +20,13 @@
 .hidden {
   display: none;
 }
+
+.pictures {
+  display: inline-block;
+  margin: 6px;
+
+  img {
+    max-width: 80px;
+    max-height: 80px;
+  }
+}

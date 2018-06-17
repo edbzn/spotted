@@ -6,10 +6,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
 import { MatStepper } from '@angular/material';
+import { UploadService } from '../../upload.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'spt-overview',
@@ -51,6 +53,11 @@ export class OverviewComponent implements OnInit {
   spotFormSubmitted: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
 
   /**
+   * Uploaded pictures
+   */
+  pictures: string[] = [];
+
+  /**
    * Form valid
    */
   get valid(): boolean {
@@ -72,7 +79,11 @@ export class OverviewComponent implements OnInit {
     return this.spotForm.get('media') as FormGroup;
   }
 
-  constructor(private fb: FormBuilder, public spotsService: SpotsService) {}
+  constructor(
+    private fb: FormBuilder,
+    public spotsService: SpotsService,
+    public upload: UploadService
+  ) {}
 
   ngOnInit() {
     this.spotForm = this.fb.group({
@@ -90,8 +101,8 @@ export class OverviewComponent implements OnInit {
         longitude: ['', Validators.required],
       }),
       media: this.fb.group({
-        pictures: this.fb.array([]),
-        videos: this.fb.array([]),
+        pictures: [[], Validators.required],
+        videos: [[]],
       }),
     });
   }
@@ -105,7 +116,7 @@ export class OverviewComponent implements OnInit {
     const spot: Api.Spot = { id: 1, ...value }; // <- temporary id overwritten in SpotService
     this.spotsService.add(spot);
     this.spotFormSubmitted.emit(spot);
-    this.spotForm.reset();
+    this.reset();
   }
 
   trackByFn(i: number, spot: Api.Spot): string {
@@ -122,7 +133,15 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  onFileAdded(event): void {
-    console.log(event);
+  onFileAdded(event: Event): void {
+    this.upload.file(event).subscribe(path => {
+      this.pictures.push(path);
+      this.media.get('pictures').setValue(this.pictures);
+    });
+  }
+
+  private reset(): void {
+    this.pictures = [];
+    this.spotForm.reset();
   }
 }
