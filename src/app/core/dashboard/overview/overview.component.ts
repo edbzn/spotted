@@ -124,7 +124,7 @@ export class OverviewComponent implements OnInit {
     this.spotForm = this.fb.group({
       name: '',
       description: '',
-      difficulty: '',
+      difficulty: ['', Validators.required],
       type: ['', Validators.required],
       disciplines: [[], Validators.required],
       location: this.fb.group({
@@ -200,5 +200,13 @@ export class OverviewComponent implements OnInit {
     this.pictures = [];
     this.spotForm.reset();
     this.removeHelpMarker.emit();
+  }
+
+  descriptionCompleted(): boolean {
+    return (
+      this.spotForm.get('disciplines').valid &&
+      this.spotForm.get('type').valid &&
+      this.spotForm.get('difficulty').valid
+    );
   }
 }
