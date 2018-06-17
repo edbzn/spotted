@@ -1,171 +1,183 @@
-<mat-tab-group [(selectedIndex)]="selectedTab">
+<mat-tab-group [(selectedIndex)]="selectedTab"
+  class="group">
   <mat-tab>
     <ng-template mat-tab-label>
-
-      <mat-icon>location_on</mat-icon>
+      <mat-icon class="mr">location_on</mat-icon>
       {{ 'overview.spotsAround' | translate }}
     </ng-template>
-    <mat-card class="spot"
-      *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
-      <mat-card-header>
-        <mat-card-title *ngIf="spot.name">{{ spot.name }}</mat-card-title>
-        <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>
-      </mat-card-header>
-      <div mat-card-image>
-        <ngu-carousel [inputs]="carousel">
-          <ngu-tile NguCarouselItem
-            *ngFor="let picture of spot.media.pictures"
-            [style.backgroundImage]="'url(' + picture + ')'"
-            class="spot-carousel-item">
-          </ngu-tile>
-          <button mat-icon-button
-            NguCarouselPrev
-            class="left-arrow"
-            (click)="onCarouselMove($event, spot)">
-            <mat-icon>arrow_left</mat-icon>
-          </button>
-          <button mat-icon-button
-            NguCarouselNext
-            class="right-arrow"
-            (click)="onCarouselMove($event, spot)">
-            <mat-icon>arrow_right</mat-icon>
-          </button>
-        </ngu-carousel>
-      </div>
-      <mat-card-content *ngIf="spot.description">
-        <p>{{ spot.description }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button
-          disabled>Like</button>
-        <button mat-button
-          disabled>Detail</button>
-      </mat-card-actions>
-    </mat-card>
+    <div class="wrapper">
+      <mat-card class="spot"
+        *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
+        <mat-card-header>
+          <mat-card-title *ngIf="spot.name">{{ spot.name }}</mat-card-title>
+          <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>
+        </mat-card-header>
+        <div mat-card-image>
+          <ngu-carousel [inputs]="carousel">
+            <ngu-tile NguCarouselItem
+              *ngFor="let picture of spot.media.pictures"
+              [style.backgroundImage]="'url(' + picture + ')'"
+              class="spot-carousel-item">
+            </ngu-tile>
+            <button mat-icon-button
+              NguCarouselPrev
+              class="left-arrow"
+              (click)="onCarouselMove($event, spot)">
+              <mat-icon>arrow_left</mat-icon>
+            </button>
+            <button mat-icon-button
+              NguCarouselNext
+              class="right-arrow"
+              (click)="onCarouselMove($event, spot)">
+              <mat-icon>arrow_right</mat-icon>
+            </button>
+          </ngu-carousel>
+        </div>
+        <mat-card-content *ngIf="spot.description">
+          <p>{{ spot.description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button
+            disabled>Like</button>
+          <button mat-button
+            disabled>Detail</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon>add_location</mat-icon>
+      <mat-icon class="mr">add_location</mat-icon>
       {{ 'overview.addSpot' | translate }}
     </ng-template>
-    <section class="p0">
-      <form [formGroup]="spotForm"
-        (submit)="createSpot()"
-        novalidate>
-        <mat-vertical-stepper #stepper>
-          <mat-step>
-            <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
-            <mat-form-field class="full-width">
-              <input matInput
-                type="text"
-                placeholder="{{ 'overview.addSpotForm.name' | translate }}"
-                formControlName="name">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-              <mat-select multiple
-                placeholder="Disciplines"
-                formControlName="disciplines">
-                <mat-option *ngFor="let discipline of disciplines"
-                  [value]="discipline">
-                  {{ discipline }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Type"
-                formControlName="type">
-                <mat-option *ngFor="let type of types"
-                  [value]="type">
-                  {{ type }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-radio-group class="full-width"
-              formControlName="difficulty">
-              <mat-radio-button class="radio"
-                *ngFor="let difficulty of difficulties"
-                [value]="difficulty">
-                {{ difficulty }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
-            <ngu-carousel [inputs]="carousel"
-              *ngIf="pictures.length > 0">
-              <ngu-tile NguCarouselItem
-                *ngFor="let picture of pictures"
-                [style.backgroundImage]="'url(' + picture + ')'"
-                class="spot-carousel-item upload-carousel-item">
-              </ngu-tile>
-              <button mat-icon-button
-                NguCarouselPrev
-                class="left-arrow">
-                <mat-icon>arrow_left</mat-icon>
-              </button>
-              <button mat-icon-button
-                NguCarouselNext
-                class="right-arrow">
-                <mat-icon>arrow_right</mat-icon>
-              </button>
-            </ngu-carousel>
-            <div>
-              <button (click)="fileInput.click()"
-                mat-raised-button>
-                <mat-icon>photo</mat-icon>
-                <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
-                <input #fileInput
-                  accept=".png,.jpg"
-                  type="file"
-                  (change)="onFileAdded($event)"
-                  class="hidden" />
-              </button>
-            </div>
-          </mat-step>
-          <mat-step [stepControl]="location">
-            <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
-            <mat-card>
-              <mat-card-content class="help-card">
-                <mat-icon>help</mat-icon> {{ 'overview.help' | translate }}
-              </mat-card-content>
-            </mat-card>
-            <div [formGroup]="location">
+    <div class="wrapper">
+      <section class="p0">
+        <form [formGroup]="spotForm"
+          (submit)="createSpot()"
+          novalidate>
+          <mat-vertical-stepper class="steps"
+            #stepper>
+            <mat-step completed="true">
+              <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
               <mat-form-field class="full-width">
                 <input matInput
-                  type="address"
-                  placeholder="{{ 'overview.addSpotForm.address' | translate }}"
-                  formControlName="address">
+                  type="text"
+                  placeholder="{{ 'overview.addSpotForm.name' | translate }}"
+                  formControlName="name">
               </mat-form-field>
               <mat-form-field class="full-width">
-                <input matInput
-                  type="number"
-                  placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
-                  formControlName="latitude">
+                <mat-select multiple
+                  placeholder="Disciplines"
+                  formControlName="disciplines">
+                  <mat-option *ngFor="let discipline of disciplines"
+                    [value]="discipline">
+                    {{ discipline }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
               <mat-form-field class="full-width">
-                <input matInput
-                  type="number"
-                  placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
-                  formControlName="longitude">
+                <mat-select placeholder="Type"
+                  formControlName="type">
+                  <mat-option *ngFor="let type of types"
+                    [value]="type">
+                    {{ type }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
-            </div>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
-            <button mat-button
-              type="button"
-              (click)="reset()">
-              {{ 'overview.addSpotForm.reset' | translate }}
-            </button>
-            <button mat-raised-button
-              [disabled]="!valid"
-              color="primary"
-              type="submit">
-              {{ 'overview.addSpotForm.submit' | translate }}
-            </button>
-          </mat-step>
-        </mat-vertical-stepper>
-      </form>
-    </section>
+              <mat-radio-group class="full-width"
+                formControlName="difficulty">
+                <mat-radio-button class="radio"
+                  *ngFor="let difficulty of difficulties"
+                  [value]="difficulty">
+                  {{ difficulty }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
+              <ngu-carousel class="mb"
+                [inputs]="carousel"
+                *ngIf="pictures.length > 0; else placeholder">
+                <ngu-tile NguCarouselItem
+                  *ngFor="let picture of pictures"
+                  [style.backgroundImage]="'url(' + picture + ')'"
+                  class="spot-carousel-item upload-carousel-item">
+                </ngu-tile>
+                <button mat-icon-button
+                  NguCarouselPrev
+                  class="left-arrow">
+                  <mat-icon>arrow_left</mat-icon>
+                </button>
+                <button mat-icon-button
+                  NguCarouselNext
+                  class="right-arrow">
+                  <mat-icon>arrow_right</mat-icon>
+                </button>
+              </ngu-carousel>
+              <ng-template #placeholder>
+                <div class="spot-carousel-item upload-carousel-item mb">
+                  {{ 'overview.addSpotForm.uploadPlaceholder' | translate }}
+                </div>
+              </ng-template>
+              <div>
+                <button (click)="fileInput.click()"
+                  mat-raised-button>
+                  <mat-icon>photo</mat-icon>
+                  <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
+                  <input #fileInput
+                    accept=".png,.jpg"
+                    type="file"
+                    (change)="onFileAdded($event)"
+                    class="hidden" />
+                </button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="location">
+              <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
+              <mat-card class="mb">
+                <mat-card-content class="help-card">
+                  <mat-icon>help</mat-icon> {{ 'overview.help' | translate }}
+                </mat-card-content>
+              </mat-card>
+              <div [formGroup]="location">
+                <mat-form-field class="full-width">
+                  <input matInput
+                    type="address"
+                    placeholder="{{ 'overview.addSpotForm.address' | translate }}"
+                    formControlName="address">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                  <input matInput
+                    type="number"
+                    placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
+                    formControlName="latitude">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                  <input matInput
+                    type="number"
+                    placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
+                    formControlName="longitude">
+                </mat-form-field>
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
+              <button mat-button
+                class="mr"
+                type="button"
+                (click)="reset()">
+                {{ 'overview.addSpotForm.reset' | translate }}
+              </button>
+              <button mat-raised-button
+                [disabled]="!valid"
+                color="primary"
+                type="submit">
+                {{ 'overview.addSpotForm.submit' | translate }}
+              </button>
+            </mat-step>
+          </mat-vertical-stepper>
+        </form>
+      </section>
+    </div>
   </mat-tab>
 </mat-tab-group>

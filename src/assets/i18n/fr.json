@@ -28,7 +28,8 @@
       "difficulty": "difficulté",
       "disciplines": "disciplines",
       "type": "type",
-      "submit": "Ajouter un spot",
+      "uploadPlaceholder": "Veuillez télécharger au moins une photo",
+      "submit": "Ajouter le spot",
       "reset": "Effacer"
     }
   }
