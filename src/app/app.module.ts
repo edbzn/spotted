@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { GooglePlacesService } from './core/google-places.service';
+import { GeocoderService } from './core/geocoder.service';
 import { StorageService } from './core/storage.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -74,7 +74,7 @@ import { UploadService } from './core/upload.service';
     ProgressBarService,
     StorageService,
     UploadService,
-    GooglePlacesService,
+    GeocoderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,

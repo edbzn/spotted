@@ -5,7 +5,7 @@ import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
 import { MatStepper } from '@angular/material';
 import { UploadService } from '../../upload.service';
-import { GooglePlacesService } from '../../google-places.service';
+import { GeocoderService } from '../../geocoder.service';
 import { Subject } from 'rxjs';
 import {
   flatMap,
@@ -87,7 +87,7 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private googlePlaces: GooglePlacesService,
+    private googlePlaces: GeocoderService,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -164,7 +164,7 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  private reset(): void {
+  reset(): void {
     this.pictures = [];
     this.spotForm.reset();
   }

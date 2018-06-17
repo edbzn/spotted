@@ -8,10 +8,7 @@ import {
   marker,
   icon,
   IconOptions,
-  Icon,
   latLng,
-  DragEndEvent,
-  LeafletEvent,
   LeafletMouseEvent,
 } from 'leaflet';
 import {

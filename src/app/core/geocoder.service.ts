@@ -4,12 +4,11 @@ import { Observable } from 'rxjs';
 import { LatLng } from 'leaflet';
 import {} from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
-import { distinctUntilChanged, debounceTime } from 'rxjs/internal/operators';
 
 type GeoResult = google.maps.GeocoderResult;
 
 @Injectable({ providedIn: 'root' })
-export class GooglePlacesService {
+export class GeocoderService {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private progress: ProgressBarService
