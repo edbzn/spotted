@@ -1,17 +1,18 @@
 import { LatLng } from 'leaflet';
-import {
-  Component,
-  OnInit,
-  ViewRef,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
 import { MatStepper } from '@angular/material';
 import { UploadService } from '../../upload.service';
+import { GooglePlacesService } from '../../google-places.service';
 import { Subject } from 'rxjs';
+import {
+  flatMap,
+  tap,
+  distinctUntilChanged,
+  debounceTime,
+} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'spt-overview',
@@ -58,6 +59,11 @@ export class OverviewComponent implements OnInit {
   pictures: string[] = [];
 
   /**
+   *
+   */
+  fillSpotFormHandler = new Subject<LatLng>();
+
+  /**
    * Form valid
    */
   get valid(): boolean {
@@ -81,6 +87,7 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private googlePlaces: GooglePlacesService,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -94,9 +101,7 @@ export class OverviewComponent implements OnInit {
       disciplines: [[], Validators.required],
       location: this.fb.group({
         address: ['', Validators.required],
-        city: ['', Validators.required],
-        postalCode: ['', Validators.required],
-        country: ['', Validators.required],
+        placeId: [''],
         latitude: ['', Validators.required],
         longitude: ['', Validators.required],
       }),
@@ -105,6 +110,27 @@ export class OverviewComponent implements OnInit {
         videos: [[]],
       }),
     });
+
+    this.fillSpotFormHandler
+      .pipe(
+        tap(latLng => {
+          this.location.patchValue({
+            latitude: latLng.lat,
+            longitude: latLng.lng,
+          });
+        }),
+        distinctUntilChanged(),
+        debounceTime(400),
+        flatMap(latLng => this.googlePlaces.search(latLng)),
+        tap(results => {
+          const nearest = results[0];
+          const address = nearest.formatted_address;
+          const placeId = nearest.place_id;
+
+          this.location.patchValue({ address, placeId });
+        })
+      )
+      .subscribe();
   }
 
   createSpot(): void {
@@ -128,9 +154,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fillSpotForm(latLng: LatLng): void {
-    this.spotForm.patchValue({
-      location: { latitude: latLng.lat, longitude: latLng.lng },
-    });
+    this.fillSpotFormHandler.next(latLng);
   }
 
   onFileAdded(event: Event): void {

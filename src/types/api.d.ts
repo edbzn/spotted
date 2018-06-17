@@ -16,9 +16,7 @@ export declare namespace Api {
   interface Location {
     latitude: number;
     longitude: number;
-    country: string;
-    postalCode: number;
-    city: string;
+    placeId: string;
     address: string;
   }
 
