@@ -57,7 +57,7 @@
           novalidate>
           <mat-vertical-stepper class="steps"
             #stepper>
-            <mat-step completed="true">
+            <mat-step [completed]="descriptionCompleted()">
               <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
               <mat-form-field class="full-width">
                 <input matInput
@@ -93,7 +93,7 @@
                 </mat-radio-button>
               </mat-radio-group>
             </mat-step>
-            <mat-step>
+            <mat-step [completed]="media.valid">
               <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
               <ngu-carousel class="mb"
                 [inputs]="carousel"
@@ -132,7 +132,8 @@
                 </button>
               </div>
             </mat-step>
-            <mat-step [stepControl]="location">
+            <mat-step [stepControl]="location"
+              [completed]="location.valid">
               <ng-template matStepLabel>{{ 'overview.stepper.location' | translate }}</ng-template>
               <mat-card class="mb">
                 <mat-card-content class="help-card">
