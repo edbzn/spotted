@@ -235,7 +235,7 @@ export class MapComponent implements OnInit {
         this.spotAdded.emit(latitudeLongitudeChange);
 
         helpMarker.on('dragend', () => {
-          this.setPosition(latitudeLongitude);
+          this.setPosition(latLng(lat, lng));
         });
       }
     });
