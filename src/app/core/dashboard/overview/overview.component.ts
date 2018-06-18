@@ -1,19 +1,25 @@
 import { LatLng, latLng } from 'leaflet';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  OnDestroy,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
 import { MatStepper } from '@angular/material';
 import { UploadService } from '../../upload.service';
 import { GeocoderService } from '../../geocoder.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import {
   flatMap,
   tap,
   distinctUntilChanged,
   debounceTime,
 } from 'rxjs/internal/operators';
-import { NguCarouselStore, NguCarousel } from '@ngu/carousel';
+import { NguCarousel } from '@ngu/carousel';
 import { appConfiguration } from '../../../app-config';
 
 @Component({
@@ -21,7 +27,7 @@ import { appConfiguration } from '../../../app-config';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   /**
    * Form ref
    */
@@ -71,6 +77,11 @@ export class OverviewComponent implements OnInit {
    * Handle automatic form filling and query Geocoder API with given LatLng
    */
   fillSpotFormHandler = new Subject<LatLng>();
+
+  /**
+   * Handler subscription
+   */
+  fillSpotFormSub: Subscription;
 
   /**
    * Carousel options
@@ -138,7 +149,7 @@ export class OverviewComponent implements OnInit {
       }),
     });
 
-    this.fillSpotFormHandler
+    this.fillSpotFormSub = this.fillSpotFormHandler
       .pipe(
         tap(latitudeLongitude => {
           this.location.patchValue({
@@ -158,6 +169,10 @@ export class OverviewComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.fillSpotFormSub.unsubscribe();
   }
 
   createSpot(): void {
@@ -194,6 +209,10 @@ export class OverviewComponent implements OnInit {
   }
 
   onCarouselMove(event: any, spot: Api.Spot): void {
+    this.locate(spot);
+  }
+
+  locate(spot: Api.Spot) {
     this.flyTo.emit(latLng(spot.location.latitude, spot.location.longitude));
   }
 
