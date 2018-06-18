@@ -1,17 +1,11 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ProgressBarService } from './progress-bar.service';
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { Api } from 'src/types/api';
-import {
-  Observable,
-  throwError,
-  Observer,
-  BehaviorSubject,
-  Subject,
-  of,
-  from,
-} from 'rxjs';
-import { finalize, flatMap, delay } from 'rxjs/internal/operators';
+import { Observable, from } from 'rxjs';
+import { finalize, flatMap } from 'rxjs/internal/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({ providedIn: 'root' })
 export class UploadService {
@@ -23,7 +17,9 @@ export class UploadService {
 
   constructor(
     private storage: AngularFireStorage,
-    private progress: ProgressBarService
+    private progress: ProgressBarService,
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService
   ) {}
 
   public file(file: File, prefix?: string): Observable<string> {
@@ -38,7 +34,12 @@ export class UploadService {
 
     return from(task.then()).pipe(
       flatMap(() => fileRef.getDownloadURL()),
-      finalize(() => this.progress.decrease())
+      finalize(() => {
+        this.progress.decrease();
+        this.translateService.get(['pictureUploaded']).subscribe(texts => {
+          this.snackBar.open(texts.pictureUploaded, 'OK');
+        });
+      })
     );
   }
 

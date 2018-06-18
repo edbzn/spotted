@@ -2,6 +2,8 @@
   "updateBrowser":
     "Oops, your browser is too old to navigate this page. Please upgrade.",
   "home": "Hello",
+  "pictureUploaded": "Picture uploaded!",
+  "spotCreated": "Your spot is now visible by every one!",
   "map": {
     "addSpotBtn": "Add a spot here"
   },
