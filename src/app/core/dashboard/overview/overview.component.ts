@@ -14,6 +14,7 @@ import {
   debounceTime,
 } from 'rxjs/internal/operators';
 import { NguCarouselStore, NguCarousel } from '@ngu/carousel';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-overview',
@@ -38,21 +39,18 @@ export class OverviewComponent implements OnInit {
 
   /**
    * Disciplines used in form select
-   * @todo move it in a config provider with dynamic mapping
    */
-  disciplines: Api.Disciplines[] = ['BMX', 'roller', 'skate'];
+  disciplines: Api.Disciplines[] = appConfiguration.entities.spot.disciplines;
 
   /**
    * Spot types used in form select
-   * @todo move it in a config provider with dynamic mapping
    */
-  types: Api.Type[] = ['bowl', 'dirt', 'park', 'street', 'street-park'];
+  types: Api.Type[] = appConfiguration.entities.spot.types;
 
   /**
    * Spot difficulty used in form select
-   * @todo move it in a config provider with dynamic mapping
    */
-  difficulties: Api.Difficulty[] = ['hammer', 'pro', 'hard', 'mid', 'low'];
+  difficulties: Api.Difficulty[] = appConfiguration.entities.spot.difficulties;
 
   /**
    * Emit the newly created spot to remove helper marker on the map
@@ -124,6 +122,7 @@ export class OverviewComponent implements OnInit {
     this.spotForm = this.fb.group({
       name: '',
       description: '',
+      indoor: false,
       difficulty: ['', Validators.required],
       type: ['', Validators.required],
       disciplines: [[], Validators.required],
@@ -148,7 +147,7 @@ export class OverviewComponent implements OnInit {
           });
         }),
         distinctUntilChanged(),
-        debounceTime(400),
+        debounceTime(appConfiguration.httpDebounceTime),
         flatMap(latitudeLongitude => this.geocoder.search(latitudeLongitude)),
         tap(results => {
           const nearest = results[0];
