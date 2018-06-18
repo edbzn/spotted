@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
 import { Api } from '../../../../types/api';
-import { MatStepper } from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 import { UploadService } from '../../upload.service';
 import { GeocoderService } from '../../geocoder.service';
 import { Subject, Subscription } from 'rxjs';
@@ -21,6 +21,7 @@ import {
 } from 'rxjs/internal/operators';
 import { NguCarousel } from '@ngu/carousel';
 import { appConfiguration } from '../../../app-config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'spt-overview',
@@ -125,6 +126,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private geocoder: GeocoderService,
+    private translateService: TranslateService,
+    private snackBar: MatSnackBar,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -185,6 +188,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.spotsService.add(spot);
     this.removeHelpMarker.emit();
     this.reset();
+
+    this.translateService.get(['spotCreated']).subscribe(texts => {
+      this.snackBar.open(texts.spotCreated, 'OK');
+    });
   }
 
   trackByFn(i: number, spot: Api.Spot): string {

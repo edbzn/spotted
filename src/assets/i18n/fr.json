@@ -1,6 +1,8 @@
 {
   "updateBrowser":
     "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
+  "pictureUploaded": "Photo téléchargée!",
+  "spotCreated": "Ton spot est maintenant visible pour tout le monde!",
   "home": "Bonjour",
   "map": {
     "addSpotBtn": "Ajouter un spot ici"
