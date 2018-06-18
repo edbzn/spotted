@@ -7,5 +7,12 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'map', component: DashboardComponent },
   { path: '404', component: NotFoundComponent },
+
+  {
+    path: 'user',
+    loadChildren:
+      './core/authentication/authentication.module#AuthenticationModule',
+  },
+
   { path: '**', redirectTo: '404' },
 ];

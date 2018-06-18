@@ -4,6 +4,7 @@ import { StorageService } from './core/storage.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
@@ -47,6 +48,7 @@ import { UploadService } from './core/upload.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireAuthModule,
     LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey,
