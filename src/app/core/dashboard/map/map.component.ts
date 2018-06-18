@@ -23,6 +23,7 @@ import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from 'src/app/core/window.service';
 import { tap } from 'rxjs/internal/operators';
 import { SpotsService } from '../../spots.service';
+import { Api } from 'src/types/api';
 
 @Component({
   selector: 'spt-map',
@@ -58,7 +59,8 @@ export class MapComponent implements OnInit {
   /**
    * Emit the Lat & Lng to create a Spot at the click position
    */
-  @Output() spotAdded: EventEmitter<LatLng> = new EventEmitter<LatLng>();
+  @Output()
+  helpMarkerChanged: EventEmitter<LatLng> = new EventEmitter<LatLng>();
 
   /**
    * The last Point to emit
@@ -174,30 +176,30 @@ export class MapComponent implements OnInit {
   onMapReady(map: Map): void {
     this.map = map;
 
-    // bind spots to marker creation on the map
+    // bind spots to markers
     this.spotsService.spots
       .pipe(
         tap(spots => {
-          spots.forEach(spot => {
-            const latitudeLongitude = new LatLng(
-              spot.location.latitude,
-              spot.location.longitude
-            );
-            const key = latitudeLongitude.toString();
-
-            if (!this.spotsMarked.includes(key)) {
-              const layer = marker(latitudeLongitude, {
-                icon: icon(this.iconConfig),
-              });
-              this.spotsMarked.push(key);
-              this.map.addLayer(layer);
-            }
-          });
+          this.layers = this.mapSpotsToMarkers(spots);
         })
       )
       .subscribe();
   }
 
+  /**
+   * Create markers from spots
+   */
+  mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
+    return spots.map(spot =>
+      marker(new LatLng(spot.location.latitude, spot.location.longitude), {
+        icon: icon(this.iconConfig),
+      })
+    );
+  }
+
+  /**
+   * On right-click display mat menu (@todo desktop-only)
+   */
   onMapClick(event: MouseEvent): void {
     event.preventDefault();
 
@@ -209,7 +211,10 @@ export class MapComponent implements OnInit {
     }
   }
 
-  addSpot(): void {
+  /**
+   * Add helper to create a Spot at the right location
+   */
+  addHelpMarker(): void {
     // ensure one help marker is present at a time
     if (this.helpMarker) {
       this.map.removeLayer(this.helpMarker);
@@ -233,7 +238,7 @@ export class MapComponent implements OnInit {
       if (event.hasOwnProperty('latlng')) {
         const { lat, lng } = event.latlng;
         const latitudeLongitudeChange = latLng(lat, lng);
-        this.spotAdded.emit(latitudeLongitudeChange);
+        this.helpMarkerChanged.emit(latitudeLongitudeChange);
 
         helpMarker.on('dragend', () => {
           this.setPosition(latLng(lat, lng));
@@ -244,7 +249,7 @@ export class MapComponent implements OnInit {
     this.helpMarker = helpMarker;
     this.map.addLayer(helpMarker);
     this.setPosition(latitudeLongitude);
-    this.spotAdded.emit(latitudeLongitude);
+    this.helpMarkerChanged.emit(latitudeLongitude);
   }
 
   removeHelpMarker(): void {
