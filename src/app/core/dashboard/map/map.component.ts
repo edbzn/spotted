@@ -24,6 +24,8 @@ import { WINDOW } from 'src/app/core/window.service';
 import { tap } from 'rxjs/internal/operators';
 import { SpotsService } from '../../spots.service';
 import { Api } from 'src/types/api';
+import { Subscription } from 'rxjs';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-map',
@@ -70,22 +72,22 @@ export class MapComponent implements OnInit {
   /**
    * Map zoom
    */
-  zoom = 15;
+  zoom = appConfiguration.map.zoom;
 
   /**
    * Max zoom that can be reached
    */
-  maxZoom = 20;
+  maxZoom = appConfiguration.map.maxZoom;
 
   /**
    * Latitude
    */
-  lat = 46.879966;
+  lat = appConfiguration.map.latitude;
 
   /**
    * Longitude
    */
-  lng = -121.726909;
+  lng = appConfiguration.map.longitude;
 
   /**
    * Map layers
@@ -148,14 +150,14 @@ export class MapComponent implements OnInit {
   };
 
   /**
-   * Keep markers by spots to only append new marker when spot changes
-   */
-  spotsMarked: string[] = [];
-
-  /**
    * Help marker ref to ensure only one is present
    */
   helpMarker: Layer;
+
+  /**
+   * Spot change subscription
+   */
+  spotChangeSub: Subscription;
 
   /**
    * Lat & Long computed
@@ -177,7 +179,7 @@ export class MapComponent implements OnInit {
     this.map = map;
 
     // bind spots to markers
-    this.spotsService.spots
+    this.spotChangeSub = this.spotsService.spots
       .pipe(
         tap(spots => {
           this.layers = this.mapSpotsToMarkers(spots);

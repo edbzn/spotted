@@ -25,6 +25,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onFlyTo(latLng: LatLng): void {
-    this.map.setPosition(latLng);
+    this.map.setPosition(latLng, 18);
   }
 }
