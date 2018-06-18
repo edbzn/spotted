@@ -12,21 +12,23 @@
     "help": "Clic droit sur la carte pour remplir automatiquement la position",
     "stepper": {
       "media": "Media",
-      "mediaBtn": "Ajouter des photos du spot",
+      "mediaBtn": "Ajouter des photos",
       "description": "Description",
       "location": "Position",
       "done": "Fin"
     },
-    "addSpotForm": {
+    "form": {
       "name": "nom du spot",
+      "description": "description",
+      "indoor": "Intérieure",
       "address": "adresse",
       "country": "pays",
       "city": "ville",
       "postalCode": "code postale",
       "latitude": "lattitude",
       "longitude": "longitude",
-      "difficulty": "difficulté",
-      "disciplines": "disciplines",
+      "difficulty": "Difficulté",
+      "disciplines": "Disciplines",
       "type": "type",
       "uploadPlaceholder": "Veuillez télécharger au moins une photo",
       "submit": "Ajouter le spot",

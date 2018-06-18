@@ -66,9 +66,23 @@
               <mat-form-field class="full-width">
                 <input matInput
                   type="text"
-                  placeholder="{{ 'overview.addSpotForm.name' | translate }}"
+                  placeholder="{{ 'overview.form.name' | translate }}"
                   formControlName="name">
               </mat-form-field>
+              <mat-form-field class="full-width mb">
+                <mat-select placeholder="Type"
+                  formControlName="type">
+                  <mat-option *ngFor="let type of types"
+                    [value]="type">
+                    {{ type }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="full-width mb">
+                <mat-slide-toggle formControlName="indoor">
+                  {{ 'overview.form.indoor' | translate }}
+                </mat-slide-toggle>
+              </div>
               <mat-form-field class="full-width">
                 <mat-select multiple
                   placeholder="Disciplines"
@@ -76,15 +90,6 @@
                   <mat-option *ngFor="let discipline of disciplines"
                     [value]="discipline">
                     {{ discipline }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Type"
-                  formControlName="type">
-                  <mat-option *ngFor="let type of types"
-                    [value]="type">
-                    {{ type }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -122,7 +127,7 @@
               </ngu-carousel>
               <ng-template #placeholder>
                 <div class="spot-carousel-item upload-carousel-item mb">
-                  {{ 'overview.addSpotForm.uploadPlaceholder' | translate }}
+                  {{ 'overview.form.uploadPlaceholder' | translate }}
                 </div>
               </ng-template>
               <div>
@@ -151,19 +156,19 @@
                 <mat-form-field class="full-width">
                   <input matInput
                     type="address"
-                    placeholder="{{ 'overview.addSpotForm.address' | translate }}"
+                    placeholder="{{ 'overview.form.address' | translate }}"
                     formControlName="address">
                 </mat-form-field>
                 <mat-form-field class="full-width">
                   <input matInput
                     type="number"
-                    placeholder="{{ 'overview.addSpotForm.latitude' | translate }}"
+                    placeholder="{{ 'overview.form.latitude' | translate }}"
                     formControlName="latitude">
                 </mat-form-field>
                 <mat-form-field class="full-width">
                   <input matInput
                     type="number"
-                    placeholder="{{ 'overview.addSpotForm.longitude' | translate }}"
+                    placeholder="{{ 'overview.form.longitude' | translate }}"
                     formControlName="longitude">
                 </mat-form-field>
               </div>
@@ -174,13 +179,13 @@
                 class="mr"
                 type="button"
                 (click)="reset()">
-                {{ 'overview.addSpotForm.reset' | translate }}
+                {{ 'overview.form.reset' | translate }}
               </button>
               <button mat-raised-button
                 [disabled]="!valid"
                 color="primary"
                 type="submit">
-                {{ 'overview.addSpotForm.submit' | translate }}
+                {{ 'overview.form.submit' | translate }}
               </button>
             </mat-step>
           </mat-vertical-stepper>

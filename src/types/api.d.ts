@@ -7,9 +7,10 @@ export declare namespace Api {
     difficulty: Difficulty;
     disciplines: Array<Disciplines>;
     location: Location;
+    indoor: boolean;
     media: {
-      pictures: Array<Picture>;
-      videos: Array<Video>;
+      pictures: Array<string>;
+      videos: Array<string>;
     };
   }
 
@@ -20,17 +21,7 @@ export declare namespace Api {
     address: string;
   }
 
-  interface Media {
-    spotId: string;
-    sourceUrl: string;
-    description: string;
-  }
-
-  interface Video extends Media {}
-
-  interface Picture extends Media {}
-
-  type Difficulty = 'low' | 'mid' | 'hard' | 'pro' | 'hammer';
+  type Difficulty = 'low' | 'mid' | 'hard' | 'pro' | 'hammer' | 'mixed';
 
   type Disciplines = 'BMX' | 'skate' | 'roller';
 
