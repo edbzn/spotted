@@ -184,11 +184,13 @@ export class OverviewComponent implements OnInit {
     this.fillSpotFormHandler.next(latitudeLongitude);
   }
 
-  onFileAdded(event: Event): void {
-    this.upload.file(event).subscribe(path => {
-      this.pictures.push(path);
-      this.media.get('pictures').patchValue(this.pictures);
-    });
+  onFileAdded(event: any): void {
+    if (event && event.target.files) {
+      this.upload.file(event.target.files[0]).subscribe(path => {
+        this.pictures.push(path);
+        this.media.get('pictures').patchValue(this.pictures);
+      });
+    }
   }
 
   onCarouselMove(event: any, spot: Api.Spot): void {
