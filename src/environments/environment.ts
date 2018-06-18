@@ -4,6 +4,7 @@ import { Environment } from './model';
 
 export const environment: Environment = {
   production: false,
+  hmr: true,
   showDevModule: true,
   /**
    * Angular debug tools in the dev console

@@ -64,6 +64,13 @@
             "browserTarget": "spotted:build"
           },
           "configurations": {
+            "hmr": {
+              "aot": true,
+              "hmr": true,
+              "hmrWarning": false,
+              "liveReload": true,
+              "progress": true
+            },
             "production": {
               "browserTarget": "spotted:build:production"
             }
