@@ -26,14 +26,9 @@ export class UploadService {
     private progress: ProgressBarService
   ) {}
 
-  public file(event: any, prefix?: string): Observable<string> {
-    if (event instanceof Event === false) {
-      return throwError(`first argument of uploadFile must be an Event type`);
-    }
-
+  public file(file: File, prefix?: string): Observable<string> {
     this.progress.increase();
 
-    const file = event.target.files[0];
     const hash = new Date().getTime();
     const filePath = `${this.path}${prefix || 'spot-media'}-${hash}`;
     const fileRef = this.storage.ref(filePath);
