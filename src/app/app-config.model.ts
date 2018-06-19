@@ -1,7 +1,9 @@
+import { Language } from './../types/global.d';
 import { Api } from '../types/api';
 
 export interface AppConfiguration {
   httpDebounceTime: number;
+  defaultLang: Language;
   map: {
     spotIconUrl: string;
     helpMarker: string;

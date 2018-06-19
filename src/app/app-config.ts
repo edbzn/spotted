@@ -1,8 +1,8 @@
-import { Api } from '../types/api';
 import { AppConfiguration } from './app-config.model';
 
 export const appConfiguration: AppConfiguration = {
   httpDebounceTime: 400,
+  defaultLang: 'fr',
   map: {
     spotIconUrl: 'assets/images/spot-marker.png',
     helpMarker: 'assets/images/help-marker.png',
