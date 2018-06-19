@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material';
 import { ProgressBarService } from './core/progress-bar.service';
 import { Language } from '../types/global';
 import { Title, Meta } from '@angular/platform-browser';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 declare const Modernizr;
 
@@ -33,7 +34,8 @@ export class AppComponent implements AfterViewInit {
     private storage: StorageService,
     private snackBar: MatSnackBar,
     private title: Title,
-    private meta: Meta
+    private meta: Meta,
+    public auth: AngularFireAuth
   ) {}
 
   ngAfterViewInit() {
