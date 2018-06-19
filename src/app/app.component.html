@@ -9,12 +9,21 @@
       </a>
 
       <div class="pull-right">
-        <a mat-stroked-button
-          [routerLink]=" ['./user/login'] "
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon>account_circle</mat-icon> {{ 'connection' | translate }}
-        </a>
+
+        <div *ngIf="auth.user | async as user; else showLogin">
+          <h1>Hello {{ user.displayName }}!</h1>
+          <button mat-button>Logout</button>
+        </div>
+
+        <ng-template #showLogin>
+          <a mat-stroked-button
+            [routerLink]=" ['./user/login'] "
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon>account_circle</mat-icon> {{ 'connection' | translate }}
+          </a>
+        </ng-template>
+
         <button mat-icon-button
           [matMenuTriggerFor]="matmenu">
           <mat-icon>public</mat-icon>

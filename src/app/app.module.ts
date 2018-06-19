@@ -26,6 +26,7 @@ import { TimingInterceptor } from './shared/timing.interceptor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from './app.translate.factory';
 import { UploadService } from './core/upload.service';
+import { AuthGuard } from './core/authentication/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { UploadService } from './core/upload.service';
     StorageService,
     UploadService,
     GeocoderService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
