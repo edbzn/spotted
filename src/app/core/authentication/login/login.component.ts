@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           this.snackBar.open('Vous êtes maintenant connecté', 'ok', {
             duration: 4000,
           });
-          this.router.navigate(['preparation']);
+          this.router.navigate(['/']);
         },
         err => {
           this.snackBar.open(`Une erreur s'est produite`, 'ok', {

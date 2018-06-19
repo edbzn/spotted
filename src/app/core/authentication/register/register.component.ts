@@ -15,16 +15,16 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  loginForm: FormGroup;
+  registerForm: FormGroup;
 
   @ViewChild('emailInput') emailInput;
 
   get email(): FormControl {
-    return this.loginForm.get('email') as FormControl;
+    return this.registerForm.get('email') as FormControl;
   }
 
   get password(): FormControl {
-    return this.loginForm.get('password') as FormControl;
+    return this.registerForm.get('password') as FormControl;
   }
 
   constructor(
@@ -35,30 +35,28 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) {
+    if (this.registerForm.invalid) {
       return this.snackBar.open('Veuillez remplir correctement le formulaire.');
     }
 
     this.snackBar.open('Connection...');
 
     this.auth.auth
-      .signInAndRetrieveDataWithEmailAndPassword(
-        this.email.value,
-        this.password.value
-      )
+      .createUserWithEmailAndPassword(this.email.value, this.password.value)
       .then(
         token => {
           this.snackBar.open('Vous êtes maintenant connecté', 'ok', {
             duration: 4000,
           });
-          this.router.navigate(['preparation']);
+          this.router.navigate(['/']);
         },
         err => {
           this.snackBar.open(`Une erreur s'est produite`, 'ok', {

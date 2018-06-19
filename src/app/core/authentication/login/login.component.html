@@ -11,13 +11,13 @@
       <mat-form-field class="input-full-width">
         <input matInput
           autofocus
-          placeholder="Email"
+          placeholder="{{ 'user.register.name' | translate }}"
           type="email"
           formControlName="email">
       </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
-          placeholder="Mot de passe"
+          placeholder="{{ 'user.register.password' | translate }}"
           type="password"
           formControlName="password">
       </mat-form-field>
@@ -25,12 +25,11 @@
     <mat-card-actions>
       <a mat-button
         color="primary"
-        class="pull-right">
+        [routerLink]="['/user/register']">
         {{ 'register' | translate }}
       </a>
       <button mat-raised-button
         color="primary"
-        class="pull-right"
         type="submit"
         [disabled]="loginForm.pristine || loginForm.invalid">
         {{ 'connection' | translate }}

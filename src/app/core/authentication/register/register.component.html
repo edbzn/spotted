@@ -1,13 +1,19 @@
 <form class="wrapper"
-  [formGroup]="loginForm"
+  [formGroup]="registerForm"
   novalidate
   (submit)="onSubmit()">
   <mat-card class="login">
-    <mat-card-title>{{ 'connection' | translate }}</mat-card-title>
+    <mat-card-title>{{ 'register' | translate }}</mat-card-title>
     <div class="image"
       mat-card-image
       [style.backgroundImage]="'url(assets/images/home.jpeg)'"></div>
     <mat-card-content>
+      <mat-form-field class="input-full-width">
+        <input matInput
+          placeholder="{{ 'user.register.name' | translate }}"
+          type="text"
+          formControlName="name">
+      </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
           autofocus
@@ -17,7 +23,7 @@
       </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
-          placeholder="Mot de passe"
+          placeholder="{{ 'user.register.password' | translate }}"
           type="password"
           formControlName="password">
       </mat-form-field>
@@ -25,14 +31,13 @@
     <mat-card-actions>
       <a mat-button
         color="primary"
-        class="pull-right">
+        [routerLink]="['/user/login']">
         {{ 'connexion' | translate }}
       </a>
       <button mat-raised-button
         color="primary"
-        class="pull-right"
         type="submit"
-        [disabled]="loginForm.pristine || loginForm.invalid">
+        [disabled]="registerForm.pristine || registerForm.invalid">
         {{ 'register' | translate }}
       </button>
     </mat-card-actions>
