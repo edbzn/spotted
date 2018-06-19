@@ -4,6 +4,8 @@ import { AppConfiguration } from './app-config.model';
 export const appConfiguration: AppConfiguration = {
   httpDebounceTime: 400,
   map: {
+    spotIconUrl: 'assets/images/spot-marker.png',
+    helpMarker: 'assets/images/help-marker.png',
     latitude: 46.879966,
     longitude: -121.726909,
     zoom: 15,

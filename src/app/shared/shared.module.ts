@@ -1,35 +1,61 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { LOCALE_ID, NgModule, SkipSelf, Optional } from '@angular/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { throwIfAlreadyLoaded } from '../module-import-guard';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateService,
+} from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../app.translate.factory';
+import { StorageService } from '../core/storage.service';
 
 const sharedModules = [
-  BrowserModule,
+  CommonModule,
   FormsModule,
   ReactiveFormsModule,
   HttpClientModule,
-  BrowserAnimationsModule,
-  CommonModule,
   MaterialModule,
+  TranslateModule,
+];
+
+const providers = [
+  {
+    provide: TranslateLoader,
+    useFactory: HttpLoaderFactory,
+    deps: [HttpClient],
+  },
+  TranslateService,
 ];
 
 @NgModule({
   imports: [...sharedModules],
-  providers: [],
+  providers: [...providers],
   declarations: [],
   entryComponents: [],
   exports: [...sharedModules],
 })
 export class SharedModule {
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule: SharedModule
-  ) {
-    throwIfAlreadyLoaded(parentModule, 'SharedModule');
+  constructor(translateService: TranslateService, storage: StorageService) {
+    const defaultLang =
+      storage.get('defaultLang') || translateService.getBrowserLang();
+
+    translateService.setDefaultLang(defaultLang);
+    translateService.use(defaultLang);
+  }
+
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+        TranslateService,
+      ],
+    };
   }
 }

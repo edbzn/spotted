@@ -18,6 +18,7 @@ import {
   ViewChild,
   EventEmitter,
   Output,
+  OnDestroy,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from 'src/app/core/window.service';
@@ -32,7 +33,7 @@ import { appConfiguration } from '../../../app-config';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
   /**
    * Map ref
    */
@@ -122,9 +123,9 @@ export class MapComponent implements OnInit {
    * Icon config for markers
    */
   iconConfig: IconOptions = {
-    iconSize: [30, 30],
-    iconAnchor: [30, 30],
-    iconUrl: 'assets/images/std-spot-marker.png',
+    iconSize: [42, 42],
+    iconAnchor: [42, 42],
+    iconUrl: appConfiguration.map.spotIconUrl,
   };
 
   /**
@@ -173,6 +174,10 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.tryBrowserGeoLocalization();
+  }
+
+  ngOnDestroy(): void {
+    this.spotChangeSub.unsubscribe();
   }
 
   onMapReady(map: Map): void {
@@ -225,7 +230,7 @@ export class MapComponent implements OnInit {
     const latitudeLongitude = this.map.containerPointToLatLng(this.point);
     const helpMarkerOptions: IconOptions = {
       ...this.iconConfig,
-      iconUrl: 'assets/images/create-spot-marker.png',
+      iconUrl: appConfiguration.map.helpMarker,
     };
 
     // create help marker

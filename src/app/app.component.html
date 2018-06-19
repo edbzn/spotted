@@ -11,7 +11,7 @@
       <div class="pull-right">
 
         <div *ngIf="auth.user | async as user; else showLogin">
-          <h1>Hello {{ user.displayName }}!</h1>
+          <h1>{{ 'hello' | translate }}, {{ user.displayName }}!</h1>
           <button mat-button>Logout</button>
         </div>
 
