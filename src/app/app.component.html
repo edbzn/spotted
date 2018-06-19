@@ -5,19 +5,19 @@
         [routerLink]=" ['./'] "
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
-        spotted
+        <h1 *ngIf="auth.user | async as user; else showName">
+          {{ 'hello' | translate }}, {{ user.displayName }}!
+        </h1>
+        <ng-template #showName>spotted</ng-template>
       </a>
-
       <div class="pull-right">
-
-        <div *ngIf="auth.user | async as user; else showLogin">
-          <h1>{{ 'hello' | translate }}, {{ user.displayName }}!</h1>
-          <button mat-button>Logout</button>
-        </div>
-
+        <button mat-button
+          *ngIf="auth.user | async as user; else showLogin">
+          {{ 'logout' | translate }}
+        </button>
         <ng-template #showLogin>
           <a mat-stroked-button
-            [routerLink]=" ['./user/login'] "
+            [routerLink]="['./user/login']"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}">
             <mat-icon>account_circle</mat-icon> {{ 'connection' | translate }}
