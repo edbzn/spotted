@@ -84,6 +84,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
+  logout(): void {
+    this.auth.auth.signOut();
+  }
+
   private checkBrowserFeatures(): boolean {
     let supported = true;
     for (const feature in Modernizr) {
