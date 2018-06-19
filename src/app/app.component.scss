@@ -31,3 +31,14 @@ main {
     margin-right: 12px;
   }
 }
+
+.profile {
+  display: flex;
+  align-items: center;
+  .avatar {
+    margin-right: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+  }
+}
