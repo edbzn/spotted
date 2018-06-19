@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -26,6 +26,8 @@ import { ProgressInterceptor } from './shared/progress.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { TimingInterceptor } from './shared/timing.interceptor';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/app.translate.factory';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,14 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     NotFoundComponent,
   ],
   imports: [
-    SharedModule.forRoot(),
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
     BrowserAnimationsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),

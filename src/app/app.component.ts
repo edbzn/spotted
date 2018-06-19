@@ -44,6 +44,12 @@ export class AppComponent implements AfterViewInit {
     // @todo add meta creation
     this.checkBrowserFeatures();
 
+    const defaultLang =
+      this.storage.get('defaultLang') || this.translateService.getBrowserLang();
+
+    this.translateService.setDefaultLang(defaultLang);
+    this.translateService.use(defaultLang);
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.progressBarService.increase();

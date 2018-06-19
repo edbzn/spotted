@@ -8,6 +8,7 @@ import {
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'spt-login',
