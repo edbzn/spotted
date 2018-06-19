@@ -16,7 +16,6 @@ import {
   MatBadgeModule,
   MatSlideToggleModule,
 } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 const materialModules = [
@@ -42,10 +41,10 @@ const materialModules = [
 ];
 
 @NgModule({
-  imports: [BrowserModule, ...materialModules],
+  imports: [...materialModules],
   providers: [],
   declarations: [],
   entryComponents: [],
-  exports: [BrowserModule, ...materialModules],
+  exports: [...materialModules],
 })
 export class MaterialModule {}

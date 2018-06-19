@@ -1,32 +1,31 @@
 import { AgmCoreModule } from '@agm/core';
-import { GeocoderService } from './core/geocoder.service';
-import { StorageService } from './core/storage.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NguCarouselModule } from '@ngu/carousel';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
-import { DashboardComponent } from './core/dashboard/dashboard.component';
-import { NguCarouselModule } from '@ngu/carousel';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './core/dashboard/map/map.component';
-import { NgModule } from '@angular/core';
-import { NotFoundComponent } from './core/not-found/not-found.component';
-import { OverviewComponent } from './core/dashboard/overview/overview.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { SharedModule } from './shared/shared.module';
-import { SpotsService } from './core/spots.service';
-import { WINDOW_PROVIDERS } from './core/window.service';
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ProgressInterceptor } from './shared/progress.interceptor';
-import { ProgressBarService } from './core/progress-bar.service';
-import { TimingInterceptor } from './shared/timing.interceptor';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from './app.translate.factory';
-import { UploadService } from './core/upload.service';
 import { AuthGuard } from './core/authentication/auth-guard.service';
+import { DashboardComponent } from './core/dashboard/dashboard.component';
+import { MapComponent } from './core/dashboard/map/map.component';
+import { OverviewComponent } from './core/dashboard/overview/overview.component';
+import { GeocoderService } from './core/geocoder.service';
+import { NotFoundComponent } from './core/not-found/not-found.component';
+import { ProgressBarService } from './core/progress-bar.service';
+import { SpotsService } from './core/spots.service';
+import { StorageService } from './core/storage.service';
+import { UploadService } from './core/upload.service';
+import { WINDOW_PROVIDERS } from './core/window.service';
+import { ProgressInterceptor } from './shared/progress.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { TimingInterceptor } from './shared/timing.interceptor';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [
@@ -37,15 +36,9 @@ import { AuthGuard } from './core/authentication/auth-guard.service';
     NotFoundComponent,
   ],
   imports: [
-    SharedModule,
+    SharedModule.forRoot(),
+    BrowserAnimationsModule,
     AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,

@@ -1,3 +1,40 @@
-<p>
-  login works!
-</p>
+<form class="wrapper"
+  [formGroup]="loginForm"
+  novalidate
+  (submit)="onSubmit()">
+  <mat-card class="login">
+    <mat-card-title>{{ 'connection' | translate }}</mat-card-title>
+    <div class="image"
+      mat-card-image
+      [style.backgroundImage]="'url(assets/images/home.jpeg)'"></div>
+    <mat-card-content>
+      <mat-form-field class="input-full-width">
+        <input matInput
+          autofocus
+          placeholder="Email"
+          type="email"
+          formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="input-full-width">
+        <input matInput
+          placeholder="Mot de passe"
+          type="password"
+          formControlName="password">
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button
+        color="primary"
+        class="pull-right">
+        {{ 'register' | translate }}
+      </a>
+      <button mat-raised-button
+        color="primary"
+        class="pull-right"
+        type="submit"
+        [disabled]="loginForm.pristine || loginForm.invalid">
+        {{ 'connection' | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
