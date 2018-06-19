@@ -1,5 +1,11 @@
+import { appConfiguration } from './app-config';
 import { StorageService } from './core/storage.service';
-import { Component, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewEncapsulation,
+  OnInit,
+} from '@angular/core';
 import { environment } from '../environments/environment';
 import {
   NavigationStart,
@@ -22,14 +28,14 @@ declare const Modernizr;
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   progressBarMode: string;
 
   showDevModule: boolean = environment.showDevModule;
 
   constructor(
     private router: Router,
-    private translateService: TranslateService,
+    private translate: TranslateService,
     private progressBarService: ProgressBarService,
     private storage: StorageService,
     private snackBar: MatSnackBar,
@@ -38,18 +44,23 @@ export class AppComponent implements AfterViewInit {
     public auth: AngularFireAuth
   ) {}
 
+  ngOnInit(): void {
+    const langs: Language[] = ['en', 'fr'];
+    this.translate.addLangs(langs);
+    this.translate.setDefaultLang(appConfiguration.defaultLang);
+
+    const fromStorage = this.storage.get('defaultLang');
+    const browserLang = fromStorage || this.translate.getBrowserLang();
+    this.translate.use(
+      browserLang.match(/en|fr/) ? browserLang : appConfiguration.defaultLang
+    );
+  }
+
   ngAfterViewInit() {
     this.title.setTitle('Spotted');
 
     // @todo add meta creation
     this.checkBrowserFeatures();
-
-    const defaultLang =
-      this.storage.get('defaultLang') || this.translateService.getBrowserLang();
-
-    this.translateService.setDefaultLang(defaultLang);
-    this.translateService.use(defaultLang);
-
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.progressBarService.increase();
@@ -68,7 +79,7 @@ export class AppComponent implements AfterViewInit {
 
   changeLanguage(language: Language): void {
     this.storage.store('defaultLang', language);
-    this.translateService.use(language).subscribe(() => {
+    this.translate.use(language).subscribe(() => {
       // @todo load translated menus
     });
   }
@@ -87,7 +98,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     if (!supported) {
-      this.translateService.get(['updateBrowser']).subscribe(texts => {
+      this.translate.get(['updateBrowser']).subscribe(texts => {
         this.snackBar.open(texts['updateBrowser'], 'OK');
       });
     }
