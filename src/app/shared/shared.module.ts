@@ -3,11 +3,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateService,
-} from '@ngx-translate/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export const sharedModules = [
   CommonModule,
@@ -15,6 +11,7 @@ export const sharedModules = [
   ReactiveFormsModule,
   HttpClientModule,
   MaterialModule,
+  FlexLayoutModule,
 ];
 
 @NgModule({
