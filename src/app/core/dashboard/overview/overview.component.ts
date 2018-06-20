@@ -5,6 +5,8 @@ import {
   EventEmitter,
   Output,
   OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../spots.service';
@@ -27,6 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'spt-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewComponent implements OnInit, OnDestroy {
   /**
@@ -128,6 +131,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private geocoder: GeocoderService,
     private translateService: TranslateService,
     private snackBar: MatSnackBar,
+    private changeDetector: ChangeDetectorRef,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -211,6 +215,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       this.upload.file(event.target.files[0]).subscribe(path => {
         this.pictures.push(path);
         this.media.get('pictures').patchValue(this.pictures);
+        this.changeDetector.detectChanges();
       });
     }
   }
