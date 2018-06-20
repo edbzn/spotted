@@ -85,7 +85,9 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   logout(): void {
-    this.auth.auth.signOut();
+    this.auth.auth.signOut().then(() => {
+      this.router.navigateByUrl('/');
+    });
   }
 
   private checkBrowserFeatures(): boolean {
