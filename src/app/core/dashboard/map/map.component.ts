@@ -19,6 +19,8 @@ import {
   EventEmitter,
   Output,
   OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from 'src/app/core/window.service';
@@ -32,6 +34,7 @@ import { appConfiguration } from '../../../app-config';
   selector: 'spt-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements OnInit, OnDestroy {
   /**
@@ -169,7 +172,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private spotsService: SpotsService
+    private spotsService: SpotsService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -190,7 +194,9 @@ export class MapComponent implements OnInit, OnDestroy {
           this.layers = this.mapSpotsToMarkers(spots);
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        this.changeDetector.detectChanges();
+      });
   }
 
   /**
