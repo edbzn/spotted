@@ -14,12 +14,24 @@
           placeholder="Email"
           type="email"
           formControlName="email">
+        <mat-error *ngIf="email.hasError('email')">
+          {{ 'form.validation.email' | translate }}
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required') && !email.hasError('email')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
           placeholder="{{ 'user.register.password' | translate }}"
           type="password"
           formControlName="password">
+        <mat-error *ngIf="password.hasError('minlength')">
+          {{ 'form.validation.minLength' | translate }}
+        </mat-error>
+        <mat-error *ngIf="password.hasError('required') && !password.hasError('minlength')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>

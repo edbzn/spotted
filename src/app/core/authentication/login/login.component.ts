@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TranslateService } from '@ngx-translate/core';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-login',
@@ -32,13 +33,20 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AngularFireAuth,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(appConfiguration.forms.passwordMinLength),
+        ],
+      ],
     });
   }
 
@@ -55,15 +63,15 @@ export class LoginComponent implements OnInit {
         this.password.value
       )
       .then(
-        token => {
-          this.snackBar.open('Vous êtes maintenant connecté', 'ok', {
-            duration: 4000,
+        () => {
+          this.translate.get(['connected']).subscribe(texts => {
+            this.snackBar.open(texts.connected, 'ok');
+            this.router.navigate(['/']);
           });
-          this.router.navigate(['/']);
         },
-        err => {
-          this.snackBar.open(`Une erreur s'est produite`, 'ok', {
-            duration: 4000,
+        () => {
+          this.translate.get(['user.error']).subscribe(texts => {
+            this.snackBar.open(texts['user.error']);
           });
         }
       );

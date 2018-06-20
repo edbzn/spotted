@@ -6,11 +6,21 @@
     "register": "s'inscrire",
     "connection": "connexion",
     "logout": "Se déconnecter",
+    "form": {
+        "validation": {
+            "required": "Ce champs est requis",
+            "minLength": "Ce champs nécessite plus de charactères",
+            "email": "L'email n'est pas valide",
+            "same": "Ce champs n'est pas équivalent au mot de passe"
+        }
+    },
     "map": {
         "addSpotBtn": "Ajouter un spot ici"
     },
+    "connected": "Vous êtes maintenant connecté",
     "user": {
-        "passwordRepeat": "Répéter le mot de passe",
+        "error": "Une erreur s'est produite",
+        "confirmPassword": "Répéter le mot de passe",
         "register": {
             "name": "Nom",
             "password": "Mot de passe"
