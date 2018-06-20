@@ -6,7 +6,6 @@ import { routes } from './app.routes';
   imports: [
     RouterModule.forRoot(routes, {
       useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules,
     }),
   ],
   exports: [RouterModule],
