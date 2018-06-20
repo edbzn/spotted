@@ -9,7 +9,10 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { from } from 'rxjs';
-import { flatMap, mergeMapTo, mergeMap } from 'rxjs/internal/operators';
+import { mergeMapTo, mergeMap } from 'rxjs/internal/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { appConfiguration } from '../../../app-config';
+import { PasswordValidation } from '../../../shared/match-password.validator';
 
 @Component({
   selector: 'spt-register',
@@ -33,28 +36,58 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('password') as FormControl;
   }
 
+  get confirmPassword(): FormControl {
+    return this.registerForm.get('confirmPassword') as FormControl;
+  }
+
   constructor(
     private fb: FormBuilder,
     private auth: AngularFireAuth,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordRepeat: ['', Validators.required],
-    });
+    this.registerForm = this.fb.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.nameMinLength),
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.passwordMinLength),
+          ],
+        ],
+        confirmPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.passwordMinLength),
+          ],
+        ],
+      },
+      { validator: PasswordValidation.MatchPassword }
+    );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.registerForm.invalid) {
-      return this.snackBar.open('Veuillez remplir correctement le formulaire.');
+      // @todo translate
+
+      this.snackBar.open('Veuillez remplir correctement le formulaire.');
+      return;
     }
 
-    this.snackBar.open('Connection...');
+    // @todo translate
+    this.snackBar.open('Connection');
 
     from(
       this.auth.auth.createUserWithEmailAndPassword(
@@ -68,23 +101,21 @@ export class RegisterComponent implements OnInit {
           from(
             user.updateProfile({
               displayName: this.name.value,
-              photoURL:
-                'https://api.adorable.io/avatars/210/abott@adorable.png',
+              photoURL: appConfiguration.defaultPhotoUrl,
             })
           )
         )
       )
       .subscribe(
         () => {
-          this.snackBar.open('Vous êtes maintenant connecté', 'ok', {
-            duration: 4000,
+          this.translate.get(['connected']).subscribe(texts => {
+            this.snackBar.open(texts.connected, 'ok');
+            this.router.navigate(['/']);
           });
-          this.router.navigate(['/']);
         },
-        err => {
-          console.log(err);
-          this.snackBar.open(`Une erreur s'est produite`, 'ok', {
-            duration: 4000,
+        () => {
+          this.translate.get(['user.error']).subscribe(texts => {
+            this.snackBar.open(texts['user.error']);
           });
         }
       );

@@ -6,8 +6,17 @@
     "map": {
         "addSpotBtn": "Add a spot here"
     },
+    "form": {
+        "validation": {
+            "required": "This field is required",
+            "minLength": "This field needs more chars",
+            "email": "Email provided is not valid",
+            "same": "This field must match with the password"
+        }
+    },
     "user": {
-        "passwordRepeat": "Repeat password",
+        "error": "An error occurred",
+        "confirmPassword": "Repeat password",
         "register": {
             "name": "Name",
             "password": "Password"
@@ -15,6 +24,7 @@
     },
     "logout": "Logout",
     "connection": "connection",
+    "connected": "You're now connected",
     "register": "register",
     "overview": {
         "spotsAround": "Around me",

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { PasswordValidation } from '../../../shared/match-password.validator';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-profile',
@@ -12,11 +14,32 @@ export class ProfileComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordRepeat: ['', Validators.required],
-    });
+    this.profileForm = this.fb.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.nameMinLength),
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.passwordMinLength),
+          ],
+        ],
+        confirmPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(appConfiguration.forms.passwordMinLength),
+          ],
+        ],
+      },
+      { validator: PasswordValidation.MatchPassword }
+    );
   }
 }

@@ -3,7 +3,12 @@ import { Api } from '../types/api';
 
 export interface AppConfiguration {
   httpDebounceTime: number;
+  defaultPhotoUrl: string;
   defaultLang: Language;
+  forms: {
+    passwordMinLength: number;
+    nameMinLength: number;
+  };
   map: {
     spotIconUrl: string;
     helpMarker: string;

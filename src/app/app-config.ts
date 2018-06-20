@@ -2,7 +2,12 @@ import { AppConfiguration } from './app-config.model';
 
 export const appConfiguration: AppConfiguration = {
   httpDebounceTime: 400,
+  defaultPhotoUrl: 'https://api.adorable.io/avatars/210/abott@adorable.png',
   defaultLang: 'fr',
+  forms: {
+    passwordMinLength: 5,
+    nameMinLength: 5,
+  },
   map: {
     spotIconUrl: 'assets/images/spot-marker.png',
     helpMarker: 'assets/images/help-marker.png',

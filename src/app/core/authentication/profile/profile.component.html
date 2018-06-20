@@ -10,16 +10,28 @@
     <mat-card-content>
       <mat-form-field class="input-full-width">
         <input matInput
+          autofocus
           placeholder="{{ 'user.register.name' | translate }}"
           type="text"
-          formControlName="name">
+          [formControl]="name">
+        <mat-error *ngIf="name.hasError('minlength')">
+          {{ 'form.validation.minLength' | translate }}
+        </mat-error>
+        <mat-error *ngIf="name.hasError('required') && !name.hasError('minlength')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
-          autofocus
           placeholder="Email"
           type="email"
-          formControlName="email">
+          [formControl]="email">
+        <mat-error *ngIf="email.hasError('email')">
+          {{ 'form.validation.email' | translate }}
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required') && !email.hasError('email')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
@@ -32,13 +44,25 @@
         <input matInput
           placeholder="{{ 'user.register.password' | translate }}"
           type="password"
-          formControlName="password">
+          [formControl]="password">
+        <mat-error *ngIf="password.hasError('minlength')">
+          {{ 'form.validation.minLength' | translate }}
+        </mat-error>
+        <mat-error *ngIf="password.hasError('required') && !password.hasError('minlength')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="input-full-width">
         <input matInput
-          placeholder="{{ 'user.passwordRepeat' | translate }}"
+          placeholder="{{ 'user.confirmPassword' | translate }}"
           type="password"
-          formControlName="passwordRepeat">
+          [formControl]="confirmPassword">
+        <mat-error *ngIf="confirmPassword.hasError('matchPassword')">
+          {{ 'form.validation.same' | translate }}
+        </mat-error>
+        <mat-error *ngIf="confirmPassword.hasError('required') && !confirmPassword.hasError('matchPassword')">
+          {{ 'form.validation.required' | translate }}
+        </mat-error>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
