@@ -1,15 +1,18 @@
+[![Build Status](https://travis-ci.com/Edouardbozon/spotted.svg?branch=develop)](https://travis-ci.com/Edouardbozon/spotted)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 # Spotted
 
 ![Spotted](https://media.giphy.com/media/F3iTD8JI4OPIs/giphy.gif)
 
 ## Prerequisites
 
-* Node >= 8.0.0
-* Npm >= 5.0.0
+- Node >= 8.0.0
+- Npm >= 5.0.0
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
