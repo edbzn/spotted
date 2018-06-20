@@ -1,48 +1,48 @@
 {
-  "updateBrowser":
-    "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
-  "pictureUploaded": "Photo téléchargée!",
-  "spotCreated": "Ton spot est maintenant visible pour tout le monde!",
-  "hello": "Bonjour",
-  "register": "s'inscrire",
-  "connection": "connexion",
-  "logout": "Se déconnecter",
-  "map": {
-    "addSpotBtn": "Ajouter un spot ici"
-  },
-  "user": {
-    "register": {
-      "name": "Nom",
-      "password": "Mot de passe"
-    }
-  },
-  "overview": {
-    "spotsAround": "Aux alentours",
-    "addSpot": "Ajouter un spot",
-    "help": "Clic droit sur la carte pour remplir automatiquement la position",
-    "stepper": {
-      "media": "Media",
-      "mediaBtn": "Ajouter des photos",
-      "description": "Description",
-      "location": "Position",
-      "done": "Fin"
+    "updateBrowser": "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
+    "pictureUploaded": "Photo téléchargée!",
+    "spotCreated": "Ton spot est maintenant visible pour tout le monde!",
+    "hello": "Bonjour",
+    "register": "s'inscrire",
+    "connection": "connexion",
+    "logout": "Se déconnecter",
+    "map": {
+        "addSpotBtn": "Ajouter un spot ici"
     },
-    "form": {
-      "name": "nom du spot",
-      "description": "description",
-      "indoor": "Intérieure",
-      "address": "adresse",
-      "country": "pays",
-      "city": "ville",
-      "postalCode": "code postale",
-      "latitude": "lattitude",
-      "longitude": "longitude",
-      "difficulty": "Difficulté",
-      "disciplines": "Disciplines",
-      "type": "type",
-      "uploadPlaceholder": "Veuillez télécharger au moins une photo",
-      "submit": "Ajouter le spot",
-      "reset": "Effacer"
+    "user": {
+        "passwordRepeat": "Répéter le mot de passe",
+        "register": {
+            "name": "Nom",
+            "password": "Mot de passe"
+        }
+    },
+    "overview": {
+        "spotsAround": "Aux alentours",
+        "addSpot": "Ajouter un spot",
+        "help": "Clic droit sur la carte pour remplir automatiquement la position",
+        "stepper": {
+            "media": "Media",
+            "mediaBtn": "Ajouter des photos",
+            "description": "Description",
+            "location": "Position",
+            "done": "Fin"
+        },
+        "form": {
+            "name": "nom du spot",
+            "description": "description",
+            "indoor": "Intérieure",
+            "address": "adresse",
+            "country": "pays",
+            "city": "ville",
+            "postalCode": "code postale",
+            "latitude": "lattitude",
+            "longitude": "longitude",
+            "difficulty": "Difficulté",
+            "disciplines": "Disciplines",
+            "type": "type",
+            "uploadPlaceholder": "Veuillez télécharger au moins une photo",
+            "submit": "Ajouter le spot",
+            "reset": "Effacer"
+        }
     }
-  }
 }
