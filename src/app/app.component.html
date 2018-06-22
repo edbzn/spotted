@@ -2,7 +2,7 @@
   <div class="toolbar">
     <mat-toolbar>
       <a class="brand"
-        [routerLink]="['./']"
+        [routerLink]="['/']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
         <h1 *ngIf="auth.user | async as user; else showName"
