@@ -3,6 +3,7 @@
     "Firestore",
     "Gmap",
     "Modernizr",
+    "Truthy",
     "latlng"
   ]
 }
