@@ -11,8 +11,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { from } from 'rxjs';
 import { mergeMapTo, mergeMap } from 'rxjs/internal/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { appConfiguration } from '../../../app-config';
-import { PasswordValidation } from '../../../shared/match-password.validator';
+import { appConfiguration } from '../../../../app-config';
+import { PasswordValidation } from '../../../../shared/match-password.validator';
 
 @Component({
   selector: 'spt-register',

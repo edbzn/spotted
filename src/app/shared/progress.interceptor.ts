@@ -6,7 +6,7 @@ import {
   HttpResponse,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { ProgressBarService } from '../core/progress-bar.service';
+import { ProgressBarService } from '../core/services/progress-bar.service';
 import { tap } from 'rxjs/internal/operators';
 import { Observable } from 'rxjs';
 

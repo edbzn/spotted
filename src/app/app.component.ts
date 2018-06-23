@@ -1,5 +1,5 @@
 import { appConfiguration } from './app-config';
-import { StorageService } from './core/storage.service';
+import { StorageService } from './core/services/storage.service';
 import {
   Component,
   AfterViewInit,
@@ -15,7 +15,7 @@ import {
 } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material';
-import { ProgressBarService } from './core/progress-bar.service';
+import { ProgressBarService } from './core/services/progress-bar.service';
 import { Language } from '../types/global';
 import { Title, Meta } from '@angular/platform-browser';
 import { AngularFireAuth } from 'angularfire2/auth';

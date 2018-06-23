@@ -5,8 +5,8 @@ import {
   FormBuilder,
   FormControl,
 } from '@angular/forms';
-import { PasswordValidation } from '../../../shared/match-password.validator';
-import { appConfiguration } from '../../../app-config';
+import { PasswordValidation } from '../../../../shared/match-password.validator';
+import { appConfiguration } from '../../../../app-config';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';

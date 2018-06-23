@@ -5,7 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpLoaderFactory } from '../../app.translate.factory';
+import { HttpLoaderFactory } from '../../../app.translate.factory';
 import { HttpClient } from '@angular/common/http';
 
 @NgModule({

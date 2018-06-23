@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ProgressBarService } from './progress-bar.service';
 import { SpotsService } from './spots.service';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('ProgressBarService', () => {
   let progressBarService;

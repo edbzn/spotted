@@ -1,4 +1,4 @@
-import { Api } from '../../types/api';
+import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {

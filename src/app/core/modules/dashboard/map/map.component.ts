@@ -23,12 +23,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { WINDOW } from 'src/app/core/window.service';
+import { WINDOW } from '../../../services/window.service';
 import { tap } from 'rxjs/internal/operators';
-import { SpotsService } from '../../spots.service';
+import { SpotsService } from '../../../services/spots.service';
 import { Api } from 'src/types/api';
 import { Subscription } from 'rxjs';
-import { appConfiguration } from '../../../app-config';
+import { appConfiguration } from '../../../../app-config';
 
 @Component({
   selector: 'spt-map',

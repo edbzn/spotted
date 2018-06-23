@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -11,34 +11,19 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
-import { AuthGuard } from './core/authentication/auth-guard.service';
-import { DashboardComponent } from './core/dashboard/dashboard.component';
-import { MapComponent } from './core/dashboard/map/map.component';
-import { OverviewComponent } from './core/dashboard/overview/overview.component';
-import { GeocoderService } from './core/geocoder.service';
-import { NotFoundComponent } from './core/not-found/not-found.component';
-import { ProgressBarService } from './core/progress-bar.service';
-import { SpotsService } from './core/spots.service';
-import { StorageService } from './core/storage.service';
-import { UploadService } from './core/upload.service';
-import { WINDOW_PROVIDERS } from './core/window.service';
-import { ProgressInterceptor } from './shared/progress.interceptor';
 import { SharedModule } from './shared/shared.module';
-import { TimingInterceptor } from './shared/timing.interceptor';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.translate.factory';
+import { CoreModule } from './core/core.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    MapComponent,
-    OverviewComponent,
-    NotFoundComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     SharedModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -46,23 +31,6 @@ import { HttpLoaderFactory } from 'src/app/app.translate.factory';
         deps: [HttpClient],
       },
     }),
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireAuthModule,
-    LeafletModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleApiKey,
-      libraries: ['places'],
-    }),
-    NguCarouselModule,
-
-    /**
-     * This section will import the module only in certain build types.
-     */
-    ...(environment.showDevModule ? [] : []),
 
     /**
      * service worker only used in production build
@@ -70,25 +38,11 @@ import { HttpLoaderFactory } from 'src/app/app.translate.factory';
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
-  ],
 
-  providers: [
-    environment.ENV_PROVIDERS,
-    WINDOW_PROVIDERS,
-    SpotsService,
-    ProgressBarService,
-    StorageService,
-    UploadService,
-    GeocoderService,
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ProgressInterceptor,
-      multi: true,
-      deps: [ProgressBarService],
-    },
-    { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
+    CoreModule,
   ],
+  providers: [environment.ENV_PROVIDERS],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

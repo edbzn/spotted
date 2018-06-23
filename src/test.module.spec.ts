@@ -1,4 +1,4 @@
-import { WINDOW_PROVIDERS } from './../core/window.service';
+import { WINDOW_PROVIDERS } from './app/core/services/window.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   TranslateModule,
@@ -6,16 +6,16 @@ import {
   TranslateFakeLoader,
 } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from './material.module';
-import { ProgressBarService } from '../core/progress-bar.service';
-import { StorageService } from '../core/storage.service';
+import { MaterialModule } from './app/shared/material.module';
+import { ProgressBarService } from './app/core/services/progress-bar.service';
+import { StorageService } from './app/core/services/storage.service';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
-import { environment } from '../../environments/environment';
+import { environment } from './environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { angularFireAuthStub } from './auth.test';
+import { angularFireAuthStub } from './auth.spec';
 
 @NgModule({
   imports: [

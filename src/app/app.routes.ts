@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './core/dashboard/dashboard.component';
-import { NotFoundComponent } from './core/not-found/not-found.component';
+import { DashboardComponent } from './core/modules/dashboard/dashboard.component';
+import { NotFoundComponent } from './core/modules/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'user',
     loadChildren:
-      './core/authentication/authentication.module#AuthenticationModule',
+      './core/modules/authentication/authentication.module#AuthenticationModule',
   },
 
   { path: 'not-found', component: NotFoundComponent },
