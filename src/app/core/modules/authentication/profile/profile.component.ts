@@ -12,11 +12,15 @@ import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { from } from 'rxjs';
 import { mergeMap, mergeMapTo, take } from 'rxjs/internal/operators';
+import { fadeAnimation } from '../../../../shared/router-animation';
 
 @Component({
   selector: 'spt-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  animations: [fadeAnimation],
+  // tslint:disable-next-line:use-host-property-decorator
+  host: { '[@fadeAnimation]': '' },
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;

@@ -8,12 +8,16 @@ import {
 import { LatLng } from 'leaflet';
 import { MapComponent } from './map/map.component';
 import { Api } from 'src/types/api';
+import { fadeAnimation } from '../../../shared/router-animation';
 
 @Component({
   selector: 'spt-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeAnimation],
+  // tslint:disable-next-line:use-host-property-decorator
+  host: { '[@fadeAnimation]': '' },
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('map') map: MapComponent;

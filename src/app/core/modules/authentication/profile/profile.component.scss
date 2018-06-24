@@ -1,6 +1,15 @@
 .input-full-width {
   width: 100%;
 }
+
 .card {
   margin: 8px;
+}
+
+.wrapper {
+  height: 100vh;
+}
+
+:host {
+  display: block;
 }

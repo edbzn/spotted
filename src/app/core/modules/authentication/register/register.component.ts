@@ -13,11 +13,15 @@ import { mergeMapTo, mergeMap } from 'rxjs/internal/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../../../app-config';
 import { PasswordValidation } from '../../../../shared/match-password.validator';
+import { fadeAnimation } from '../../../../shared/router-animation';
 
 @Component({
   selector: 'spt-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  animations: [fadeAnimation],
+  // tslint:disable-next-line:use-host-property-decorator
+  host: { '[@fadeAnimation]': '' },
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;

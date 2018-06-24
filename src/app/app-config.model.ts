@@ -5,6 +5,7 @@ export interface AppConfiguration {
   httpDebounceTime: number;
   defaultPhotoUrl: string;
   defaultLang: Language;
+  routerTransitionTiming: number;
   forms: {
     passwordMinLength: number;
     nameMinLength: number;

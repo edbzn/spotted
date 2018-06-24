@@ -4,6 +4,7 @@ export const appConfiguration: AppConfiguration = {
   httpDebounceTime: 400,
   defaultPhotoUrl: 'https://api.adorable.io/avatars/210/abott@adorable.png',
   defaultLang: 'fr',
+  routerTransitionTiming: 0.4, // 400ms,
   forms: {
     passwordMinLength: 5,
     nameMinLength: 5,

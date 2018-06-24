@@ -10,11 +10,15 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../../../app-config';
+import { fadeAnimation } from '../../../../shared/router-animation';
 
 @Component({
   selector: 'spt-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  animations: [fadeAnimation],
+  // tslint:disable-next-line:use-host-property-decorator
+  host: { '[@fadeAnimation]': '' },
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
