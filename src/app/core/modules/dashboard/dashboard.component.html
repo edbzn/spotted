@@ -1,6 +1,7 @@
 <main class="map-wrapper">
   <spt-map #map
-    (helpMarkerChanged)="onHelpMarkerChanged($event)">
+    (helpMarkerChanged)="onHelpMarkerChanged($event)"
+    (spotClicked)="onSpotClick($event)">
   </spt-map>
 </main>
 <aside class="map-overview-wrapper mat-elevation-z5">

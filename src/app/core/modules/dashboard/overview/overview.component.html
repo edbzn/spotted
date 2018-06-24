@@ -9,7 +9,8 @@
     </ng-template>
     <div class="wrapper">
       <mat-card class="spot"
-        *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
+        *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn"
+        [id]="scrollHookClass + spot.id">
         <mat-card-header>
           <mat-card-title *ngIf="spot.name">{{ spot.name }}</mat-card-title>
           <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>

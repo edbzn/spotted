@@ -37,4 +37,8 @@ export class DashboardComponent implements OnInit {
   onFlyTo(latLng: LatLng): void {
     this.map.setPosition(latLng, 18);
   }
+
+  onSpotClick(spot: Api.Spot): void {
+    this.overview.scrollTo(spot);
+  }
 }

@@ -1,3 +1,4 @@
+import { WINDOW } from './../../../services/window.service';
 import { LatLng, latLng } from 'leaflet';
 import {
   Component,
@@ -7,11 +8,13 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  ElementRef,
+  Inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../../services/spots.service';
 import { Api } from '../../../../../types/api';
-import { MatStepper, MatSnackBar } from '@angular/material';
+import { MatStepper, MatSnackBar, MatCardHeader } from '@angular/material';
 import { UploadService } from '../../../services/upload.service';
 import { GeocoderService } from '../../../services/geocoder.service';
 import { Subject, Subscription } from 'rxjs';
@@ -104,6 +107,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
     custom: 'banner',
   };
 
+  scrollHookClass = 'scroll-hook-';
+
   /**
    * Form valid
    */
@@ -127,6 +132,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    @Inject(WINDOW) private window: Window,
+    private elementRef: ElementRef,
     private fb: FormBuilder,
     private geocoder: GeocoderService,
     private translateService: TranslateService,
@@ -240,5 +247,23 @@ export class OverviewComponent implements OnInit, OnDestroy {
       this.spotForm.get('type').valid &&
       this.spotForm.get('difficulty').valid
     );
+  }
+
+  scrollTo(spot: Api.Spot): void {
+    // const wrapper = this.window.document.querySelector('.wrapper');
+    // const offsetTop = this.window.document.getElementById(
+    //   this.scrollHookClass + spot.id
+    // ).offsetTop;
+    // console.log(offsetTop);
+    // wrapper.scrollTop = offsetTop;
+    // wrapper.scrollTo({ top: offsetTop });
+    // { document: this.document, scrollTarget: '.headingClass', scrollingViews: [this.container.nativeElement] }
+    // const scrollTo: PageScrollInstance = PageScrollInstance.newInstance({
+    //   document: this.window.document,
+    //   scrollTarget: '#' + this.scrollHookClass + spot.id,
+    //   scrollingViews,
+    //   verticalScrolling: true,
+    // });
+    // this.pageScrollService.start(scrollTo);
   }
 }
