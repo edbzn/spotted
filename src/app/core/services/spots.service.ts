@@ -41,7 +41,7 @@ export class SpotsService {
    * Add a Spot
    */
   public add(spot: Api.Spot): void {
-    this.spotsCollection.add(spot);
+    this.spotsCollection.add({ ...spot, id: this.db.createId() });
   }
 
   /**
