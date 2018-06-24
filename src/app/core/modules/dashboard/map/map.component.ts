@@ -10,6 +10,7 @@ import {
   IconOptions,
   latLng,
   LeafletMouseEvent,
+  popup,
 } from 'leaflet';
 import {
   Component,
@@ -67,6 +68,11 @@ export class MapComponent implements OnInit, OnDestroy {
    */
   @Output()
   helpMarkerChanged: EventEmitter<LatLng> = new EventEmitter<LatLng>();
+
+  /**
+   * Emit the spot when clicked to show it in overview
+   */
+  @Output() spotClicked: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
 
   /**
    * The last Point to emit
@@ -203,11 +209,41 @@ export class MapComponent implements OnInit, OnDestroy {
    * Create markers from spots
    */
   mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
-    return spots.map(spot =>
-      marker(new LatLng(spot.location.latitude, spot.location.longitude), {
-        icon: icon(this.iconConfig),
-      })
-    );
+    return spots.map(spot => {
+      const m = popup({
+        maxWidth: 400,
+        minWidth: 200,
+        maxHeight: 400,
+        autoPan: false,
+        keepInView: true,
+        closeButton: false,
+        autoClose: false,
+        closeOnClick: false,
+      });
+
+      const { latitude, longitude } = spot.location;
+
+      // @todo crate a popup-content Angular component
+      // @todo make a component factory that compile the popup-content in HTML
+      // @todo append this HTML Element
+      m.setContent(`
+        <article>
+         <div class="description">
+          <span>${spot.type.toUpperCase()}</span>
+          <span>${(spot.name || '').toUpperCase()}</span>
+         </div>
+         <div class="address">${spot.location.address}</div>
+        </article>
+      `);
+      m.setLatLng(new LatLng(latitude, longitude));
+      m.openOn(this.map);
+
+      m.getElement().addEventListener('click', e => {
+        this.spotClicked.emit(spot);
+      });
+
+      return m;
+    });
   }
 
   /**
