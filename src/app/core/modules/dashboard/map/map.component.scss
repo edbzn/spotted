@@ -8,6 +8,11 @@
   display: block;
 }
 
+.map-wrapper {
+  position: relative;
+  height: 100%;
+}
+
 .click-handler {
   position: absolute;
   width: 50px;

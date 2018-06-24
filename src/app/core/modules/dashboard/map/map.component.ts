@@ -213,13 +213,13 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
    * On right-click display mat menu (@todo desktop-only)
    */
-  onMapClick(event: MouseEvent): void {
+  onMapContextClick(event: MouseEvent): void {
     event.preventDefault();
 
     if (event instanceof MouseEvent) {
-      this.mouseY = event.offsetY;
-      this.mouseX = event.offsetX;
-      this.point = new Point(this.mouseX, this.mouseY);
+      this.mouseY = event.layerY;
+      this.mouseX = event.layerX;
+      this.point = new Point(this.mouseX, event.offsetY);
       this.matMenu.openMenu();
     }
   }

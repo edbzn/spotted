@@ -1,13 +1,13 @@
-<!-- <mat-spinner></mat-spinner> -->
-
-<div class="map"
-  leaflet
-  [leafletZoom]="zoom"
-  [leafletOptions]="options"
-  [leafletLayers]="layers"
-  [leafletLayersControl]="layersControl"
-  (contextmenu)="onMapClick($event)"
-  (leafletMapReady)="onMapReady($event)">
+<div class="map-wrapper">
+  <div class="map"
+    leaflet
+    [leafletZoom]="zoom"
+    [leafletOptions]="options"
+    [leafletLayers]="layers"
+    [leafletLayersControl]="layersControl"
+    (contextmenu)="onMapContextClick($event)"
+    (leafletMapReady)="onMapReady($event)">
+  </div>
   <div class="click-handler"
     [matMenuTriggerFor]="appMenu"
     [style.top]="mouseY + 'px'"
