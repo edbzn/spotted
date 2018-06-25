@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {}
 
   onHelpMarkerChanged(latLng: LatLng): void {
-    this.overview.activateSpotTab();
+    this.overview.setTabIndexTo(1);
     this.overview.fillSpotForm(latLng);
   }
 
