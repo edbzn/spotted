@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeAnimation } from '../../../shared/router-animation';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-not-found',
@@ -10,7 +11,7 @@ import { fadeAnimation } from '../../../shared/router-animation';
   host: { '[@fadeAnimation]': '' },
 })
 export class NotFoundComponent implements OnInit {
-  public gifUrl = 'https://media.giphy.com/media/3oriO3TIAR3cnAOcTK/giphy.gif';
+  public gifUrl = appConfiguration.notFoundImage;
 
   constructor() {}
 
