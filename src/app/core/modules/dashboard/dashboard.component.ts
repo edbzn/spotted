@@ -6,9 +6,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { LatLng } from 'leaflet';
-import { MapComponent } from './map/map.component';
 import { Api } from 'src/types/api';
 import { fadeAnimation } from '../../../shared/router-animation';
+import { MapComponent } from 'src/app/core/modules/map/map.component';
 
 @Component({
   selector: 'spt-dashboard',

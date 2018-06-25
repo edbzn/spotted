@@ -12,7 +12,6 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ProgressInterceptor } from '../shared/progress.interceptor';
 import { TimingInterceptor } from '../shared/timing.interceptor';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { MapComponent } from './modules/dashboard/map/map.component';
 import { OverviewComponent } from './modules/dashboard/overview/overview.component';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -20,21 +19,21 @@ import { NguCarouselModule } from '@ngu/carousel';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppRoutingModule } from '../app-routing.module';
 import { AngularFireModule } from 'angularfire2';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '../../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.translate.factory';
+import { MapModule } from './modules/map/map.module';
 
 @NgModule({
   imports: [
     SharedModule,
+    MapModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
     NguCarouselModule,
     AngularFireModule.initializeApp(environment.firebase),
-    LeafletModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey,
       libraries: ['places'],
@@ -49,7 +48,7 @@ import { HttpLoaderFactory } from '../app.translate.factory';
     }),
     AppRoutingModule,
   ],
-  declarations: [DashboardComponent, MapComponent, OverviewComponent],
+  declarations: [DashboardComponent, OverviewComponent],
   providers: [
     WINDOW_PROVIDERS,
     SpotsService,
