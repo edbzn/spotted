@@ -209,8 +209,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
     return spot.id;
   }
 
-  activateSpotTab(): void {
-    this.selectedTab = 1;
+  setTabIndexTo(index: number): void {
+    this.selectedTab = index;
   }
 
   fillSpotForm(latitudeLongitude: LatLng): void {
@@ -250,20 +250,19 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   scrollTo(spot: Api.Spot): void {
-    // const wrapper = this.window.document.querySelector('.wrapper');
-    // const offsetTop = this.window.document.getElementById(
-    //   this.scrollHookClass + spot.id
-    // ).offsetTop;
-    // console.log(offsetTop);
-    // wrapper.scrollTop = offsetTop;
-    // wrapper.scrollTo({ top: offsetTop });
-    // { document: this.document, scrollTarget: '.headingClass', scrollingViews: [this.container.nativeElement] }
-    // const scrollTo: PageScrollInstance = PageScrollInstance.newInstance({
-    //   document: this.window.document,
-    //   scrollTarget: '#' + this.scrollHookClass + spot.id,
-    //   scrollingViews,
-    //   verticalScrolling: true,
-    // });
-    // this.pageScrollService.start(scrollTo);
+    this.setTabIndexTo(0);
+    this.changeDetector.detectChanges();
+
+    const wrapper = this.window.document.querySelector('.mat-tab-body-content');
+    const target = this.window.document.getElementById(
+      this.scrollHookClass + spot.id
+    );
+
+    // @todo fix that with animation done hook
+    if (target === null) {
+      return;
+    }
+
+    wrapper.scrollTo({ top: target.offsetTop - 8 });
   }
 }
