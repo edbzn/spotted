@@ -11,7 +11,7 @@
 
 # Stage 1, based on Node.js, to build and compile Angular
 
-FROM node:8.9.4-alpine as builder
+FROM node:10.5.0-alpine as builder
 
 COPY package.json ./
 
@@ -22,7 +22,7 @@ WORKDIR /ng-app
 
 COPY . .
 
-RUN npm run build --aot --prod
+RUN npm run build:prod
 
 # Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
 
