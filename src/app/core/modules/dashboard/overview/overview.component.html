@@ -44,8 +44,10 @@
         <mat-card-actions>
           <button mat-button
             disabled>Like</button>
-          <button mat-button
-            disabled>Detail</button>
+          <a mat-button
+            [routerLink]="['spots', spot.id, 'detail']">
+            Detail
+          </a>
           <button mat-button
             (click)="locate(spot)"
             class="pull-right">Locate</button>
