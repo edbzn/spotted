@@ -6,6 +6,7 @@ export interface AppConfiguration {
   defaultPhotoUrl: string;
   defaultLang: Language;
   routerTransitionTiming: number;
+  notFoundImage: string;
   forms: {
     passwordMinLength: number;
     nameMinLength: number;

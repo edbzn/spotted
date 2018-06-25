@@ -1,6 +1,6 @@
 :host {
   background: #000;
-
+  height: 100vh;
   display: flex;
   align-items: center;
 }
@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: center;
 
-  > div {
+  >div {
     text-align: center;
     color: #fff;
     h1 {
