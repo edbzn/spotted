@@ -50,7 +50,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "hmr": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
