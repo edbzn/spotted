@@ -5,10 +5,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../../../app.translate.factory';
 import { HttpClient } from '@angular/common/http';
 import { DetailComponent } from './detail/detail.component';
+import { MapModule } from '../map/map.module';
 
 @NgModule({
   imports: [
     SharedModule,
+    MapModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
