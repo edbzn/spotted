@@ -5,6 +5,7 @@
 
 .card {
   margin: 8px;
+  margin-top: 14px;
   min-width: 400px;
   max-width: 400px;
   overflow: hidden;
@@ -17,4 +18,16 @@
 .picture {
   background-position: 50%;
   background-size: cover;
+}
+
+.map {
+  height: 30vh;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+::ng-deep {
+  spt-map {
+    margin-top: 0 !important;
+  }
 }
