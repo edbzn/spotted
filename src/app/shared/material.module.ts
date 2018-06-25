@@ -15,6 +15,7 @@ import {
   MatRadioModule,
   MatBadgeModule,
   MatSlideToggleModule,
+  MatGridListModule,
 } from '@angular/material';
 import { NgModule } from '@angular/core';
 
@@ -38,6 +39,7 @@ const materialModules = [
   MatRadioModule,
   MatBadgeModule,
   MatSlideToggleModule,
+  MatGridListModule,
 ];
 
 @NgModule({

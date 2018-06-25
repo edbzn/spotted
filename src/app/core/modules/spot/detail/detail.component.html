@@ -1,3 +1,68 @@
-<p>
-  detail works!
-</p>
+<div fxLayout="row"
+  fxLayoutAlign="center top"
+  class="wrapper">
+
+  <mat-card class="card"
+    *ngIf="spot">
+    <mat-card-title>
+      Description
+    </mat-card-title>
+    <mat-card-subtitle *ngIf="spot.name">
+      <h1>{{ spot?.name }}</h1>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon mat-list-icon>location_on</mat-icon>
+          <span mat-line>Location</span>
+          <a mat-line
+            mat-button
+            color="primary"
+            class="description-value">
+            {{ spot.location.address }}
+          </a>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <mat-icon mat-list-icon>outlined_flag</mat-icon>
+          <span mat-line>Difficulty</span>
+          <span mat-line
+            class="description-value">{{ spot.difficulty }}</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <mat-icon mat-list-icon>check_box</mat-icon>
+          <span mat-line>Disciplines </span>
+          <span mat-line
+            class="description-value">{{ spot.disciplines }}</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <mat-icon mat-list-icon>fingerprint</mat-icon>
+          <span mat-line>Type</span>
+          <span mat-line
+            class="description-value">{{ spot.type }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+  </mat-card>
+  <mat-card class="card"
+    *ngIf="spot">
+    <mat-card-title>
+      <h3>Media</h3>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h1>{{ spot?.media?.pictures.length }} photos</h1>
+    </mat-card-subtitle>
+    <mat-grid-list mat-card-image
+      class="media-wrapper"
+      [cols]="spot.media.pictures.length > 1 ? 2 : 1"
+      [rowHeight]="spot.media.pictures.length % 2 + ':1'">
+      <mat-grid-tile class="picture"
+        *ngFor="let media of spot?.media?.pictures"
+        [style.backgroundImage]="'url(' + media + ')'">
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+</div>
