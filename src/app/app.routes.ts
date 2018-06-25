@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadChildren:
       './core/modules/authentication/authentication.module#AuthenticationModule',
   },
+  {
+    path: 'spots',
+    loadChildren: './core/modules/spot/spot.module#SpotModule',
+  },
 
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
