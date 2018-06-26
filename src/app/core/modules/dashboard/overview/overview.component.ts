@@ -217,12 +217,18 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.fillSpotFormHandler.next(latitudeLongitude);
   }
 
-  onFileAdded(event: any): void {
+  async onFileAdded(event: any) {
     if (event && event.target.files) {
-      this.upload.file(event.target.files[0]).subscribe(path => {
-        this.pictures.push(path);
+      await this.upload.file(event.target.files[0]);
+
+      this.upload.downloadURL.subscribe(url => {
+        this.pictures.push(url);
         this.media.get('pictures').patchValue(this.pictures);
         this.changeDetector.detectChanges();
+      });
+
+      this.translateService.get(['pictureUploaded']).subscribe(texts => {
+        this.snackBar.open(texts.pictureUploaded, 'OK');
       });
     }
   }
