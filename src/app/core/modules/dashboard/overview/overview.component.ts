@@ -99,12 +99,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   /**
    * Tab scrolled event used to expand UI in use for mobile browsers
    */
-  scrollChanged = new Subject<Event>();
-
-  /**
-   * Tab scroll subscription
-   */
-  scrollSubscription: Subscription;
+  scrollChanged = new EventEmitter<Event>();
 
   /**
    * Carousel options
@@ -201,13 +196,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.scrollSubscription = this.scrollChanged
-      .pipe(
-        debounceTime(300),
-        distinct()
-      )
-      .subscribe(console.log);
   }
 
   ngOnDestroy(): void {

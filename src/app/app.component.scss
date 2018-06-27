@@ -1,8 +1,9 @@
 @import '~src/variables.scss';
 @import '~src/theme.scss';
+
 main {
   height: 100vh;
-  > *:not(router-outlet) {
+  >*:not(router-outlet) {
     display: block;
     height: 100%;
   }
@@ -27,7 +28,7 @@ main {
 }
 
 .pull-right {
-  > a {
+  >a {
     margin-right: 12px;
   }
 }

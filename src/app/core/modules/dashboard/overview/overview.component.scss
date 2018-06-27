@@ -93,5 +93,13 @@
 
 .scrollable {
   overflow-y: auto;
-  height: 100%;
+  height: calc(100vh - 118px);
+}
+
+::ng-deep {
+  .mat-tab-body,
+  .mat-tab-body-content,
+  .mat-tab-body-wrapper {
+    overflow: visible !important;
+  }
 }

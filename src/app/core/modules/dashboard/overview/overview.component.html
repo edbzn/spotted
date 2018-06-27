@@ -1,5 +1,4 @@
-<mat-tab-group [dynamicHeight]="true"
-  [(selectedIndex)]="selectedTab"
+<mat-tab-group [(selectedIndex)]="selectedTab"
   class="group">
   <mat-tab>
     <ng-template mat-tab-label>
@@ -10,7 +9,7 @@
     </ng-template>
     <div class="scrollable"
       cdkScrollable
-      (scroll)="scrollChanged.next($event)">
+      (scroll)="scrollChanged.emit($event)">
       <mat-card class="spot"
         *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn"
         [id]="scrollHookClass + spot.id">

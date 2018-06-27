@@ -6,7 +6,8 @@
     [leafletLayers]="layers"
     [leafletLayersControl]="layersControl"
     (contextmenu)="onMapContextClick($event)"
-    (leafletMapReady)="onMapReady($event)">
+    (leafletMapReady)="onMapReady($event)"
+    (click)="mapInteracted.emit($event)">
   </div>
   <div class="click-handler"
     [matMenuTriggerFor]="appMenu"
