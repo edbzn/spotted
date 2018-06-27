@@ -15,13 +15,27 @@ aside {
   @media screen and (max-width: $mediaMidWidth) {
     flex-direction: column;
   }
-
-  .map-wrapper {
-    flex: 2;
+  @media screen and (min-width: $mediaMidWidth) {
+    .map-wrapper {
+      flex: 2;
+    }
   }
+
 
   .map-overview-wrapper {
     flex: 1;
     z-index: 1;
   }
+}
+
+.map-wrapper {
+  position: relative;
+  transition: all ease 200ms;
+}
+
+.expand-btn {
+  position: absolute;
+  left: 80%;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
 }

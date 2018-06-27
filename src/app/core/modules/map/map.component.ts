@@ -11,6 +11,7 @@ import {
   latLng,
   LeafletMouseEvent,
   popup,
+  LeafletEvent,
 } from 'leaflet';
 import {
   Component,
@@ -170,6 +171,11 @@ export class MapComponent implements OnInit, OnDestroy {
   spotChangeSub: Subscription;
 
   /**
+   * Each click emit event to change UI for mobiles in parent component
+   */
+  mapInteracted = new EventEmitter<Event | LeafletEvent>();
+
+  /**
    * Lat & Long computed
    */
   get center(): LatLng {
@@ -192,6 +198,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
   onMapReady(map: Map): void {
     this.map = map;
+    // emit map interaction to resize dashboard layout
+    this.map.on('zoomlevelschange move zoom', event => {
+      this.mapInteracted.emit(event);
+    });
 
     // bind spots to markers
     this.spotChangeSub = this.spotsService.spots

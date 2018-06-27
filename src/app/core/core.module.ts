@@ -51,11 +51,6 @@ import { MapModule } from './modules/map/map.module';
   declarations: [DashboardComponent, OverviewComponent],
   providers: [
     WINDOW_PROVIDERS,
-    SpotsService,
-    ProgressBarService,
-    StorageService,
-    UploadService,
-    GeocoderService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

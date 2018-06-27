@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { WINDOW } from './window.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class StorageService {
   static lifetimeSuffix = '_expireAt';
   static tokenLifetime = 6000; // seconds
