@@ -8,13 +8,18 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ElementRef,
   Inject,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../../services/spots.service';
 import { Api } from '../../../../../types/api';
-import { MatStepper, MatSnackBar, MatCardHeader } from '@angular/material';
+import {
+  MatStepper,
+  MatSnackBar,
+  MatCardHeader,
+  MatTab,
+} from '@angular/material';
 import { UploadService } from '../../../services/upload.service';
 import { GeocoderService } from '../../../services/geocoder.service';
 import { Subject, Subscription } from 'rxjs';
@@ -23,6 +28,7 @@ import {
   tap,
   distinctUntilChanged,
   debounceTime,
+  distinct,
 } from 'rxjs/internal/operators';
 import { NguCarousel } from '@ngu/carousel';
 import { appConfiguration } from '../../../../app-config';
@@ -91,6 +97,16 @@ export class OverviewComponent implements OnInit, OnDestroy {
   fillSpotFormSub: Subscription;
 
   /**
+   * Tab scrolled event used to expand UI in use for mobile browsers
+   */
+  scrollChanged = new Subject<Event>();
+
+  /**
+   * Tab scroll subscription
+   */
+  scrollSubscription: Subscription;
+
+  /**
    * Carousel options
    */
   carousel: NguCarousel = {
@@ -107,6 +123,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
     custom: 'banner',
   };
 
+  /**
+   * Css class prefix to scroll to native Element
+   */
   scrollHookClass = 'scroll-hook-';
 
   /**
@@ -133,7 +152,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private elementRef: ElementRef,
     private fb: FormBuilder,
     private geocoder: GeocoderService,
     private translateService: TranslateService,
@@ -183,6 +201,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.scrollSubscription = this.scrollChanged
+      .pipe(
+        debounceTime(300),
+        distinct()
+      )
+      .subscribe(console.log);
   }
 
   ngOnDestroy(): void {

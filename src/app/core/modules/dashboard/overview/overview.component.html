@@ -1,4 +1,5 @@
-<mat-tab-group [(selectedIndex)]="selectedTab"
+<mat-tab-group [dynamicHeight]="true"
+  [(selectedIndex)]="selectedTab"
   class="group">
   <mat-tab>
     <ng-template mat-tab-label>
@@ -7,7 +8,9 @@
         matBadgePosition="above after">location_on</mat-icon>
       <span>{{ 'overview.spotsAround' | translate }}</span>
     </ng-template>
-    <div class="wrapper">
+    <div class="scrollable"
+      cdkScrollable
+      (scroll)="scrollChanged.next($event)">
       <mat-card class="spot"
         *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn"
         [id]="scrollHookClass + spot.id">
@@ -60,7 +63,9 @@
       <mat-icon class="mr">add_location</mat-icon>
       {{ 'overview.addSpot' | translate }}
     </ng-template>
-    <div class="wrapper">
+    <div class="scrollable"
+      cdkScrollable
+      (scroll)="scrollChanged.next($event)">
       <section class="p0">
         <form [formGroup]="spotForm"
           (submit)="createSpot()"
