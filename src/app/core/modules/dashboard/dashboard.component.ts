@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   mapHeight: number = this.deviceDetector.detectMobile() ? 100 : 80;
 
   constructor(
-    private deviceDetector: DeviceDetectorService,
+    public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
