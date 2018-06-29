@@ -1,13 +1,13 @@
 {
-  "name": "spotted-CI-deployment",
-  "type": "docker",
-  "alias": [
-    "spotted-city.com"
-  ],
-  "scale": {
-    "bru1": {
-      "min": 1,
-      "max": 2
+    "name": "spotted-CI-deployment",
+    "type": "docker",
+    "alias": [
+        "spotted-city.com"
+    ],
+    "scale": {
+        "bru1": {
+            "min": 1,
+            "max": 1
+        }
     }
-  }
 }
