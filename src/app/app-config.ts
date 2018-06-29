@@ -17,6 +17,8 @@ export const appConfiguration: AppConfiguration = {
     longitude: -121.726909,
     zoom: 15,
     maxZoom: 20,
+    totalMapHeight: 100, // in %
+    mobileExpandedMapHeight: 85, // in %
   },
   entities: {
     spot: {
