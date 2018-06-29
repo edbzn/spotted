@@ -6,10 +6,8 @@ import { filter, take } from 'rxjs/operators';
 
 Raven.config(environment.ravenDNS).install();
 
-export class ExceptionHandler extends ErrorHandler {
+export class ExceptionHandler implements ErrorHandler {
   constructor(auth: AngularFireAuth) {
-    super();
-
     Raven.setEnvironment(
       environment.production === true ? 'production' : 'development'
     );
@@ -31,7 +29,7 @@ export class ExceptionHandler extends ErrorHandler {
     if (environment.production) {
       Raven.captureException(err.originalError || err);
     } else {
-      super.handleError(err);
+      throw new Error(err);
     }
   }
 }
