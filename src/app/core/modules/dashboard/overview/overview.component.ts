@@ -33,6 +33,7 @@ import {
 import { NguCarousel } from '@ngu/carousel';
 import { appConfiguration } from '../../../../app-config';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceDetectorService } from '../../../services/device-detector.service';
 
 @Component({
   selector: 'spt-overview',
@@ -152,6 +153,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
+    private deviceDetector: DeviceDetectorService,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -247,6 +249,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   onCarouselMove(event: any, spot: Api.Spot): void {
+    if (this.deviceDetector.detectMobile()) {
+      return;
+    }
+
     this.locate(spot);
   }
 
