@@ -5,7 +5,7 @@
     (spotClicked)="onSpotClick($event)">
   </spt-map>
   <button mat-mini-fab
-    *ngIf="deviceDetector.isMobile()"
+    *ngIf="deviceDetector.detectMobile()"
     class="expand-btn"
     (click)="toggleExpand()">
     <mat-icon *ngIf="expandMap">keyboard_arrow_up</mat-icon>
