@@ -6,6 +6,7 @@ export interface Environment {
   ENV_PROVIDERS: any;
   showDevModule: boolean;
   googleApiKey: string;
+  ravenDNS: string;
   firebase: {
     apiKey: string;
     authDomain: string;

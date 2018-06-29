@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { throwIfAlreadyLoaded } from '../module-import-guard';
 import { WINDOW_PROVIDERS } from './services/window.service';
@@ -24,6 +24,7 @@ import { environment } from '../../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.translate.factory';
 import { MapModule } from './modules/map/map.module';
+import { ExceptionHandler } from './services/exception.handler.service';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { MapModule } from './modules/map/map.module';
       deps: [ProgressBarService],
     },
     { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ExceptionHandler },
   ],
 })
 export class CoreModule {

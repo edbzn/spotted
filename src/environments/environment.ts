@@ -23,6 +23,7 @@ export const environment: Environment = {
 
     return modRef;
   },
+  ravenDNS: 'https://337b47504b844ba284e11fbb85ccf3a7@sentry.io/1234956',
   ENV_PROVIDERS: [],
   googleApiKey: 'AIzaSyAyB0VnMyWOC28h7fpLr-0pnKTvd9CiXsg',
   firebase: {
