@@ -14,7 +14,7 @@ export class ExceptionHandler implements ErrorHandler {
 
     auth.user
       .pipe(
-        filter(user => !!user.uid),
+        filter(user => !!user),
         take(1)
       )
       .subscribe(user => {
