@@ -10,9 +10,10 @@ import { LatLng } from 'leaflet';
 import { Api } from 'src/types/api';
 import { fadeAnimation } from '../../../shared/router-animation';
 import { MapComponent } from 'src/app/core/modules/map/map.component';
-import { map, distinct, debounceTime, tap } from 'rxjs/operators';
-import { Observable, merge, combineLatest, Subscription } from 'rxjs';
+import { distinct, debounceTime, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from '../../services/device-detector.service';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-dashboard',
@@ -30,7 +31,9 @@ export class DashboardComponent implements OnInit {
   mapInteractedSub: Subscription;
   overviewScrolledSub: Subscription;
   expandMap = false;
-  mapHeight: number = this.deviceDetector.detectMobile() ? 100 : 80;
+  mapHeight: number = this.deviceDetector.detectMobile()
+    ? appConfiguration.map.totalMapHeight
+    : appConfiguration.map.mobileExpandedMapHeight;
 
   constructor(
     public deviceDetector: DeviceDetectorService,
@@ -42,15 +45,15 @@ export class DashboardComponent implements OnInit {
       .pipe(
         distinct(),
         debounceTime(80),
-        tap(e => this.toggleExpand(true)),
-        tap(e => this.map.map.invalidateSize())
+        tap(() => this.toggleExpand(true)),
+        tap(() => this.map.map.invalidateSize())
       )
       .subscribe();
     this.overviewScrolledSub = this.overview.scrollChanged
       .pipe(
         distinct(),
         debounceTime(80),
-        tap(e => this.toggleExpand(false))
+        tap(() => this.toggleExpand(false))
       )
       .subscribe();
   }
@@ -67,11 +70,16 @@ export class DashboardComponent implements OnInit {
 
   getMapHeight(): void {
     if (this.deviceDetector.detectMobile() === false) {
-      this.mapHeight = 100;
+      this.mapHeight = appConfiguration.map.totalMapHeight;
       return;
     }
 
-    this.mapHeight = this.expandMap ? 80 : 20;
+    const { totalMapHeight, mobileExpandedMapHeight } = appConfiguration.map;
+    const shrinkMapHeight = totalMapHeight - mobileExpandedMapHeight;
+
+    this.mapHeight = this.expandMap
+      ? appConfiguration.map.mobileExpandedMapHeight
+      : shrinkMapHeight;
   }
 
   onHelpMarkerChanged(latLng: LatLng): void {

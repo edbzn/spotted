@@ -18,6 +18,8 @@ export interface AppConfiguration {
     longitude: number;
     zoom: number;
     maxZoom: number;
+    totalMapHeight: number;
+    mobileExpandedMapHeight: number;
   };
   entities: {
     spot: {
