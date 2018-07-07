@@ -14,41 +14,38 @@ export class GeocoderService {
     private progress: ProgressBarService
   ) {}
 
-  public search(query: LatLng): Observable<GeoResult[]> {
+  public async search(query: LatLng): Promise<GeoResult[]> {
     this.progress.increase();
 
-    return new Observable<GeoResult[]>(observer => {
+    return new Promise<GeoResult[]>((resolve, reject) => {
       this.mapsAPILoader
         .load()
         .then(() => {
           const result: GeoResult[] = [];
-          const displaySuggestions = (
-            results: GeoResult[],
-            status: google.maps.GeocoderStatus
-          ) => {
-            if (status !== google.maps.GeocoderStatus.OK) {
-              this.progress.decrease();
-              return observer.error(status);
-            }
-
-            results.forEach(prediction => {
-              result.push(prediction);
-            });
-
-            this.progress.decrease();
-            observer.next(result);
-            observer.complete();
+          const geoQuery = {
+            location: new google.maps.LatLng(query.lat, query.lng),
           };
-
           const geoService = new google.maps.Geocoder();
           geoService.geocode(
-            { location: new google.maps.LatLng(query.lat, query.lng) },
-            displaySuggestions
+            geoQuery,
+            (results: GeoResult[], status: google.maps.GeocoderStatus) => {
+              if (status !== google.maps.GeocoderStatus.OK) {
+                this.progress.decrease();
+                return reject(status);
+              }
+
+              results.forEach(prediction => {
+                result.push(prediction);
+              });
+
+              this.progress.decrease();
+              resolve(result);
+            }
           );
         })
         .catch(err => {
           this.progress.decrease();
-          return observer.error(err);
+          reject(err);
         });
     });
   }
