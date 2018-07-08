@@ -145,6 +145,11 @@
             </mat-step>
             <mat-step [completed]="valid">
               <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
+              <div class="mb mt">
+                <spt-spot [spot]="spotForm.value"
+                  [withActions]="false">
+                </spt-spot>
+              </div>
               <button mat-button
                 class="mr"
                 type="button"

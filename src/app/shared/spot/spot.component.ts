@@ -23,6 +23,11 @@ export class SpotComponent implements OnInit {
   @Input() spot: Api.Spot;
 
   /**
+   * Display card actions
+   */
+  @Input() withActions = true;
+
+  /**
    * Locate a spot on a map
    */
   @Output() locate = new EventEmitter<Api.Spot>();
