@@ -4,11 +4,11 @@ import { environment } from '../../../environments/environment.prod';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { filter, take } from 'rxjs/operators';
 
-Raven.config(environment.ravenDNS).install();
-
 export class ExceptionHandler implements ErrorHandler {
   constructor(auth: AngularFireAuth) {
-    Raven.setEnvironment(
+    const raven = Raven.config(environment.ravenDNS).install();
+
+    raven.setEnvironment(
       environment.production === true ? 'production' : 'development'
     );
 
@@ -18,7 +18,7 @@ export class ExceptionHandler implements ErrorHandler {
         take(1)
       )
       .subscribe(user => {
-        Raven.setUserContext({
+        raven.setUserContext({
           email: user.email,
           id: user.uid,
         });
@@ -28,8 +28,8 @@ export class ExceptionHandler implements ErrorHandler {
   handleError(err: any): void {
     if (environment.production) {
       Raven.captureException(err.originalError || err);
-    } else {
-      throw new Error(err);
     }
+
+    console.error(err.originalError || err);
   }
 }
