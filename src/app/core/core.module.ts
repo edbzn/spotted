@@ -2,11 +2,7 @@ import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { throwIfAlreadyLoaded } from '../module-import-guard';
 import { WINDOW_PROVIDERS } from './services/window.service';
-import { SpotsService } from './services/spots.service';
 import { ProgressBarService } from './services/progress-bar.service';
-import { StorageService } from './services/storage.service';
-import { UploadService } from './services/upload.service';
-import { GeocoderService } from './services/geocoder.service';
 import { AuthGuard } from './modules/authentication/auth-guard.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ProgressInterceptor } from '../shared/progress.interceptor';
@@ -33,7 +29,6 @@ import { ExceptionHandler } from './services/exception.handler.service';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
-    NguCarouselModule,
     AngularFireModule.initializeApp(environment.firebase),
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey,

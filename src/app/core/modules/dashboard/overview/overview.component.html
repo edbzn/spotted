@@ -10,51 +10,11 @@
     <div class="scrollable"
       cdkScrollable
       (scroll)="scrollChanged.emit($event)">
-      <mat-card class="spot"
-        *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn"
-        [id]="scrollHookClass + spot.id">
-        <mat-card-header>
-          <mat-card-title *ngIf="spot.name">{{ spot.name }}</mat-card-title>
-          <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>
-        </mat-card-header>
-        <div mat-card-image>
-          <ngu-carousel [inputs]="carousel">
-            <ngu-tile NguCarouselItem
-              *ngFor="let picture of spot.media.pictures"
-              [style.backgroundImage]="'url(' + picture + ')'"
-              class="spot-carousel-item">
-            </ngu-tile>
-            <button mat-icon-button
-              NguCarouselPrev
-              class="left-arrow"
-              type="button"
-              (click)="onCarouselMove($event, spot)">
-              <mat-icon>arrow_left</mat-icon>
-            </button>
-            <button mat-icon-button
-              NguCarouselNext
-              class="right-arrow"
-              type="button"
-              (click)="onCarouselMove($event, spot)">
-              <mat-icon>arrow_right</mat-icon>
-            </button>
-          </ngu-carousel>
-        </div>
-        <mat-card-content *ngIf="spot.description">
-          <p>{{ spot.description }}</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button
-            disabled>Like</button>
-          <a mat-button
-            [routerLink]="['spots', spot.id, 'detail']">
-            Detail
-          </a>
-          <button mat-button
-            (click)="locate(spot)"
-            class="pull-right">Locate</button>
-        </mat-card-actions>
-      </mat-card>
+      <ng-container *ngFor="let spot of spots; trackBy: trackByFn">
+        <spt-spot [spot]="spot"
+          (locate)="locate($event)">
+        </spt-spot>
+      </ng-container>
     </div>
   </mat-tab>
   <mat-tab>
