@@ -22,7 +22,7 @@ export const appConfiguration: AppConfiguration = {
   },
   entities: {
     spot: {
-      difficulties: ['hammer', 'hard', 'pro', 'mid', 'low', 'mixed'],
+      difficulties: ['pro', 'mid', 'easy', 'mixed'],
       types: ['park', 'street-park', 'street', 'bowl', 'dirt'],
       disciplines: ['BMX', 'roller', 'skate'],
     },

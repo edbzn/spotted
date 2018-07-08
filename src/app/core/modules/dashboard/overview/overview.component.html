@@ -79,7 +79,7 @@
                   placeholder="{{ 'overview.form.name' | translate }}"
                   formControlName="name">
               </mat-form-field>
-              <mat-form-field class="full-width mb">
+              <mat-form-field class="full-width">
                 <mat-select placeholder="Type"
                   formControlName="type">
                   <mat-option *ngFor="let type of types"
@@ -88,12 +88,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <div class="full-width mb">
-                <mat-slide-toggle formControlName="indoor">
-                  {{ 'overview.form.indoor' | translate }}
-                </mat-slide-toggle>
-              </div>
-              <mat-form-field class="full-width">
+              <mat-form-field class="full-width pb">
                 <mat-select multiple
                   placeholder="Disciplines"
                   formControlName="disciplines">
@@ -103,6 +98,11 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <div class="full-width pb">
+                <mat-slide-toggle formControlName="indoor">
+                  {{ 'overview.form.indoor' | translate }}
+                </mat-slide-toggle>
+              </div>
               <mat-radio-group class="full-width"
                 formControlName="difficulty">
                 <mat-radio-button class="radio"

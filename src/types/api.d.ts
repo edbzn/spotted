@@ -21,7 +21,7 @@ export declare namespace Api {
     address: string;
   }
 
-  type Difficulty = 'low' | 'mid' | 'hard' | 'pro' | 'hammer' | 'mixed';
+  type Difficulty = 'easy' | 'mid' | 'pro' | 'mixed';
 
   type Disciplines = 'BMX' | 'skate' | 'roller';
 
