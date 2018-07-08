@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { SpotComponent } from './spot/spot.component';
+import { NguCarouselModule } from '@ngu/carousel';
+import { RouterModule } from '@angular/router';
 
 export const sharedModules = [
   CommonModule,
@@ -12,13 +15,15 @@ export const sharedModules = [
   HttpClientModule,
   MaterialModule,
   FlexLayoutModule,
+  NguCarouselModule,
+  RouterModule,
 ];
 
 @NgModule({
   imports: [...sharedModules],
   providers: [],
-  declarations: [],
+  declarations: [SpotComponent],
   entryComponents: [],
-  exports: [...sharedModules],
+  exports: [...sharedModules, SpotComponent],
 })
 export class SharedModule {}

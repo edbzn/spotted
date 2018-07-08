@@ -5,6 +5,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { Api } from 'src/types/api';
@@ -24,7 +25,7 @@ import { appConfiguration } from '../../../app-config';
   // tslint:disable-next-line:use-host-property-decorator
   host: { '[@fadeAnimation]': '' },
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('map') map: MapComponent;
   @ViewChild('overview') overview: OverviewComponent;
 
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
         tap(() => this.map.map.invalidateSize())
       )
       .subscribe();
+
     this.overviewScrolledSub = this.overview.scrollChanged
       .pipe(
         distinct(),
@@ -56,6 +58,11 @@ export class DashboardComponent implements OnInit {
         tap(() => this.toggleExpand(false))
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.mapInteractedSub.unsubscribe();
+    this.overviewScrolledSub.unsubscribe();
   }
 
   toggleExpand(expanded: boolean | null = null): void {

@@ -22,12 +22,12 @@ import {
   tap,
   distinctUntilChanged,
   debounceTime,
-  distinct,
+  takeLast,
+  take,
 } from 'rxjs/internal/operators';
-import { NguCarousel } from '@ngu/carousel';
 import { appConfiguration } from '../../../../app-config';
 import { TranslateService } from '@ngx-translate/core';
-import { DeviceDetectorService } from '../../../services/device-detector.service';
+import { NguCarousel } from '@ngu/carousel';
 
 @Component({
   selector: 'spt-overview',
@@ -97,6 +97,16 @@ export class OverviewComponent implements OnInit, OnDestroy {
   scrollChanged = new EventEmitter<Event>();
 
   /**
+   * Displayed spots
+   */
+  spots: Api.Spot[];
+
+  /**
+   * Displayed spots sub
+   */
+  spotSub: Subscription;
+
+  /**
    * Carousel options
    */
   carousel: NguCarousel = {
@@ -112,11 +122,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
     loop: true,
     custom: 'banner',
   };
-
-  /**
-   * Css class prefix to scroll to native Element
-   */
-  scrollHookClass = 'scroll-hook-';
 
   /**
    * Form valid
@@ -147,7 +152,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
-    private deviceDetector: DeviceDetectorService,
     public spotsService: SpotsService,
     public upload: UploadService
   ) {}
@@ -192,9 +196,20 @@ export class OverviewComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.spotSub = this.spotsService.spots
+      .pipe(
+        tap(spots => {
+          console.log(spots);
+          this.spots = spots;
+          this.changeDetector.markForCheck();
+        })
+      )
+      .subscribe(console.log);
   }
 
   ngOnDestroy(): void {
+    this.spotSub.unsubscribe();
     this.fillSpotFormSub.unsubscribe();
   }
 
@@ -242,14 +257,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCarouselMove(event: any, spot: Api.Spot): void {
-    if (this.deviceDetector.detectMobile()) {
-      return;
-    }
-
-    this.locate(spot);
-  }
-
   locate(spot: Api.Spot) {
     this.flyTo.emit(latLng(spot.location.latitude, spot.location.longitude));
   }
@@ -271,11 +278,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
   scrollTo(spot: Api.Spot): void {
     this.setTabIndexTo(0);
     this.changeDetector.detectChanges();
-
-    const wrapper = this.window.document.querySelector('.mat-tab-body-content');
-    const target = this.window.document.getElementById(
-      this.scrollHookClass + spot.id
-    );
+    const { document } = this.window;
+    const wrapper = document.querySelector('.mat-tab-body-content');
+    const target = document.getElementById('scroll-hook-' + spot.id);
 
     // @todo fix that with animation done hook
     if (target === null) {
