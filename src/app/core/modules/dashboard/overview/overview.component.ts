@@ -9,17 +9,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Inject,
-  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../../services/spots.service';
 import { Api } from '../../../../../types/api';
-import {
-  MatStepper,
-  MatSnackBar,
-  MatCardHeader,
-  MatTab,
-} from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 import { UploadService } from '../../../services/upload.service';
 import { GeocoderService } from '../../../services/geocoder.service';
 import { Subject, Subscription } from 'rxjs';
