@@ -10,7 +10,7 @@
     <div class="scrollable"
       cdkScrollable
       (scroll)="scrollChanged.emit($event)">
-      <ng-container *ngFor="let spot of spots; trackBy: trackByFn">
+      <ng-container *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
         <spt-spot [spot]="spot"
           (locate)="locate($event)">
         </spt-spot>
@@ -147,6 +147,7 @@
               <ng-template matStepLabel>{{ 'overview.stepper.done' | translate }}</ng-template>
               <div class="mb mt">
                 <spt-spot [spot]="spotForm.value"
+                  *ngIf="media.valid && location.valid && dirty"
                   [withActions]="false">
                 </spt-spot>
               </div>

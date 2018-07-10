@@ -97,16 +97,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
   scrollChanged = new EventEmitter<Event>();
 
   /**
-   * Displayed spots
-   */
-  spots: Api.Spot[];
-
-  /**
-   * Displayed spots sub
-   */
-  spotSub: Subscription;
-
-  /**
    * Carousel options
    */
   carousel: NguCarousel = {
@@ -137,10 +127,16 @@ export class OverviewComponent implements OnInit, OnDestroy {
     return this.spotForm.dirty;
   }
 
+  /**
+   * Location form part
+   */
   get location(): FormGroup {
     return this.spotForm.get('location') as FormGroup;
   }
 
+  /**
+   * Media form part
+   */
   get media(): FormGroup {
     return this.spotForm.get('media') as FormGroup;
   }
@@ -196,20 +192,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.spotSub = this.spotsService.spots
-      .pipe(
-        tap(spots => {
-          console.log(spots);
-          this.spots = spots;
-          this.changeDetector.markForCheck();
-        })
-      )
-      .subscribe(console.log);
   }
 
   ngOnDestroy(): void {
-    this.spotSub.unsubscribe();
     this.fillSpotFormSub.unsubscribe();
   }
 
