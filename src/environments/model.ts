@@ -7,6 +7,7 @@ export interface Environment {
   showDevModule: boolean;
   googleApiKey: string;
   ravenDNS: string;
+
   firebase: {
     apiKey: string;
     authDomain: string;
@@ -15,5 +16,8 @@ export interface Environment {
     storageBucket: string;
     messagingSenderId: string;
   };
+
+  VAPID_PUBLIC_KEY: string;
+
   decorateModuleRef(modRef: NgModuleRef<any>): NgModuleRef<any>;
 }

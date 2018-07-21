@@ -27,4 +27,6 @@ export const environment: Environment = {
     storageBucket: 'gs://spotted-1528021262358',
     messagingSenderId: '530601209274',
   },
+  VAPID_PUBLIC_KEY:
+    'BLcqVGsbH6LzE72O1YeF28qfy2w7q_3aGlha87mIkZsFHr6khJQSEJ4U_SjEFWG7XHtFOY0gg6jRM1qLMH5NgTA',
 };
