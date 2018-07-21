@@ -6,6 +6,10 @@
     "start": "ng serve --configuration hmr",
     "build": "ng build",
     "build:prod": "ng build --aot --prod --build-optimizer --vendor-chunk",
+    "ngsw-config": "node_modules/.bin/ngsw-config dist ngsw-config.json",
+    "ngsw-copy": "cp node_modules/@angular/service-worker/ngsw-worker.js dist/spotted/",
+    "build-prod-ngsw": "npm run build:prod && npm run ngsw-config && npm run ngsw-copy",
+    "serve-prod-ngsw": "npm run build-prod-ngsw && http-server dist/spotted -p 8080",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

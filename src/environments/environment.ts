@@ -11,8 +11,7 @@ export const environment: Environment = {
    * https://github.com/angular/angular/blob/86405345b781a9dc2438c0fbe3e9409245647019/TOOLS_JS.md
    * @param modRef
    * @return {any}
-   */
-  decorateModuleRef(modRef: NgModuleRef<any>): any {
+   */ decorateModuleRef(modRef: NgModuleRef<any>): any {
     const appRef = modRef.injector.get(ApplicationRef);
     const cmpRef = appRef.components[0];
 
@@ -34,4 +33,6 @@ export const environment: Environment = {
     storageBucket: 'gs://spotted-1528021262358',
     messagingSenderId: '530601209274',
   },
+  VAPID_PUBLIC_KEY:
+    'BLcqVGsbH6LzE72O1YeF28qfy2w7q_3aGlha87mIkZsFHr6khJQSEJ4U_SjEFWG7XHtFOY0gg6jRM1qLMH5NgTA',
 };

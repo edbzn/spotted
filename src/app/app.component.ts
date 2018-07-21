@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   ViewEncapsulation,
   OnInit,
+  Inject,
 } from '@angular/core';
 import { environment } from '../environments/environment';
 import {
@@ -19,6 +20,9 @@ import { ProgressBarService } from './core/services/progress-bar.service';
 import { Language } from '../types/global';
 import { Title, Meta } from '@angular/platform-browser';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { SwUpdate } from '@angular/service-worker';
+import { WINDOW } from './core/services/window.service';
+import { PushService } from './core/services/push.service';
 
 declare const Modernizr;
 
@@ -41,6 +45,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     private snackBar: MatSnackBar,
     private title: Title,
     private meta: Meta,
+    private swUpdate: SwUpdate,
+    @Inject(WINDOW) private window: Window,
+    private pushService: PushService,
     public auth: AngularFireAuth
   ) {}
 
@@ -54,6 +61,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.translate.use(
       browserLang.match(/en|fr/) ? browserLang : appConfiguration.defaultLang
     );
+
+    this.pushService.subscribeToPush();
+    this.pushService.checkForUpdate();
   }
 
   ngAfterViewInit() {
@@ -110,5 +120,24 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     return supported;
+  }
+
+  private handleVersionUpdate(): void {
+    this.swUpdate.available.subscribe(event => {
+      console.log(
+        '[App] Update available: current version is',
+        event.current,
+        'available version is',
+        event.available
+      );
+      const snackBarRef = this.snackBar.open(
+        'Newer version of the app is available',
+        'Refresh'
+      );
+
+      snackBarRef.onAction().subscribe(() => {
+        this.window.location.reload();
+      });
+    });
   }
 }
