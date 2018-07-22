@@ -85,7 +85,11 @@ export class SpotComponent implements OnInit {
     });
   }
 
-  isAlreadyLiked(user: User): boolean {
+  disableLike(user: User): boolean {
+    if (null === user) {
+      return true;
+    }
+
     return this.spot.likes.byUsers.includes(user.uid.toString());
   }
 }
