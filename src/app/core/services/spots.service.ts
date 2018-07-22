@@ -1,11 +1,12 @@
 import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  DocumentSnapshot,
 } from 'angularfire2/firestore';
-import { tap, delay } from 'rxjs/internal/operators';
+import { tap, delay, take, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 
 @Injectable({ providedIn: 'root' })
@@ -35,6 +36,25 @@ export class SpotsService {
         tap(() => this.progressBar.decrease())
       )
       .subscribe();
+  }
+
+  /**
+   * Get a document
+   */
+  public get(id: string) {
+    // const doc = await this.spotsCollection.doc(id).ref.get();
+    return this.spotsCollection.valueChanges().pipe(
+      map(spots => {
+        console.log(spots);
+        return spots.filter(spot => spot.id === id)[0];
+      }),
+      take(1)
+    );
+    // if (doc.exists) {
+    //   return doc.data() as Api.Spot;
+    // }
+
+    // throw new Error('doc with id ' + id + ' does not exists');
   }
 
   /**
