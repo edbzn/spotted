@@ -24,7 +24,9 @@ export class DetailComponent implements AfterViewInit {
   ngAfterViewInit() {
     // get spot data from router param
     this.route.params.subscribe(params => {
-      this.spotsService.get(params.id).subscribe(spot => (this.spot = spot));
+      this.spotsService.get(params.id).then(spot => {
+        this.spot = spot.data() as Api.Spot;
+      });
     });
   }
 }

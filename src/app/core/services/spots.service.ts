@@ -5,9 +5,16 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
   DocumentSnapshot,
+  AngularFirestoreDocument,
 } from 'angularfire2/firestore';
 import { tap, delay, take, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
+import { User } from 'firebase';
+
+type DocPredicate<T> =
+  | string
+  | AngularFirestoreDocument<T>
+  | AngularFirestoreCollection<T>;
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
@@ -26,7 +33,14 @@ export class SpotsService {
     private progressBar: ProgressBarService
   ) {
     this.spotsCollection = db.collection<Api.Spot>('spots');
-    this.spots = this.spotsCollection.valueChanges();
+    this.spots = this.spotsCollection.snapshotChanges().pipe(
+      map(spots =>
+        spots.map(spot => ({
+          ...spot.payload.doc.data(),
+          id: spot.payload.doc.id,
+        }))
+      )
+    );
 
     this.spotsCollection
       .stateChanges()
@@ -41,40 +55,49 @@ export class SpotsService {
   /**
    * Get a document
    */
-  public get(id: string) {
-    // const doc = await this.spotsCollection.doc(id).ref.get();
-    return this.spotsCollection.valueChanges().pipe(
-      map(spots => {
-        console.log(spots);
-        return spots.filter(spot => spot.id === id)[0];
-      }),
-      take(1)
-    );
-    // if (doc.exists) {
-    //   return doc.data() as Api.Spot;
-    // }
-
-    // throw new Error('doc with id ' + id + ' does not exists');
+  public async get(id: string) {
+    return this.spotsCollection.doc(id).ref.get();
   }
 
   /**
    * Add a Spot
    */
-  public add(spot: Api.Spot): void {
-    this.spotsCollection.add({ ...spot, id: this.db.createId() });
+  public async add(spot: Api.Spot) {
+    return this.spotsCollection.add({ ...spot });
   }
 
   /**
    * Update a Spot
    */
-  public update(id: string, spot: Api.Spot): void {
-    this.spotsCollection.doc(id).update(spot);
+  public async update(ref: string, spot: Api.Spot) {
+    return this.spotsCollection.doc(ref).update(spot);
   }
 
   /**
    * Delete a Spot
    */
-  public delete(id: string): void {
-    this.spotsCollection.doc(id).delete();
+  public async delete(ref: string) {
+    return this.spotsCollection.doc(ref).delete();
+  }
+
+  /**
+   * Like a spot
+   */
+  public async like(ref: string, spot: Api.Spot, user: User) {
+    const likes = { ...spot.likes };
+
+    if (likes.byUsers.includes(user.uid.toString())) {
+      return;
+    }
+
+    ++likes.count;
+    likes.byUsers.push(user.uid.toString());
+
+    const likedSpot: Api.Spot = {
+      ...spot,
+      likes,
+    };
+
+    return this.update(ref, likedSpot);
   }
 }
