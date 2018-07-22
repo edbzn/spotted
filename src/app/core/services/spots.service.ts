@@ -11,11 +11,6 @@ import { tap, delay, take, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 import { User } from 'firebase';
 
-type DocPredicate<T> =
-  | string
-  | AngularFirestoreDocument<T>
-  | AngularFirestoreCollection<T>;
-
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
   /**
