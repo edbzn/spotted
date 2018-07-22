@@ -32,8 +32,13 @@
     <p>{{ spot.description }}</p>
   </mat-card-content>
   <mat-card-actions *ngIf="withActions">
-    <button mat-button
-      disabled>Like</button>
+    <button mat-raised-button
+      [disabled]="isAlreadyLiked(auth.user | async)"
+      (click)="like()"
+      color="accent">
+      <mat-icon>favorite</mat-icon>
+      {{ spot.likes.count }}
+    </button>
     <a mat-button
       [routerLink]="['/spots/' + spot.id + '/detail']">
       Detail

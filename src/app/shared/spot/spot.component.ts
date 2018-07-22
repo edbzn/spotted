@@ -1,3 +1,4 @@
+import { SpotsService } from './../../core/services/spots.service';
 import {
   Component,
   OnInit,
@@ -9,6 +10,8 @@ import {
 import { Api } from '../../../types/api';
 import { NguCarousel } from '@ngu/carousel';
 import { DeviceDetectorService } from '../../core/services/device-detector.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { User } from '@firebase/auth-types';
 
 @Component({
   selector: 'spt-spot',
@@ -49,7 +52,16 @@ export class SpotComponent implements OnInit {
     custom: 'banner',
   };
 
-  constructor(private deviceDetector: DeviceDetectorService) {}
+  /**
+   * Pending request
+   */
+  loading: boolean;
+
+  constructor(
+    private deviceDetector: DeviceDetectorService,
+    private spotService: SpotsService,
+    public auth: AngularFireAuth
+  ) {}
 
   ngOnInit() {}
 
@@ -59,5 +71,21 @@ export class SpotComponent implements OnInit {
     }
 
     this.locate.emit(spot);
+  }
+
+  async like() {
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
+    this.auth.user.subscribe(async user => {
+      await this.spotService.like(this.spot.id, this.spot, user);
+      this.loading = false;
+    });
+  }
+
+  isAlreadyLiked(user: User): boolean {
+    return this.spot.likes.byUsers.includes(user.uid.toString());
   }
 }

@@ -160,6 +160,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
       difficulty: ['', Validators.required],
       type: ['', Validators.required],
       disciplines: [[], Validators.required],
+      likes: {
+        count: 0,
+        byUsers: [],
+      },
       location: this.fb.group({
         address: ['', Validators.required],
         placeId: [''],

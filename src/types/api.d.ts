@@ -8,6 +8,10 @@ export declare namespace Api {
     disciplines: Array<Disciplines>;
     location: Location;
     indoor: boolean;
+    likes: {
+      count: number;
+      byUsers: string[];
+    };
     media: {
       pictures: Array<string>;
       videos: Array<string>;
