@@ -12,17 +12,19 @@ export class ExceptionHandler implements ErrorHandler {
       environment.production === true ? 'production' : 'development'
     );
 
-    auth.user
-      .pipe(
-        filter(user => !!user),
-        take(1)
-      )
-      .subscribe(user => {
-        raven.setUserContext({
-          email: user.email,
-          id: user.uid,
+    if (auth.user) {
+      auth.user
+        .pipe(
+          filter(user => !!user),
+          take(1)
+        )
+        .subscribe(user => {
+          raven.setUserContext({
+            email: user.email,
+            id: user.uid,
+          });
         });
-      });
+    }
   }
 
   handleError(err: any): void {
