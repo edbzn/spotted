@@ -86,42 +86,42 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       // @todo translate
 
-      this.snackBar.open('Veuillez remplir correctement le formulaire.');
+      this.snackBar.open('Veuillez remplir correctement le formulaire.', 'ok');
       return;
     }
 
     // @todo translate
-    this.snackBar.open('Connection');
-
-    from(
-      this.auth.auth.createUserWithEmailAndPassword(
-        this.email.value,
-        this.password.value
-      )
-    )
-      .pipe(
-        mergeMapTo(this.auth.user),
-        mergeMap(user =>
-          from(
-            user.updateProfile({
-              displayName: this.name.value,
-              photoURL: appConfiguration.defaultPhotoUrl,
-            })
+    this.snackBar.open('Connection', 'ok');
+    this.auth.auth
+      .createUserWithEmailAndPassword(this.email.value, this.password.value)
+      .then(() => {
+        this.auth.user
+          .pipe(
+            mergeMap(user =>
+              user.updateProfile({
+                displayName: this.name.value,
+                photoURL: appConfiguration.defaultPhotoUrl,
+              })
+            )
           )
-        )
-      )
-      .subscribe(
-        () => {
-          this.translate.get(['connected']).subscribe(texts => {
-            this.snackBar.open(texts.connected, 'ok');
-            this.router.navigate(['/']);
-          });
-        },
-        () => {
-          this.translate.get(['user.error']).subscribe(texts => {
-            this.snackBar.open(texts['user.error']);
-          });
-        }
-      );
+          .subscribe(
+            _ => {
+              this.translate.get(['connected']).subscribe(texts => {
+                this.snackBar.open(texts.connected, 'ok');
+                this.router.navigateByUrl('/');
+              });
+            },
+            _ => {
+              this.translate.get(['user.error']).subscribe(texts => {
+                this.snackBar.open(texts['user.error']);
+              });
+            }
+          );
+      })
+      .catch(_ => {
+        this.translate.get(['user.error']).subscribe(texts => {
+          this.snackBar.open(texts['user.error']);
+        });
+      });
   }
 }

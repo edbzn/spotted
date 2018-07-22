@@ -101,11 +101,14 @@ export class ProfileComponent implements OnInit {
               displayName: this.name.value,
             })
           )
-        ),
-        mergeMapTo(this.translate.get(['user.profileChangedSuccess']))
+        )
       )
-      .subscribe(texts => {
-        this.snackBar.open(texts['user.profileChangedSuccess'], 'OK');
+      .subscribe(_ => {
+        this.translate
+          .get(['user.profileChangedSuccess'])
+          .subscribe(texts =>
+            this.snackBar.open(texts['user.profileChangedSuccess'], 'OK')
+          );
       });
   }
 
@@ -118,11 +121,14 @@ export class ProfileComponent implements OnInit {
       .pipe(
         mergeMap(user =>
           from(user.updatePassword(this.password.value as string))
-        ),
-        mergeMapTo(this.translate.get(['user.passwordChangedSuccess']))
+        )
       )
-      .subscribe(texts => {
-        this.snackBar.open(texts['user.passwordChangedSuccess'], 'OK');
+      .subscribe(_ => {
+        this.translate
+          .get(['user.passwordChangedSuccess'])
+          .subscribe(texts =>
+            this.snackBar.open(texts['user.passwordChangedSuccess'], 'OK')
+          );
       });
   }
 }
