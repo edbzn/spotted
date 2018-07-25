@@ -95,4 +95,15 @@ export class SpotsService {
 
     return this.update(ref, likedSpot);
   }
+
+  /**
+   * Check if spot is likable
+   */
+  public likable(spot: Api.Spot, user: User): boolean {
+    if (null === user) {
+      return true;
+    }
+
+    return spot.likes.byUsers.includes(user.uid.toString());
+  }
 }

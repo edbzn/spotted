@@ -25,7 +25,7 @@
 
     .leaflet-popup-content-wrapper {
       padding: 6px;
-      background-color: #1f1f1fe0;
+      background-color: rgba(31, 31, 31, 0.85);
       box-shadow: none;
       color: #fff;
       border-radius: 4px;
@@ -44,7 +44,7 @@
     }
 
     .leaflet-popup-tip-container > div {
-      background-color: #1f1f1fe0;
+      background-color: rgba(31, 31, 31, 0.85);
       box-shadow: none;
       width: 18px;
       height: 18px;

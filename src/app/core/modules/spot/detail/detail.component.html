@@ -6,6 +6,23 @@
   fxLayoutAlign="center top"
   class="wrapper">
 
+  <mat-card *ngIf="spot"
+    class="card">
+    <mat-card-title>Avis</mat-card-title>
+    <mat-card-subtitle>
+      Partagez vos impressions
+    </mat-card-subtitle>
+    <mat-card-content>
+      <button mat-raised-button
+        [disabled]="spotsService.likable(spot, auth?.user | async)"
+        (click)="like()"
+        color="accent">
+        <mat-icon>favorite</mat-icon>
+        {{ spot.likes.count }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card class="card"
     *ngIf="spot">
     <mat-card-title>

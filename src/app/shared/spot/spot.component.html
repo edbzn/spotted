@@ -33,7 +33,7 @@
   </mat-card-content>
   <mat-card-actions *ngIf="withActions">
     <button mat-raised-button
-      [disabled]="disableLike(auth?.user | async)"
+      [disabled]="spotsService.likable(spot, auth?.user | async)"
       (click)="like()"
       color="accent">
       <mat-icon>favorite</mat-icon>
