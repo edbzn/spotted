@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { fadeAnimation } from '../../../../shared/router-animation';
 import { SpotsService } from '../../../services/spots.service';
-import { map, mergeMap, flatMap } from 'rxjs/internal/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from 'src/types/api';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'spt-detail',
@@ -18,6 +18,7 @@ export class DetailComponent implements AfterViewInit {
 
   constructor(
     public spotsService: SpotsService,
+    public auth: AngularFireAuth,
     private route: ActivatedRoute
   ) {}
 
