@@ -59,7 +59,7 @@ export class SpotComponent implements OnInit {
 
   constructor(
     private deviceDetector: DeviceDetectorService,
-    public spotService: SpotsService,
+    public spotsService: SpotsService,
     public auth: AngularFireAuth
   ) {}
 
@@ -80,7 +80,7 @@ export class SpotComponent implements OnInit {
 
     this.loading = true;
     this.auth.user.subscribe(async user => {
-      await this.spotService.like(this.spot.id, this.spot, user);
+      await this.spotsService.like(this.spot.id, this.spot, user);
       this.loading = false;
     });
   }
