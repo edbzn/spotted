@@ -79,12 +79,11 @@ export class SpotsService {
    * Like a spot
    */
   public async like(ref: string, spot: Api.Spot, user: User) {
-    const likes = { ...spot.likes };
-
-    if (likes.byUsers.includes(user.uid.toString())) {
+    if (!this.likable(spot, user)) {
       return;
     }
 
+    const { likes } = spot;
     ++likes.count;
     likes.byUsers.push(user.uid.toString());
 
@@ -101,9 +100,10 @@ export class SpotsService {
    */
   public likable(spot: Api.Spot, user: User): boolean {
     if (null === user) {
-      return true;
+      return false;
     }
+    const { byUsers } = spot.likes;
 
-    return spot.likes.byUsers.includes(user.uid.toString());
+    return !byUsers.includes(user.uid.toString());
   }
 }
