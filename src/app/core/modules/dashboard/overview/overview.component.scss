@@ -1,6 +1,5 @@
 :host {
   display: block;
-  height: 100%;
 }
 
 .group {
@@ -93,7 +92,6 @@
 }
 
 .scrollable {
-  overflow-y: auto;
   height: calc(100vh - 118px);
 }
 
