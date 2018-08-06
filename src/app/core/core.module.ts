@@ -1,3 +1,4 @@
+import { DbSeed } from './services/db-seed.service';
 import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { throwIfAlreadyLoaded } from '../module-import-guard';
@@ -48,6 +49,7 @@ import { ExceptionHandler } from './services/exception.handler.service';
   providers: [
     WINDOW_PROVIDERS,
     AuthGuard,
+    DbSeed,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
@@ -62,8 +64,10 @@ export class CoreModule {
   constructor(
     @Optional()
     @SkipSelf()
-    parentModule: CoreModule
+    parentModule: CoreModule,
+    dbSeed: DbSeed
   ) {
+    dbSeed.seed();
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 }
