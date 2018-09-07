@@ -3,7 +3,6 @@ import { SharedModule } from '../shared/shared.module';
 import { throwIfAlreadyLoaded } from '../module-import-guard';
 import { WINDOW_PROVIDERS } from './services/window.service';
 import { ProgressBarService } from './services/progress-bar.service';
-import { AuthGuard } from '../authentication/auth-guard.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ProgressInterceptor } from '../shared/progress.interceptor';
 import { TimingInterceptor } from '../shared/timing.interceptor';
@@ -46,7 +45,6 @@ import { ExceptionHandler } from './services/exception.handler.service';
   declarations: [DashboardComponent, OverviewComponent],
   providers: [
     WINDOW_PROVIDERS,
-    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ProgressInterceptor,
