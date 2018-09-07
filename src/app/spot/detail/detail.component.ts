@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { fadeAnimation } from '../../../../shared/router-animation';
-import { SpotsService } from '../../../services/spots.service';
+import { fadeAnimation } from '../../shared/router-animation';
+import { SpotsService } from '../../core/services/spots.service';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from 'src/types/api';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -20,7 +20,7 @@ export class DetailComponent implements AfterViewInit {
     public spotsService: SpotsService,
     public auth: AngularFireAuth,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     // get spot data from router param

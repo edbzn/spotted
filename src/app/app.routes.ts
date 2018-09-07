@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './core/modules/dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -7,12 +7,12 @@ export const routes: Routes = [
   {
     path: 'user',
     loadChildren:
-      './core/modules/authentication/authentication.module#AuthenticationModule',
+      './authentication/authentication.module#AuthenticationModule',
   },
-  { path: 'spots', loadChildren: './core/modules/spot/spot.module#SpotModule' },
+  { path: 'spots', loadChildren: './spot/spot.module#SpotModule' },
   {
     path: 'not-found',
-    loadChildren: './core/modules/not-found/not-found.module#NotFoundModule',
+    loadChildren: './not-found/not-found.module#NotFoundModule',
   },
   { path: '**', redirectTo: 'not-found' },
 ];

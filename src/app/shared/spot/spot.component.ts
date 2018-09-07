@@ -11,7 +11,6 @@ import { Api } from '../../../types/api';
 import { NguCarousel } from '@ngu/carousel';
 import { DeviceDetectorService } from '../../core/services/device-detector.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from '@firebase/auth-types';
 
 @Component({
   selector: 'spt-spot',
@@ -61,9 +60,9 @@ export class SpotComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
     public spotsService: SpotsService,
     public auth: AngularFireAuth
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onCarouselMove(spot: Api.Spot): void {
     if (this.deviceDetector.detectMobile()) {
