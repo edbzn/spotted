@@ -26,7 +26,7 @@ RUN npm run build:prod
 
 # Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
 
-FROM nginx:1.13.9-alpine
+FROM nginx:1.15.2-alpine
 
 COPY ./config/nginx-custom.conf /etc/nginx/conf.d/default.conf
 
