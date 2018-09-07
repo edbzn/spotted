@@ -1,13 +1,11 @@
 import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  DocumentSnapshot,
-  AngularFirestoreDocument,
 } from 'angularfire2/firestore';
-import { tap, delay, take, map } from 'rxjs/internal/operators';
+import { tap, delay, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 import { User } from 'firebase';
 

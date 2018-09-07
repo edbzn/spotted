@@ -8,12 +8,11 @@ import {
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { from } from 'rxjs';
-import { mergeMapTo, mergeMap } from 'rxjs/internal/operators';
+import { mergeMap } from 'rxjs/internal/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { appConfiguration } from '../../../../app-config';
-import { PasswordValidation } from '../../../../shared/match-password.validator';
-import { fadeAnimation } from '../../../../shared/router-animation';
+import { appConfiguration } from '../../app-config';
+import { PasswordValidation } from '../../shared/match-password.validator';
+import { fadeAnimation } from '../../shared/router-animation';
 
 @Component({
   selector: 'spt-register',
@@ -50,7 +49,7 @@ export class RegisterComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(

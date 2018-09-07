@@ -9,8 +9,8 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TranslateService } from '@ngx-translate/core';
-import { appConfiguration } from '../../../../app-config';
-import { fadeAnimation } from '../../../../shared/router-animation';
+import { appConfiguration } from '../../app-config';
+import { fadeAnimation } from '../../shared/router-animation';
 
 @Component({
   selector: 'spt-login',
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({

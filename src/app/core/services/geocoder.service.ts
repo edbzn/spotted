@@ -1,8 +1,7 @@
 import { ProgressBarService } from './progress-bar.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { LatLng } from 'leaflet';
-import {} from 'googlemaps';
+import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
 
 type GeoResult = google.maps.GeocoderResult;
@@ -12,7 +11,7 @@ export class GeocoderService {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private progress: ProgressBarService
-  ) {}
+  ) { }
 
   public async search(query: LatLng): Promise<GeoResult[]> {
     this.progress.increase();

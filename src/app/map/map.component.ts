@@ -25,12 +25,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { WINDOW } from '../../services/window.service';
+import { WINDOW } from '../core/services/window.service';
 import { tap } from 'rxjs/internal/operators';
-import { SpotsService } from '../../services/spots.service';
+import { SpotsService } from '../core/services/spots.service';
 import { Api } from 'src/types/api';
 import { Subscription } from 'rxjs';
-import { appConfiguration } from '../../../app-config';
+import { appConfiguration } from '../app-config';
 
 @Component({
   selector: 'spt-map',
@@ -186,7 +186,7 @@ export class MapComponent implements OnInit, OnDestroy {
     @Inject(WINDOW) private window: Window,
     private spotsService: SpotsService,
     private changeDetector: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.tryBrowserGeoLocalization();

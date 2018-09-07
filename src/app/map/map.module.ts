@@ -1,14 +1,15 @@
+import { MapComponent } from './map.component';
 import { NgModule } from '@angular/core';
-import { NotFoundRoutingModule } from './not-found-routing.module';
+import { SharedModule } from '../shared/shared.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { SharedModule } from '../../../shared/shared.module';
+import { HttpLoaderFactory } from 'src/app/app.translate.factory';
 import { HttpClient } from '@angular/common/http';
-import { HttpLoaderFactory } from '../../../app.translate.factory';
-import { NotFoundComponent } from './not-found.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   imports: [
     SharedModule,
+    LeafletModule.forRoot(),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -17,9 +18,8 @@ import { NotFoundComponent } from './not-found.component';
       },
       isolate: false,
     }),
-    NotFoundRoutingModule,
   ],
-  declarations: [NotFoundComponent],
-  bootstrap: [NotFoundComponent],
+  declarations: [MapComponent],
+  exports: [MapComponent],
 })
-export class NotFoundModule {}
+export class MapModule { }
