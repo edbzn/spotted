@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Api } from '../../../types/api';
-import { NguCarousel } from '@ngu/carousel';
+import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
 import { DeviceDetectorService } from '../../core/services/device-detector.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -37,11 +37,10 @@ export class SpotComponent implements OnInit {
   /**
    * Carousel options
    */
-  carousel: NguCarousel = {
+  carousel: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
     slide: 1,
     speed: 400,
-    interval: 4000,
     point: {
       visible: false,
     },
@@ -60,9 +59,9 @@ export class SpotComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
     public spotsService: SpotsService,
     public auth: AngularFireAuth
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   onCarouselMove(spot: Api.Spot): void {
     if (this.deviceDetector.detectMobile()) {
