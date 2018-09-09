@@ -148,7 +148,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     public spotsService: SpotsService,
     public upload: UploadService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.spotForm = this.fb.group({
@@ -229,19 +229,27 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   async onFileAdded(event: any) {
-    if (event && event.target.files) {
-      await this.upload.file(event.target.files[0]);
+    if (
+      !event ||
+      !event.target.files ||
+      !(event.target.files instanceof FileList)
+    ) {
+      return;
+    }
 
-      this.upload.downloadURL.subscribe(url => {
+    await this.upload.files(event.target.files);
+
+    this.upload.downloadURLs.forEach(downloadURL => {
+      downloadURL.subscribe(url => {
         this.pictures.push(url);
         this.media.get('pictures').patchValue(this.pictures);
         this.changeDetector.detectChanges();
       });
+    });
 
-      this.translateService.get(['pictureUploaded']).subscribe(texts => {
-        this.snackBar.open(texts.pictureUploaded, 'OK');
-      });
-    }
+    this.translateService.get(['pictureUploaded']).subscribe(texts => {
+      this.snackBar.open(texts.pictureUploaded, 'OK');
+    });
   }
 
   locate(spot: Api.Spot) {
