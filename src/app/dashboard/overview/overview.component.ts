@@ -25,7 +25,7 @@ import {
 } from 'rxjs/internal/operators';
 import { appConfiguration } from '../../app-config';
 import { TranslateService } from '@ngx-translate/core';
-import { NguCarousel } from '@ngu/carousel';
+import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
 
 @Component({
   selector: 'spt-overview',
@@ -97,11 +97,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
   /**
    * Carousel options
    */
-  carousel: NguCarousel = {
+  carousel: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
     slide: 1,
     speed: 400,
-    interval: 4000,
     point: {
       visible: false,
     },
