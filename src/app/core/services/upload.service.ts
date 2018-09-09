@@ -10,21 +10,22 @@ import { MatSnackBar } from '@angular/material';
 export class UploadService {
   private path = 'medias/';
 
-  public uploadPercent: Observable<number>;
-
   public downloadURLs: Observable<string>[];
 
   constructor(
     private storage: AngularFireStorage,
-    private progress: ProgressBarService,
-    private snackBar: MatSnackBar
+    private progress: ProgressBarService
   ) {}
 
-  public file(file: File, prefix?: string): Promise<any> {
+  public file(file: File, prefix?: string, clearURLs = false): Promise<any> {
     const imageType = /^image\//;
 
     if (!imageType.test(file.type)) {
-      throw new Error('Only images could be');
+      throw new Error('Only images could be uploaded');
+    }
+
+    if (clearURLs) {
+      this.downloadURLs = [];
     }
 
     this.progress.increase();
@@ -34,7 +35,6 @@ export class UploadService {
     const fileRef = this.storage.ref(filePath);
     const task = fileRef.put(file);
 
-    this.uploadPercent = task.percentageChanges();
     task
       .snapshotChanges()
       .pipe(finalize(() => this.downloadURLs.push(fileRef.getDownloadURL())))
