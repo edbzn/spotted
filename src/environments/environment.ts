@@ -30,7 +30,7 @@ export const environment: Environment = {
     authDomain: 'spotted-1528021262358.firebaseapp.com',
     databaseURL: 'https://spotted-1528021262358.firebaseio.com',
     projectId: 'spotted-1528021262358',
-    storageBucket: 'gs://spotted-1528021262358',
+    storageBucket: 'gs://spotted-1528021262358-rmuk0',
     messagingSenderId: '530601209274',
   },
   VAPID_PUBLIC_KEY:
