@@ -12,7 +12,7 @@ export class UploadService {
 
   public uploadPercent: Observable<number>;
 
-  public downloadURL: Observable<string>;
+  public downloadURLs: Observable<string>[];
 
   constructor(
     private storage: AngularFireStorage,
@@ -20,7 +20,13 @@ export class UploadService {
     private snackBar: MatSnackBar
   ) {}
 
-  public file(file: File, prefix?: string) {
+  public file(file: File, prefix?: string): Promise<any> {
+    const imageType = /^image\//;
+
+    if (!imageType.test(file.type)) {
+      throw new Error('Only images could be');
+    }
+
     this.progress.increase();
 
     const hash = new Date().getTime();
@@ -31,10 +37,22 @@ export class UploadService {
     this.uploadPercent = task.percentageChanges();
     task
       .snapshotChanges()
-      .pipe(finalize(() => (this.downloadURL = fileRef.getDownloadURL())))
+      .pipe(finalize(() => this.downloadURLs.push(fileRef.getDownloadURL())))
       .subscribe(() => {}, () => {}, () => this.progress.decrease());
 
     return task.then();
+  }
+
+  public async files(files: FileList, prefix?: string): Promise<any[]> {
+    this.downloadURLs = [];
+    const filesToUpload: File[] = [];
+
+    for (let index = 0; index < files.length; index++) {
+      const file = files.item(index);
+      filesToUpload.push(file);
+    }
+
+    return Promise.all(filesToUpload.map(file => this.file(file, prefix)));
   }
 
   public get(path: string): Observable<string> {
