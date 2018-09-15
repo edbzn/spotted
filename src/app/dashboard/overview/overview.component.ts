@@ -69,12 +69,14 @@ export class OverviewComponent implements OnInit, OnDestroy {
   /**
    * Emit the newly created spot to remove helper marker on the map
    */
-  @Output() removeHelpMarker: EventEmitter<void> = new EventEmitter<void>();
+  @Output()
+  removeHelpMarker: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * Point to the given LatLng on the map
    */
-  @Output() flyTo: EventEmitter<LatLng> = new EventEmitter<LatLng>();
+  @Output()
+  flyTo: EventEmitter<LatLng> = new EventEmitter<LatLng>();
 
   /**
    * Uploaded pictures
@@ -207,17 +209,20 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }
 
     const { value } = this.spotForm;
-    const spot: Api.Spot = { id: 1, ...value }; // <- temporary id overwritten in SpotService
-    this.spotsService.add(spot);
-    this.removeHelpMarker.emit();
-    this.reset();
+    const spot: Api.Spot = value;
 
-    this.translateService.get(['spotCreated']).subscribe(texts => {
-      this.snackBar.open(texts.spotCreated, 'OK');
+    this.spotsService.add(spot).then(() => {
+      this.reset();
+      this.setTabIndexTo(0);
+      this.removeHelpMarker.emit();
+
+      this.translateService.get(['spotCreated']).subscribe(texts => {
+        this.snackBar.open(texts.spotCreated, 'OK');
+      });
     });
   }
 
-  trackByFn(i: number, spot: Api.Spot): string {
+  trackByFn(_i: number, spot: Api.Spot): string {
     return spot.id;
   }
 

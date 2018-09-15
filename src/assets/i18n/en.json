@@ -1,6 +1,5 @@
 {
-  "updateBrowser":
-    "Oops, your browser is too old to navigate this page. Please upgrade.",
+  "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
   "hello": "Hello",
   "pictureUploaded": "Picture uploaded!",
   "spotCreated": "Your spot is now visible by every one!",
@@ -30,6 +29,7 @@
   "connected": "You're now connected",
   "register": "register",
   "overview": {
+    "withoutPreview": "Fill the form correctly to visualize your spot.",
     "spotsAround": "Around me",
     "addSpot": "Add a new spot",
     "help": "Right click the map to automatically fill the location",
@@ -55,7 +55,9 @@
       "type": "type",
       "uploadPlaceholder": "Please add at least one picture",
       "submit": "Add this spot",
-      "reset": "Reset"
+      "reset": "Reset",
+      "back": "Back",
+      "next": "Next"
     }
   }
 }

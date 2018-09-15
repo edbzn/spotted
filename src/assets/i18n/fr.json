@@ -1,6 +1,5 @@
 {
-  "updateBrowser":
-    "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
+  "updateBrowser": "Oops, votre navigateur n'est pas compatible avec cette page. Veuillez le mettre à jour.",
   "pictureUploaded": "Photo téléchargée!",
   "spotCreated": "Ton spot est maintenant visible pour tout le monde!",
   "hello": "Bonjour",
@@ -30,6 +29,7 @@
     "passwordChangedSuccess": "Votre mot de passe a été mis à jour"
   },
   "overview": {
+    "withoutPreview": "Remplis le formulaire correctement pour voir ton spot.",
     "spotsAround": "Aux alentours",
     "addSpot": "Ajouter un spot",
     "help": "Clic droit sur la carte pour remplir automatiquement la position",
@@ -55,7 +55,9 @@
       "type": "type",
       "uploadPlaceholder": "Veuillez télécharger au moins une photo",
       "submit": "Ajouter le spot",
-      "reset": "Effacer"
+      "reset": "Tout effacer",
+      "back": "Précédent",
+      "next": "Suivant"
     }
   }
 }

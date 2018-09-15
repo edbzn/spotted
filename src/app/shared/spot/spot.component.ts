@@ -41,16 +41,16 @@ export class SpotComponent implements OnInit {
    * Carousel options
    */
   carouselConfig: NguCarouselConfig = {
-    grid: { xs: 1, sm: 1, md: 3, lg: 3, all: 0 },
-    slide: 3,
-    speed: 250,
+    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
+    slide: 1,
+    speed: 400,
     point: {
-      visible: true,
+      visible: false,
     },
     load: 2,
-    velocity: 0,
     touch: true,
-    easing: 'cubic-bezier(0, 0, 0.2, 1)',
+    loop: true,
+    custom: 'banner',
   };
 
   /**
