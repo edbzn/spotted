@@ -115,6 +115,11 @@ export class OverviewComponent implements OnInit, OnDestroy {
   };
 
   /**
+   * Status changes used to display last pre visualization step
+   */
+  formStatusChangeSub: Subscription;
+
+  /**
    * Form valid
    */
   get valid(): boolean {
@@ -177,6 +182,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
       }),
     });
 
+    this.formStatusChangeSub = this.spotForm.statusChanges.subscribe(status => {
+      if ('VALID' === status) {
+        this.stepper.selectedIndex = 3;
+      }
+    });
+
     this.fillSpotFormSub = this.fillSpotFormHandler
       .pipe(
         tap(latitudeLongitude => {
@@ -201,6 +212,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.fillSpotFormSub.unsubscribe();
+    this.formStatusChangeSub.unsubscribe();
   }
 
   createSpot(): void {
