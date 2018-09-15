@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   Validators,
   FormGroup,
@@ -11,8 +11,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { from } from 'rxjs';
-import { mergeMap, mergeMapTo, take } from 'rxjs/internal/operators';
+import { mergeMap, mergeMapTo, take, filter } from 'rxjs/internal/operators';
 import { fadeAnimation } from '../../shared/router-animation';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'spt-profile',
@@ -22,7 +23,7 @@ import { fadeAnimation } from '../../shared/router-animation';
   // tslint:disable-next-line:use-host-property-decorator
   host: { '[@fadeAnimation]': '' },
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
   passwordForm: FormGroup;
 
@@ -43,44 +44,55 @@ export class ProfileComponent implements OnInit {
   }
 
   constructor(
+    public auth: AngularFireAuth,
     private fb: FormBuilder,
-    private auth: AngularFireAuth,
     private snackBar: MatSnackBar,
-    private translate: TranslateService
-  ) { }
+    private translate: TranslateService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
-      this.profileForm = this.fb.group({
-        name: [
-          user.displayName,
-          [
-            Validators.required,
-            Validators.minLength(appConfiguration.forms.nameMinLength),
+      if (user) {
+        this.profileForm = this.fb.group({
+          name: [
+            user.displayName,
+            [
+              Validators.required,
+              Validators.minLength(appConfiguration.forms.nameMinLength),
+            ],
           ],
-        ],
-        email: [user.email, [Validators.required, Validators.email]],
-      });
+          email: [user.email, [Validators.required, Validators.email]],
+        });
 
-      this.passwordForm = this.fb.group(
-        {
-          password: [
-            '',
-            [
-              Validators.required,
-              Validators.minLength(appConfiguration.forms.passwordMinLength),
+        this.passwordForm = this.fb.group(
+          {
+            password: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(appConfiguration.forms.passwordMinLength),
+              ],
             ],
-          ],
-          confirmPassword: [
-            '',
-            [
-              Validators.required,
-              Validators.minLength(appConfiguration.forms.passwordMinLength),
+            confirmPassword: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(appConfiguration.forms.passwordMinLength),
+              ],
             ],
-          ],
-        },
-        { validator: PasswordValidation.MatchPassword }
-      );
+          },
+          { validator: PasswordValidation.MatchPassword }
+        );
+      }
+    });
+  }
+
+  ngOnDestroy(): void {}
+
+  logout(): void {
+    this.auth.auth.signOut().then(() => {
+      this.router.navigateByUrl('/');
     });
   }
 
@@ -91,6 +103,7 @@ export class ProfileComponent implements OnInit {
 
     this.auth.user
       .pipe(
+        filter(user => !!user),
         mergeMap(user => from(user.updateEmail(this.email.value as string))),
         mergeMapTo(this.auth.user),
         take(1),
@@ -119,6 +132,7 @@ export class ProfileComponent implements OnInit {
 
     this.auth.user
       .pipe(
+        filter(user => !!user),
         mergeMap(user =>
           from(user.updatePassword(this.password.value as string))
         )

@@ -94,12 +94,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
-  logout(): void {
-    this.auth.auth.signOut().then(() => {
-      this.router.navigateByUrl('/');
-    });
-  }
-
   private checkBrowserFeatures(): boolean {
     let supported = true;
     for (const feature in Modernizr) {
