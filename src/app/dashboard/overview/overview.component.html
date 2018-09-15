@@ -74,6 +74,17 @@
             </mat-step>
             <mat-step [completed]="media.valid">
               <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
+              <mat-card class="mb">
+                <mat-card-content class="help-card">
+                  <mat-icon>photo</mat-icon>
+                  <ng-container *ngIf="pictures.length > 0; else noPictureWarning">
+                    {{ pictures.length }} photo(s) uploaded
+                  </ng-container>
+                  <ng-template #noPictureWarning>
+                    Please, upload at lease one photo
+                  </ng-template>
+                </mat-card-content>
+              </mat-card>
               <ngu-carousel class="mb"
                 [inputs]="carousel"
                 [dataSource]="pictures"
@@ -105,7 +116,7 @@
                 <button (click)="fileInput.click()"
                   type="button"
                   mat-raised-button>
-                  <mat-icon>photo</mat-icon>
+                  <mat-icon>add_to_photos</mat-icon>
                   <span>{{ 'overview.stepper.mediaBtn' | translate }}</span>
                   <input #fileInput
                     accept=".png,.jpg"
