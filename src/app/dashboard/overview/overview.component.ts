@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Inject,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../core/services/spots.service';
@@ -42,6 +43,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   /**
    * Stepper ref
    */
+  @ViewChild('stepper')
   stepper: MatStepper;
 
   /**
@@ -225,6 +227,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   fillSpotForm(latitudeLongitude: LatLng): void {
     this.fillSpotFormHandler.next(latitudeLongitude);
+    this.stepper.selectedIndex = 2;
   }
 
   async onFileAdded(event: any) {
