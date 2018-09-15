@@ -76,9 +76,10 @@
               <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
               <ngu-carousel class="mb"
                 [inputs]="carousel"
+                [dataSource]="pictures"
                 *ngIf="pictures.length > 0; else placeholder">
                 <ngu-tile NguCarouselItem
-                  *ngFor="let picture of pictures"
+                  *nguCarouselDef="let picture; let i = index"
                   [style.backgroundImage]="'url(' + picture + ')'"
                   class="spot-carousel-item upload-carousel-item">
                 </ngu-tile>

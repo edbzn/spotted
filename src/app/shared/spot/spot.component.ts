@@ -22,33 +22,41 @@ export class SpotComponent implements OnInit {
   /**
    * Spot data
    */
-  @Input() spot: Api.Spot;
+  @Input()
+  spot: Api.Spot;
 
   /**
    * Display card actions
    */
-  @Input() withActions = true;
+  @Input()
+  withActions = true;
 
   /**
    * Locate a spot on a map
    */
-  @Output() locate = new EventEmitter<Api.Spot>();
+  @Output()
+  locate = new EventEmitter<Api.Spot>();
 
   /**
    * Carousel options
    */
-  carousel: NguCarouselConfig = {
-    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    slide: 1,
-    speed: 400,
+  carouselConfig: NguCarouselConfig = {
+    grid: { xs: 1, sm: 1, md: 3, lg: 3, all: 0 },
+    slide: 3,
+    speed: 250,
     point: {
-      visible: false,
+      visible: true,
     },
     load: 2,
+    velocity: 0,
     touch: true,
-    loop: true,
-    custom: 'banner',
+    easing: 'cubic-bezier(0, 0, 0.2, 1)',
   };
+
+  /**
+   * Spot pictures url mapping for the carousel
+   */
+  carouselPictures: Array<string> = [];
 
   /**
    * Pending request
@@ -61,7 +69,9 @@ export class SpotComponent implements OnInit {
     public auth: AngularFireAuth
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.spot.media.pictures.forEach(url => this.carouselPictures.push(url));
+  }
 
   onCarouselMove(spot: Api.Spot): void {
     if (this.deviceDetector.detectMobile()) {
@@ -71,7 +81,7 @@ export class SpotComponent implements OnInit {
     this.locate.emit(spot);
   }
 
-  async like() {
+  async like(): Promise<void> {
     if (this.loading) {
       return;
     }

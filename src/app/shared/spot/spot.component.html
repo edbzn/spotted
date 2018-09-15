@@ -6,11 +6,14 @@
   </mat-card-header>
   <div mat-card-image
     *ngIf="spot.media.pictures.length > 0">
-    <ngu-carousel [inputs]="carousel">
-      <ngu-tile NguCarouselItem
-        *ngFor="let picture of spot.media.pictures"
-        [style.backgroundImage]="'url(' + picture + ')'"
-        class="spot-carousel-item">
+    <ngu-carousel [inputs]="carouselConfig"
+      [dataSource]="carouselPictures">
+      <ngu-tile *nguCarouselDef="let picture; let i = index">
+        <div class="spot-carousel-item"
+          [style.background]="'url(' + picture + ')'"
+          style="min-height: 200px">
+          <h1>{{i}}</h1>
+        </div>
       </ngu-tile>
       <button mat-icon-button
         NguCarouselPrev
