@@ -21,10 +21,14 @@
         fxLayoutAlign="start center">
         <mat-icon class="mr-4">explore</mat-icon>
         <span>
-          <a [routerLink]="['/']">home</a> /
-          <a [routerLink]="['/', 'spots']">spots</a> /
-          <a [routerLink]="['/', 'spots', spot.id]">{{ spot.id }}</a> /
-          detail
+          <a mat-button
+            [routerLink]="['/']">dashboard</a> /
+          <button mat-button
+            disabled>spots</button> /
+          <button mat-button
+            disabled>{{ spot.id }}</button> /
+          <button mat-button
+            disabled>detail</button>
         </span>
       </mat-card-content>
     </mat-card>
