@@ -1,4 +1,4 @@
-import { SpotModule } from './spot.module';
+import { SpotModule } from './spot-detail.module';
 
 describe('SpotModule', () => {
   let spotModule: SpotModule;

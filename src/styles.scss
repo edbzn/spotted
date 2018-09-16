@@ -1,29 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import './theme.scss';
-@import './loading.scss';
-@import './reset.scss';
-
-html body {
-  overflow-y: hidden;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-spt-root {
-  display: block;
-  overflow: hidden;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.p0 {
-  padding: 0.8rem 1rem;
-}
-
-.pull-right {
-  margin-left: auto !important;
-}
+@import './styles/theme.scss';
+@import './styles/loading.scss';
+@import './styles/reset.scss';
+@import './styles/global.scss';

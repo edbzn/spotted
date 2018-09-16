@@ -1,3 +1,5 @@
+@import '~src/styles/leaflet.scss';
+
 :host {
   display: block;
   height: 100vh;
@@ -22,8 +24,7 @@
 
 .map {
   height: 30vh;
-  padding-bottom: 0;
-  padding-top: 0;
+  padding: 0;
 }
 
 ::ng-deep {

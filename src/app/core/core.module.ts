@@ -19,12 +19,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.translate.factory';
 import { MapComponent } from './components/map/map.component';
 import { ExceptionHandler } from './services/exception.handler.service';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   imports: [
     SharedModule,
-    LeafletModule.forRoot(),
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,

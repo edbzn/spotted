@@ -1,5 +1,13 @@
 <mat-card class="map">
-  <spt-map mat-card-image></spt-map>
+  <div class="map"
+    leaflet
+    *ngIf="options"
+    [leafletZoom]="zoom"
+    [leafletOptions]="options"
+    [leafletLayers]="layers"
+    [leafletLayersControl]="layersControl"
+    (leafletMapReady)="onMapReady($event)">
+  </div>
 </mat-card>
 
 <div fxLayout="row"

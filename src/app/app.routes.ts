@@ -8,7 +8,10 @@ export const routes: Routes = [
     path: 'user',
     loadChildren: './authentication/authentication.module#AuthenticationModule',
   },
-  { path: 'spots', loadChildren: './spot/spot.module#SpotModule' },
+  {
+    path: 'spots',
+    loadChildren: './spot-detail/spot-detail.module#SpotModule',
+  },
   {
     path: 'not-found',
     loadChildren: './not-found/not-found.module#NotFoundModule',

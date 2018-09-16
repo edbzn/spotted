@@ -1,3 +1,4 @@
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -20,10 +21,10 @@ export const sharedModules = [
 ];
 
 @NgModule({
-  imports: [...sharedModules],
+  imports: [...sharedModules, LeafletModule.forRoot()],
   providers: [],
   declarations: [SpotComponent],
   entryComponents: [],
-  exports: [...sharedModules, SpotComponent],
+  exports: [...sharedModules, SpotComponent, LeafletModule],
 })
-export class SharedModule { }
+export class SharedModule {}
