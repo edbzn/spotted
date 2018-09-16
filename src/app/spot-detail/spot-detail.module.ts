@@ -20,6 +20,5 @@ import { DetailComponent } from './spot-detail.component';
     SpotRoutingModule,
   ],
   declarations: [DetailComponent],
-  bootstrap: [DetailComponent],
 })
 export class SpotModule {}

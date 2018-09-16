@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './core/components/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'user',
     loadChildren: './authentication/authentication.module#AuthenticationModule',
