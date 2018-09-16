@@ -1,6 +1,6 @@
 import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { throwIfAlreadyLoaded } from '../module-import-guard';
+import { throwIfAlreadyLoaded } from './module-import-guard';
 import { WINDOW_PROVIDERS } from './services/window.service';
 import { ProgressBarService } from './services/progress-bar.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
