@@ -22,15 +22,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## :construction_worker: Testing service workers
+Run `npm run serve-prod-ngsw` to build and serve the production app to test service workers, then navigate to `http://localhost:8080/`.
 
-Run `npm run serve-prod-ngsw` and navigate to `http://localhost:8080/`
-
-## :crystal_ball: Running unit tests
+## :crystal_ball: Running tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## :fireworks: Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
