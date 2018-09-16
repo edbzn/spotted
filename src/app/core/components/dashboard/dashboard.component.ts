@@ -1,4 +1,4 @@
-import { OverviewComponent } from './overview/overview.component';
+import { OverviewComponent } from '../overview/overview.component';
 import {
   Component,
   OnInit,
@@ -9,12 +9,12 @@ import {
 } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { Api } from 'src/types/api';
-import { fadeAnimation } from '../shared/router-animation';
+import { fadeAnimation } from '../../../shared/router-animation';
 import { MapComponent } from '../map/map.component';
 import { distinct, debounceTime, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { DeviceDetectorService } from '../core/services/device-detector.service';
-import { appConfiguration } from '../app-config';
+import { DeviceDetectorService } from '../../../core/services/device-detector.service';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-dashboard',
@@ -26,8 +26,10 @@ import { appConfiguration } from '../app-config';
   host: { '[@fadeAnimation]': '' },
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  @ViewChild('map') map: MapComponent;
-  @ViewChild('overview') overview: OverviewComponent;
+  @ViewChild('map')
+  map: MapComponent;
+  @ViewChild('overview')
+  overview: OverviewComponent;
 
   mapInteractedSub: Subscription;
   overviewScrolledSub: Subscription;
@@ -39,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.mapInteractedSub = this.map.mapInteracted

@@ -25,12 +25,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { WINDOW } from '../core/services/window.service';
+import { WINDOW } from '../../../core/services/window.service';
 import { tap } from 'rxjs/internal/operators';
-import { SpotsService } from '../core/services/spots.service';
+import { SpotsService } from '../../../core/services/spots.service';
 import { Api } from 'src/types/api';
 import { Subscription } from 'rxjs';
-import { appConfiguration } from '../app-config';
+import { appConfiguration } from '../../../app-config';
 
 @Component({
   selector: 'spt-map',
@@ -62,7 +62,8 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
    * Menu displayed on the map when clicking
    */
-  @ViewChild(MatMenuTrigger) matMenu: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger)
+  matMenu: MatMenuTrigger;
 
   /**
    * Emit the Lat & Lng to create a Spot at the click position
@@ -73,7 +74,8 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
    * Emit the spot when clicked to show it in overview
    */
-  @Output() spotClicked: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
+  @Output()
+  spotClicked: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
 
   /**
    * The last Point to emit
@@ -186,7 +188,7 @@ export class MapComponent implements OnInit, OnDestroy {
     @Inject(WINDOW) private window: Window,
     private spotsService: SpotsService,
     private changeDetector: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.tryBrowserGeoLocalization();

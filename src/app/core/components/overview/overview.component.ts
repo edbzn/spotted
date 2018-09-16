@@ -1,4 +1,4 @@
-import { WINDOW } from '../../core/services/window.service';
+import { WINDOW } from '../../../core/services/window.service';
 import { LatLng, latLng } from 'leaflet';
 import {
   Component,
@@ -12,11 +12,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SpotsService } from '../../core/services/spots.service';
-import { Api } from '../../../types/api';
+import { SpotsService } from '../../../core/services/spots.service';
+import { Api } from '../../../../types/api';
 import { MatStepper, MatSnackBar } from '@angular/material';
-import { UploadService } from '../../core/services/upload.service';
-import { GeocoderService } from '../../core/services/geocoder.service';
+import { UploadService } from '../../../core/services/upload.service';
+import { GeocoderService } from '../../../core/services/geocoder.service';
 import { Subject, Subscription } from 'rxjs';
 import {
   flatMap,
@@ -24,9 +24,9 @@ import {
   distinctUntilChanged,
   debounceTime,
 } from 'rxjs/internal/operators';
-import { appConfiguration } from '../../app-config';
+import { appConfiguration } from '../../../app-config';
 import { TranslateService } from '@ngx-translate/core';
-import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import { NguCarouselConfig } from '@ngu/carousel';
 
 @Component({
   selector: 'spt-overview',

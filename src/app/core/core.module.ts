@@ -6,8 +6,8 @@ import { ProgressBarService } from './services/progress-bar.service';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ProgressInterceptor } from '../shared/progress.interceptor';
 import { TimingInterceptor } from '../shared/timing.interceptor';
-import { DashboardComponent } from '../dashboard/dashboard.component';
-import { OverviewComponent } from '../dashboard/overview/overview.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OverviewComponent } from './components/overview/overview.component';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -17,13 +17,14 @@ import { AgmCoreModule } from '@agm/core';
 import { environment } from '../../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.translate.factory';
-import { MapModule } from '../map/map.module';
+import { MapComponent } from './components/map/map.component';
 import { ExceptionHandler } from './services/exception.handler.service';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   imports: [
     SharedModule,
-    MapModule,
+    LeafletModule.forRoot(),
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
@@ -42,7 +43,7 @@ import { ExceptionHandler } from './services/exception.handler.service';
     }),
     AppRoutingModule,
   ],
-  declarations: [DashboardComponent, OverviewComponent],
+  declarations: [DashboardComponent, OverviewComponent, MapComponent],
   providers: [
     WINDOW_PROVIDERS,
     {
