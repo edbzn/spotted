@@ -13,7 +13,8 @@
   </mat-card>
 
   <div class="container mt-4 mb-4"
-    *ngIf="spot">
+    *ngIf="spot; else loading"
+    @fade>
 
     <mat-card>
       <mat-card-content fxLayout="row"
@@ -117,4 +118,11 @@
       </mat-grid-list>
     </mat-card>
   </div>
+
+  <ng-template #loading>
+    <div class="wrapper pt-5"
+      fxLayoutAlign="center top">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </div>

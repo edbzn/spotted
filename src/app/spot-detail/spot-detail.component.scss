@@ -8,6 +8,7 @@
 .wrapper {
   overflow-y: auto;
   height: calc(100% - 70px);
+  background: #fcfcfc;
 }
 
 .card {
@@ -27,4 +28,5 @@
 .map {
   height: 30vh;
   padding: 0;
+  background: #eee;
 }

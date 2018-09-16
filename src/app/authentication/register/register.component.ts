@@ -12,20 +12,21 @@ import { mergeMap } from 'rxjs/internal/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../app-config';
 import { PasswordValidation } from '../../shared/match-password.validator';
-import { fadeAnimation } from '../../shared/router-animation';
+import { fade } from '../../shared/animations';
 
 @Component({
   selector: 'spt-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  animations: [fadeAnimation],
+  animations: [fade],
   // tslint:disable-next-line:use-host-property-decorator
-  host: { '[@fadeAnimation]': '' },
+  host: { '[@fade]': '' },
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
-  @ViewChild('emailInput') emailInput;
+  @ViewChild('emailInput')
+  emailInput;
 
   get email(): FormControl {
     return this.registerForm.get('email') as FormControl;
@@ -49,7 +50,7 @@ export class RegisterComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(

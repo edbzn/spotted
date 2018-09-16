@@ -10,20 +10,21 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../app-config';
-import { fadeAnimation } from '../../shared/router-animation';
+import { fade } from '../../shared/animations';
 
 @Component({
   selector: 'spt-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  animations: [fadeAnimation],
+  animations: [fade],
   // tslint:disable-next-line:use-host-property-decorator
-  host: { '[@fadeAnimation]': '' },
+  host: { '[@fade]': '' },
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  @ViewChild('emailInput') emailInput;
+  @ViewChild('emailInput')
+  emailInput;
 
   get email(): FormControl {
     return this.loginForm.get('email') as FormControl;
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({

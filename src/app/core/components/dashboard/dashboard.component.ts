@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { LatLng } from 'leaflet';
 import { Api } from 'src/types/api';
-import { fadeAnimation } from '../../../shared/router-animation';
+import { fade } from '../../../shared/animations';
 import { MapComponent } from '../map/map.component';
 import { distinct, debounceTime, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -21,9 +21,9 @@ import { appConfiguration } from '../../../app-config';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeAnimation],
+  animations: [fade],
   // tslint:disable-next-line:use-host-property-decorator
-  host: { '[@fadeAnimation]': '' },
+  host: { '[@fade]': '' },
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('map')

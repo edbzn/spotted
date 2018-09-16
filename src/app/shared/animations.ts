@@ -1,8 +1,8 @@
-import { appConfiguration } from './../app-config';
+import { appConfiguration } from '../app-config';
 import { trigger, transition, useAnimation } from '@angular/animations';
 import { fadeIn } from 'ng-animate';
 
-export const fadeAnimation = trigger('fadeAnimation', [
+export const fade = trigger('fade', [
   transition(
     '* => *',
     useAnimation(fadeIn, {

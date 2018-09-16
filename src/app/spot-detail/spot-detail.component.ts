@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { fadeAnimation } from '../shared/router-animation';
+import { fade } from '../shared/animations';
 import { SpotsService } from '../core/services/spots.service';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from 'src/types/api';
@@ -19,9 +19,9 @@ import {
   selector: 'spt-detail',
   templateUrl: './spot-detail.component.html',
   styleUrls: ['./spot-detail.component.scss'],
-  animations: [fadeAnimation],
+  animations: [fade],
   // tslint:disable-next-line:use-host-property-decorator
-  host: { '[@fadeAnimation]': '' },
+  host: { '[@fade]': '' },
 })
 export class DetailComponent implements AfterViewInit {
   /**
