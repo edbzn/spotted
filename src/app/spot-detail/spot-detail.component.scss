@@ -6,10 +6,6 @@
 }
 
 .card {
-  margin: 8px;
-  margin-top: 14px;
-  min-width: 400px;
-  max-width: 400px;
   overflow: hidden;
 }
 
@@ -25,10 +21,4 @@
 .map {
   height: 30vh;
   padding: 0;
-}
-
-::ng-deep {
-  spt-map {
-    margin-top: 0 !important;
-  }
 }

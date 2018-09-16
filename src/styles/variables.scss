@@ -1,3 +1,11 @@
-$mediaMaxWidth: 1260px;
-$mediaMidWidth: 960px;
-$mediaMinWidth: 480px;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+$mediaMaxWidth: map-get($grid-breakpoints, xl);
+$mediaMidWidth: map-get($grid-breakpoints, md);
+$mediaMinWidth: map-get($grid-breakpoints, sm);

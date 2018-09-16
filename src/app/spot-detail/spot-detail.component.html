@@ -10,29 +10,9 @@
   </div>
 </mat-card>
 
-<div fxLayout="row"
-  fxLayoutAlign="center top"
-  class="wrapper">
-
-  <mat-card *ngIf="spot"
-    class="card">
-    <mat-card-title>Avis</mat-card-title>
-    <mat-card-subtitle>
-      Partagez vos impressions
-    </mat-card-subtitle>
-    <mat-card-content>
-      <button mat-raised-button
-        [disabled]="!spotsService.likable(spot, auth?.user | async)"
-        (click)="like()"
-        color="accent">
-        <mat-icon>favorite</mat-icon>
-        {{ spot.likes.count }}
-      </button>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="card"
-    *ngIf="spot">
+<div class="container mt-4 mb-4"
+  *ngIf="spot">
+  <mat-card class="card">
     <mat-card-title>
       Description
     </mat-card-title>
@@ -44,12 +24,9 @@
         <mat-list-item>
           <mat-icon mat-list-icon>location_on</mat-icon>
           <span mat-line>Location</span>
-          <a mat-line
-            mat-button
-            color="primary"
-            class="description-value">
+          <address mat-line>
             {{ spot.location.address }}
-          </a>
+          </address>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
@@ -74,10 +51,25 @@
         </mat-list-item>
       </mat-list>
     </mat-card-content>
-
   </mat-card>
-  <mat-card class="card"
-    *ngIf="spot">
+
+  <mat-card class="card mt-1">
+    <mat-card-title>Avis</mat-card-title>
+    <mat-card-subtitle>
+      Partagez vos impressions
+    </mat-card-subtitle>
+    <mat-card-content>
+      <button mat-raised-button
+        [disabled]="!spotsService.likable(spot, auth?.user | async)"
+        (click)="like()"
+        color="accent">
+        <mat-icon>favorite</mat-icon>
+        {{ spot.likes.count }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="card mt-1">
     <mat-card-title>
       <h3>Media</h3>
     </mat-card-title>
