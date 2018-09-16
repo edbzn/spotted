@@ -14,7 +14,21 @@
 
   <div class="container mt-4 mb-4"
     *ngIf="spot">
-    <mat-card class="card">
+
+    <mat-card>
+      <mat-card-content fxLayout="row"
+        fxLayoutAlign="start center">
+        <mat-icon class="mr-4">explore</mat-icon>
+        <span>
+          <a [routerLink]="['/']">home</a> /
+          <a [routerLink]="['/', 'spots']">spots</a> /
+          <a [routerLink]="['/', 'spots', spot.id]">{{ spot.id }}</a> /
+          detail
+        </span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card mt-1">
       <mat-card-title>
         Description
       </mat-card-title>
@@ -77,7 +91,7 @@
       <mat-card-content>
         <button mat-raised-button
           [disabled]="!spotsService.likable(spot, auth?.user | async)"
-          (click)="like()"
+          (click)="spotsService.like(spot)"
           color="accent">
           <mat-icon>favorite</mat-icon>
           {{ spot.likes.count }}

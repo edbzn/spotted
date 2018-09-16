@@ -21,3 +21,12 @@ spt-root {
 .pull-right {
   margin-left: auto !important;
 }
+
+// Remove bootstrap default link style
+a.mat-button {
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: inherit;
+  }
+}

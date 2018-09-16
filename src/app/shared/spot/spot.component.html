@@ -41,10 +41,14 @@
     </button>
     <a mat-button
       [routerLink]="['/spots/' + spot.id + '/detail']">
+      <mat-icon>details</mat-icon>
       Detail
     </a>
     <button mat-button
       (click)="locate.emit(spot)"
-      class="pull-right">Locate</button>
+      class="pull-right">
+      <mat-icon>my_location</mat-icon>
+      Locate
+    </button>
   </mat-card-actions>
 </mat-card>

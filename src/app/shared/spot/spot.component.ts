@@ -87,9 +87,7 @@ export class SpotComponent implements OnInit {
     }
 
     this.loading = true;
-    this.auth.user.subscribe(async user => {
-      await this.spotsService.like(this.spot.id, this.spot, user);
-      this.loading = false;
-    });
+    await this.spotsService.like(this.spot);
+    this.loading = false;
   }
 }

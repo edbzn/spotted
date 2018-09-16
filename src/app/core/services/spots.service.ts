@@ -8,9 +8,12 @@ import {
 import { tap, delay, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 import { User } from 'firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
+  private docRef = 'spots';
+
   /**
    * Firebase collection
    */
@@ -22,10 +25,11 @@ export class SpotsService {
   public spots: Observable<Api.Spot[]>;
 
   constructor(
-    readonly db: AngularFirestore,
-    private progressBar: ProgressBarService
+    private readonly db: AngularFirestore,
+    private progressBar: ProgressBarService,
+    private auth: AngularFireAuth
   ) {
-    this.spotsCollection = db.collection<Api.Spot>('spots');
+    this.spotsCollection = this.db.collection<Api.Spot>(this.docRef);
     this.spots = this.spotsCollection.snapshotChanges().pipe(
       map(spots =>
         spots.map(spot => ({
@@ -56,7 +60,8 @@ export class SpotsService {
    * Add a Spot
    */
   public async add(spot: Api.Spot) {
-    return this.spotsCollection.add({ ...spot });
+    const id = this.db.createId();
+    return this.db.doc(this.docRef + '/' + id).set({ ...spot, id });
   }
 
   /**
@@ -76,21 +81,30 @@ export class SpotsService {
   /**
    * Like a spot
    */
-  public async like(ref: string, spot: Api.Spot, user: User) {
-    if (!this.likable(spot, user)) {
-      return;
-    }
+  public like(spot: Api.Spot): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.auth.user.subscribe(
+        user => {
+          if (!this.likable(spot, user)) {
+            return;
+          }
 
-    const { likes } = spot;
-    ++likes.count;
-    likes.byUsers.push(user.uid.toString());
+          const { likes } = spot;
+          ++likes.count;
+          likes.byUsers.push(user.uid.toString());
 
-    const likedSpot: Api.Spot = {
-      ...spot,
-      likes,
-    };
+          const likedSpot: Api.Spot = {
+            ...spot,
+            likes,
+          };
 
-    return this.update(ref, likedSpot);
+          this.update(spot.id, likedSpot)
+            .then(() => resolve())
+            .catch(err => reject(err));
+        },
+        err => reject(err)
+      );
+    });
   }
 
   /**
