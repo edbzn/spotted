@@ -4,11 +4,11 @@ export const appConfiguration: AppConfiguration = {
   httpDebounceTime: 400,
   defaultPhotoUrl: 'https://api.adorable.io/avatars/210/abott@adorable.png',
   defaultLang: 'fr',
-  routerTransitionTiming: 0.4, // 400ms,
+  routerTransitionTiming: 0.3, // 300ms,
   notFoundImage: 'assets/images/glitch.webp',
   forms: {
-    passwordMinLength: 6,
-    nameMinLength: 6,
+    passwordMinLength: 3,
+    nameMinLength: 3,
   },
   map: {
     spotIconUrl: 'assets/images/spot-marker.png',
