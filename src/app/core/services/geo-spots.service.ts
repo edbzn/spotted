@@ -74,7 +74,7 @@ export class GeoSpotsService {
     } else {
       this.add(spot);
       this.snack.open('New spot found near from you looks', 'ok', {
-        duration: 500,
+        duration: 2000,
       });
     }
   }
