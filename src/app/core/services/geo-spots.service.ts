@@ -4,6 +4,7 @@ import { SpotsService } from './spots.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Api } from 'src/types/api';
 import { GeoCallbackRegistration } from 'geofirestore';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({ providedIn: 'root' })
 export class GeoSpotsService {
@@ -23,7 +24,8 @@ export class GeoSpotsService {
 
   constructor(
     private spotsService: SpotsService,
-    private geoLocator: GeoLocatorService
+    private geoLocator: GeoLocatorService,
+    private snack: MatSnackBar
   ) {}
 
   /**
@@ -57,8 +59,6 @@ export class GeoSpotsService {
       'key_moved',
       this.updateCollection.bind(this)
     );
-
-    return this.spots;
   }
 
   /**
@@ -73,6 +73,9 @@ export class GeoSpotsService {
       this.update(spot, spots);
     } else {
       this.add(spot);
+      this.snack.open('New spot found near from you looks', 'ok', {
+        duration: 500,
+      });
     }
   }
 
