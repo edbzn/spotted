@@ -1,10 +1,17 @@
+import * as firebase from 'firebase/app';
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
 import { GeoFirestore, GeoFirestoreQuery, QueryCriteria } from 'geofirestore';
-import { Api } from 'src/types/api';
 
 @Injectable({ providedIn: 'root' })
 export class GeoLocatorService {
+  /**
+   * The running query
+   */
+  public geoQuery: GeoFirestoreQuery | null = null;
+
+  /**
+   * Collection store ref
+   */
   private geoStore: GeoFirestore;
 
   constructor() {
@@ -12,34 +19,56 @@ export class GeoLocatorService {
     this.geoStore = new GeoFirestore(collectionRef);
   }
 
-  public add(spot: Api.Spot): Promise<void> {
-    return this.geoStore.set(spot.id, {
+  /**
+   * Add or update spot location
+   */
+  public set(
+    key: string,
+    location: { latitude: number; longitude: number }
+  ): Promise<void> {
+    return this.geoStore.set(key, {
       coordinates: new firebase.firestore.GeoPoint(
-        spot.location.latitude,
-        spot.location.longitude
+        location.latitude,
+        location.longitude
       ),
     });
   }
 
+  /**
+   * Query spot locations matching the given geo query
+   */
   public query(
-    spot: Api.Spot,
-    radius: number = 10,
+    location: { latitude: number; longitude: number },
+    radius,
     query?: (
       ref: firebase.firestore.CollectionReference
     ) => firebase.firestore.Query
   ): GeoFirestoreQuery {
-    const geoQuery: QueryCriteria = {
+    const geoQueryParams: QueryCriteria = {
       center: new firebase.firestore.GeoPoint(
-        spot.location.latitude,
-        spot.location.longitude
+        location.latitude,
+        location.longitude
       ),
       radius,
     };
 
     if (query) {
-      geoQuery.query = query;
+      geoQueryParams.query = query;
     }
 
-    return this.geoStore.query(geoQuery);
+    if (this.geoQuery !== null) {
+      this.geoQuery.updateCriteria(geoQueryParams);
+    } else {
+      this.geoQuery = this.geoStore.query(geoQueryParams);
+    }
+
+    return this.geoQuery;
+  }
+
+  /**
+   * Delete spot location
+   */
+  public delete(ref: string): Promise<void> {
+    return this.geoStore.remove(ref);
   }
 }

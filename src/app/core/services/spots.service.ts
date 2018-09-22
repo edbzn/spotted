@@ -1,11 +1,11 @@
+import { GeoLocatorService } from './geo-locator.service';
 import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from 'angularfire2/firestore';
-import { tap, delay, map } from 'rxjs/internal/operators';
+import { tap, delay } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 import { User } from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -19,26 +19,13 @@ export class SpotsService {
    */
   private spotsCollection: AngularFirestoreCollection<Api.Spot>;
 
-  /**
-   * Exposed Spots
-   */
-  public spots: Observable<Api.Spot[]>;
-
   constructor(
     private readonly db: AngularFirestore,
     private progressBar: ProgressBarService,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private geoLocator: GeoLocatorService
   ) {
     this.spotsCollection = this.db.collection<Api.Spot>(this.spotsPath);
-    this.spots = this.spotsCollection.snapshotChanges().pipe(
-      map(spots =>
-        spots.map(spot => ({
-          ...spot.payload.doc.data(),
-          id: spot.payload.doc.id,
-        }))
-      )
-    );
-
     this.spotsCollection
       .stateChanges()
       .pipe(
@@ -53,50 +40,66 @@ export class SpotsService {
    * Get a spot
    */
   public async get(id: string) {
-    return this.spotsCollection.doc(id).ref.get();
-  }
-
-  /**
-   * Get spots around given location
-   */
-  public getSpotsAroundLocation(location: {
-    latitude: number;
-    longitude: number;
-  }): AngularFirestoreCollection<Api.Spot> {
-    const { latitude, longitude } = location;
-
-    return this.db.collection<Api.Spot>(this.spotsPath, spotsRef =>
-      spotsRef.where('location.longitude', '>=', longitude - 1).limit(50)
-    );
+    return this.spotsCollection.doc<Api.Spot>(id).ref.get();
   }
 
   /**
    * Add a Spot
    */
-  public async add(spot: Api.Spot) {
+  public add(spot: Api.Spot): Promise<void> {
     const id = this.db.createId();
-    return this.db.doc(this.spotsPath + '/' + id).set({ ...spot, id });
+
+    return new Promise<void>((resolve, reject) => {
+      this.db
+        .doc(this.spotsPath + '/' + id)
+        .set({ ...spot, id })
+        .then(() => {
+          return this.geoLocator.set(id, spot.location);
+        })
+        .then(() => resolve())
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 
   /**
    * Update a Spot
    */
-  public async update(ref: string, spot: Api.Spot) {
-    return this.spotsCollection.doc(ref).update(spot);
+  public async update(ref: string, spot: Api.Spot): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.spotsCollection
+        .doc(ref)
+        .update(spot)
+        .then(() => {
+          return this.geoLocator.set(spot.id, spot.location);
+        })
+        .then(() => resolve())
+        .catch(err => reject(err));
+    });
   }
 
   /**
    * Delete a Spot
    */
-  public async delete(ref: string) {
-    return this.spotsCollection.doc(ref).delete();
+  public delete(ref: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.spotsCollection
+        .doc(ref)
+        .delete()
+        .then(() => {
+          return this.geoLocator.delete(ref);
+        })
+        .then(() => resolve())
+        .catch(err => reject(err));
+    });
   }
 
   /**
    * Like a spot
    */
   public like(spot: Api.Spot): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.auth.user.subscribe(
         user => {
           if (!this.likable(spot, user)) {
