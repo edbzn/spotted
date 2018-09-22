@@ -216,12 +216,12 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   onMapReady(map: Map): void {
     this.map = map;
     this.mapReady.emit(map);
+
     // emit map interaction to resize dashboard layout
+    // and update component value when map interacted
     this.map.on('zoomlevelschange move zoom', event => {
       this.mapInteracted.emit(event);
-    });
 
-    this.map.on('move', event => {
       const position = this.map.getCenter();
       this.lat = position.lat;
       this.lng = position.lng;
