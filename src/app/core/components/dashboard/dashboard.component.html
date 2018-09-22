@@ -2,6 +2,7 @@
   [style.height]="mapHeight + '%'">
   <spt-map #map
     [spots]="spots"
+    (mapReady)="onMapReady($event)"
     (helpMarkerChanged)="onHelpMarkerChanged($event)"
     (spotClicked)="onSpotClick($event)">
   </spt-map>

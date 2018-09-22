@@ -1,4 +1,4 @@
-import { SpotsService } from './../../services/spots.service';
+import { GeoSpotsService } from '../../services/geo-spots.service';
 import { OverviewComponent } from '../overview/overview.component';
 import {
   Component,
@@ -8,7 +8,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
-import { LatLng } from 'leaflet';
+import { LatLng, Map } from 'leaflet';
 import { Api } from 'src/types/api';
 import { fade } from '../../../shared/animations';
 import { MapComponent } from '../map/map.component';
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef,
-    private spotsService: SpotsService
+    private geoSpots: GeoSpotsService
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +76,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.mapInteractedSub.unsubscribe();
     this.overviewScrolledSub.unsubscribe();
+    this.map.map.off('load zoomlevelschange move zoom');
+  }
+
+  onMapReady(map: Map) {
+    map.on('load zoomlevelschange move zoom', () => {
+      this.updateSpots();
+    });
   }
 
   toggleExpand(expanded: boolean | null = null): void {
@@ -117,5 +124,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onSpotClick(spot: Api.Spot): void {
     this.overview.scrollTo(spot);
+  }
+
+  private updateSpots(): void {
+    this.geoSpots
+      .getSpotsByLocation({
+        latitude: this.map.lat,
+        longitude: this.map.lng,
+      })
+      .subscribe(spots => {
+        this.spots = spots;
+        this.changeDetector.detectChanges();
+      });
   }
 }

@@ -85,6 +85,12 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   spotClicked: EventEmitter<Api.Spot> = new EventEmitter<Api.Spot>();
 
   /**
+   * Emit when map is ready
+   */
+  @Output()
+  mapReady: EventEmitter<Map> = new EventEmitter<Map>();
+
+  /**
    * The last Point to emit
    */
   point: Point;
@@ -209,6 +215,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
   onMapReady(map: Map): void {
     this.map = map;
+    this.mapReady.emit(map);
     // emit map interaction to resize dashboard layout
     this.map.on('zoomlevelschange move zoom', event => {
       this.mapInteracted.emit(event);
