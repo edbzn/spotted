@@ -220,6 +220,12 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     this.map.on('zoomlevelschange move zoom', event => {
       this.mapInteracted.emit(event);
     });
+
+    this.map.on('move', event => {
+      const position = this.map.getCenter();
+      this.lat = position.lat;
+      this.lng = position.lng;
+    });
   }
 
   /**
