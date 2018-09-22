@@ -52,32 +52,44 @@ export class GeoSpotsService {
 
     this.enteredRegistration = geoQuery.on(
       'key_entered',
-      this.updateCollection.bind(this)
+      this.updateSpotsCollection
     );
 
     this.movedRegistration = geoQuery.on(
       'key_moved',
-      this.updateCollection.bind(this)
+      this.updateSpotsCollection
     );
   }
 
   /**
    * Update spot collection
    */
-  private async updateCollection(key: string): Promise<void> {
+  private updateSpotsCollection = async (key: string): Promise<void> => {
     const doc = await this.spotsService.get(key);
     const spot = doc.data() as Api.Spot;
     const spots = this._spots.value;
+    const isNew = spots.findIndex(_spot => _spot.id === key) === -1;
+    const hasChanged = spots.some(_spot => spot.id === key && spot === _spot);
 
-    if (spots.findIndex(s => s.id === key) > -1) {
+    if (!isNew && hasChanged) {
       this.update(spot, spots);
-    } else {
+
+      // @todo add locate action
+      // @todo translation
+      this.snack.open(`A spot was updated near you're looking!`, 'ok', {
+        duration: 10000, // 10s
+      });
+    } else if (isNew) {
       this.add(spot);
-      this.snack.open('New spot found near from you looks', 'ok', {
-        duration: 2000,
+
+      // @todo add locate action
+      // @todo translation
+      this.snack.open(`A spot found near you're looking!`, 'ok', {
+        duration: 10000, // 10s
       });
     }
-  }
+    // tslint:disable-next-line:semicolon
+  };
 
   /**
    * Add a spot to the collection

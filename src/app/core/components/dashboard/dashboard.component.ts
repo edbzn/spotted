@@ -64,17 +64,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapMovedSub = this.mapMoved
       .pipe(
+        filter(() => this.overview.selectedTab === 0),
         debounceTime(200),
         tap(() => {
-          this.geoSpots.getSpotsByLocation({
-            latitude: this.map.lat,
-            longitude: this.map.lng,
-          });
+          this.searchSpotsFromMapBounds();
         }),
         switchMap(() => {
           return this.geoSpots.spots;
         }),
-        distinctUntilChanged((p: Api.Spot[], q: Api.Spot[]) => isEqual(p, q))
+        distinctUntilChanged(
+          (prevSpotsCollection: Api.Spot[], nextSpotsCollection: Api.Spot[]) =>
+            isEqual(prevSpotsCollection, nextSpotsCollection)
+        )
       )
       .subscribe(spots => {
         this.spots = spots;
@@ -157,5 +158,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onSpotClick(spot: Api.Spot): void {
     this.overview.scrollTo(spot);
+  }
+
+  private searchSpotsFromMapBounds(): void {
+    this.geoSpots.getSpotsByLocation(
+      { latitude: this.map.lat, longitude: this.map.lng },
+      this.getRadiusFromBounds()
+    );
+  }
+
+  private getRadiusFromBounds(): number {
+    return (
+      (this.map.map.getBounds().getEast() -
+        this.map.map.getBounds().getWest()) *
+      100
+    );
   }
 }
