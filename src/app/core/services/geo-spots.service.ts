@@ -69,7 +69,7 @@ export class GeoSpotsService {
     const spot = doc.data() as Api.Spot;
     const spots = this._spots.value;
 
-    if (spots.includes(spot)) {
+    if (spots.findIndex(s => s.id === key) > -1) {
       this.update(spot, spots);
     } else {
       this.add(spot);
