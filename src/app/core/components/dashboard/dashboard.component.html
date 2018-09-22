@@ -1,6 +1,7 @@
 <main class="map-wrapper"
   [style.height]="mapHeight + '%'">
   <spt-map #map
+    [spots]="spots"
     (helpMarkerChanged)="onHelpMarkerChanged($event)"
     (spotClicked)="onSpotClick($event)">
   </spt-map>
@@ -14,6 +15,7 @@
 </main>
 <aside class="map-overview-wrapper">
   <spt-overview #overview
+    [spots]="spots"
     (removeHelpMarker)="onSpotFormSubmitted($event)"
     (flyTo)="onFlyTo($event)">
   </spt-overview>

@@ -4,6 +4,7 @@
     "Gmap",
     "Modernizr",
     "Truthy",
-    "latlng"
+    "latlng",
+    "zoomlevelschange"
   ]
 }

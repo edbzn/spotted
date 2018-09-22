@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
   Inject,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SpotsService } from '../../../core/services/spots.service';
@@ -45,6 +46,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
    */
   @ViewChild('stepper')
   stepper: MatStepper;
+
+  /**
+   * Spots collection
+   */
+  @Input()
+  spots: Api.Spot[] = [];
 
   /**
    * Tap index
