@@ -3,14 +3,14 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="mr"
-        [matBadge]="((spotsService.spots | async) || []).length"
+        [matBadge]="spots.length"
         matBadgePosition="above after">location_on</mat-icon>
       <span>{{ 'overview.spotsAround' | translate }}</span>
     </ng-template>
     <div class="scrollable"
       cdkScrollable
       (scroll)="scrollChanged.emit($event)">
-      <ng-container *ngFor="let spot of spotsService.spots | async; trackBy: trackByFn">
+      <ng-container *ngFor="let spot of spots; trackBy: trackByFn">
         <spt-spot [spot]="spot"
           (locate)="locate($event)">
         </spt-spot>

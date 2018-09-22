@@ -23,11 +23,12 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  OnChanges,
+  Input,
+  SimpleChanges,
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from '../../../core/services/window.service';
-import { tap } from 'rxjs/internal/operators';
-import { SpotsService } from '../../../core/services/spots.service';
 import { Api } from 'src/types/api';
 import { Subscription } from 'rxjs';
 import { appConfiguration } from '../../../app-config';
@@ -38,7 +39,13 @@ import { appConfiguration } from '../../../app-config';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit, OnChanges, OnDestroy {
+  /**
+   * Spots displayed
+   */
+  @Input()
+  spots: Api.Spot[];
+
   /**
    * Map ref
    */
@@ -168,11 +175,6 @@ export class MapComponent implements OnInit, OnDestroy {
   helpMarker: Layer;
 
   /**
-   * Spot change subscription
-   */
-  spotChangeSub: Subscription;
-
-  /**
    * Each click emit event to change UI for mobiles in parent component
    */
   mapInteracted = new EventEmitter<Event | LeafletEvent>();
@@ -186,7 +188,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private spotsService: SpotsService,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -195,7 +196,15 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.spotChangeSub.unsubscribe();
+    this.map.remove();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.spots) {
+      const { currentValue } = changes.spots;
+      this.layers = this.mapSpotsToMarkers(currentValue);
+      this.changeDetector.detectChanges();
+    }
   }
 
   onMapReady(map: Map): void {
@@ -204,17 +213,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.map.on('zoomlevelschange move zoom', event => {
       this.mapInteracted.emit(event);
     });
-
-    // bind spots to markers
-    this.spotChangeSub = this.spotsService.spots
-      .pipe(
-        tap(spots => {
-          this.layers = this.mapSpotsToMarkers(spots);
-        })
-      )
-      .subscribe(() => {
-        this.changeDetector.detectChanges();
-      });
   }
 
   /**
@@ -222,7 +220,7 @@ export class MapComponent implements OnInit, OnDestroy {
    */
   mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
     return spots.map(spot => {
-      const m = popup({
+      const spotMarker = popup({
         maxWidth: 400,
         minWidth: 200,
         maxHeight: 400,
@@ -238,7 +236,7 @@ export class MapComponent implements OnInit, OnDestroy {
       // @todo crate a popup-content Angular component
       // @todo make a component factory that compile the popup-content in HTML
       // @todo append this HTML Element
-      m.setContent(`
+      spotMarker.setContent(`
         <article>
          <div class="description">
           <span>${spot.type.toUpperCase()}</span>
@@ -247,14 +245,14 @@ export class MapComponent implements OnInit, OnDestroy {
          <div class="address">${spot.location.address}</div>
         </article>
       `);
-      m.setLatLng(new LatLng(latitude, longitude));
-      m.openOn(this.map);
+      spotMarker.setLatLng(new LatLng(latitude, longitude));
+      spotMarker.openOn(this.map);
 
-      m.getElement().addEventListener('click', e => {
+      spotMarker.getElement().addEventListener('click', e => {
         this.spotClicked.emit(spot);
       });
 
-      return m;
+      return spotMarker;
     });
   }
 

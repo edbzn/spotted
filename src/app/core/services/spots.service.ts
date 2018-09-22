@@ -12,7 +12,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
-  private docRef = 'spots';
+  private spotsPath = 'spots';
 
   /**
    * Firebase collection
@@ -29,7 +29,7 @@ export class SpotsService {
     private progressBar: ProgressBarService,
     private auth: AngularFireAuth
   ) {
-    this.spotsCollection = this.db.collection<Api.Spot>(this.docRef);
+    this.spotsCollection = this.db.collection<Api.Spot>(this.spotsPath);
     this.spots = this.spotsCollection.snapshotChanges().pipe(
       map(spots =>
         spots.map(spot => ({
@@ -50,10 +50,24 @@ export class SpotsService {
   }
 
   /**
-   * Get a document
+   * Get a spot
    */
   public async get(id: string) {
     return this.spotsCollection.doc(id).ref.get();
+  }
+
+  /**
+   * Get spots around given location
+   */
+  public getSpotsAroundLocation(location: {
+    latitude: number;
+    longitude: number;
+  }): AngularFirestoreCollection<Api.Spot> {
+    const { latitude, longitude } = location;
+
+    return this.db.collection<Api.Spot>(this.spotsPath, spotsRef =>
+      spotsRef.where('location.longitude', '>=', longitude - 1).limit(50)
+    );
   }
 
   /**
@@ -61,7 +75,7 @@ export class SpotsService {
    */
   public async add(spot: Api.Spot) {
     const id = this.db.createId();
-    return this.db.doc(this.docRef + '/' + id).set({ ...spot, id });
+    return this.db.doc(this.spotsPath + '/' + id).set({ ...spot, id });
   }
 
   /**

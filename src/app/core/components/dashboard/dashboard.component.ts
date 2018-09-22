@@ -1,3 +1,4 @@
+import { SpotsService } from './../../services/spots.service';
 import { OverviewComponent } from '../overview/overview.component';
 import {
   Component,
@@ -31,6 +32,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('overview')
   overview: OverviewComponent;
 
+  spots: Api.Spot[] = [];
+  spotsSub: Subscription;
+
   mapInteractedSub: Subscription;
   overviewScrolledSub: Subscription;
   expandMap = false;
@@ -40,7 +44,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     public deviceDetector: DeviceDetectorService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private spotsService: SpotsService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +65,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         tap(() => this.toggleExpand(false))
       )
       .subscribe();
+
+    this.spotsSub = this.spotsService
+      .getSpotsAroundLocation({
+        latitude: this.map.lat,
+        longitude: this.map.lng,
+      })
+      .valueChanges()
+      .subscribe(spots => {
+        this.spots = spots;
+      });
   }
 
   ngOnDestroy(): void {
