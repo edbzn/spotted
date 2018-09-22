@@ -12,7 +12,7 @@ import { LatLng } from 'leaflet';
 import { Api } from 'src/types/api';
 import { fade } from '../../../shared/animations';
 import { MapComponent } from '../map/map.component';
-import { distinct, debounceTime, tap } from 'rxjs/operators';
+import { distinct, debounceTime, tap, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from '../../../core/services/device-detector.service';
 import { appConfiguration } from '../../../app-config';
@@ -51,30 +51,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapInteractedSub = this.map.mapInteracted
       .pipe(
+        filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
-        tap(() => this.toggleExpand(true)),
-        tap(() => this.map.map.invalidateSize())
+        tap(() => {
+          this.toggleExpand(true);
+          this.map.map.invalidateSize();
+        })
       )
       .subscribe();
 
     this.overviewScrolledSub = this.overview.scrollChanged
       .pipe(
+        filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
         tap(() => this.toggleExpand(false))
       )
       .subscribe();
 
-    this.spotsSub = this.spotsService
-      .getSpotsAroundLocation({
-        latitude: this.map.lat,
-        longitude: this.map.lng,
-      })
-      .valueChanges()
-      .subscribe(spots => {
-        this.spots = spots;
-      });
+    this.toggleExpand(false);
   }
 
   ngOnDestroy(): void {
@@ -111,7 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.overview.fillSpotForm(latLng);
   }
 
-  onSpotFormSubmitted(spot: Api.Spot): void {
+  onSpotFormSubmitted(): void {
     this.map.removeHelpMarker();
   }
 
