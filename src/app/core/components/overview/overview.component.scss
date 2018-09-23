@@ -51,12 +51,18 @@
 }
 
 .spot-carousel-item {
+  position: relative;
   background-color: #ccc;
   min-height: 300px;
   text-align: center;
-  line-height: 300px;
   background-position: 50% 50%;
   background-size: cover;
+  > span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .arrow {
