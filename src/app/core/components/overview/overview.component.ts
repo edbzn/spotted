@@ -12,6 +12,8 @@ import {
   Inject,
   ViewChild,
   Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -34,15 +36,18 @@ import {
 import { appConfiguration } from '../../../app-config';
 import { TranslateService } from '@ngx-translate/core';
 import { NguCarouselConfig } from '@ngu/carousel';
-import { FirebaseAuth } from 'angularfire2';
+import { slideInOut } from 'src/app/shared/animations';
+import { Loadable, InitializationState } from '../../../shared/loadable';
 
 @Component({
   selector: 'spt-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [slideInOut],
 })
-export class OverviewComponent implements OnInit, OnDestroy {
+export class OverviewComponent extends Loadable
+  implements OnInit, OnDestroy, OnChanges {
   /**
    * Form ref
    */
@@ -171,7 +176,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
     public spotsService: SpotsService,
     public upload: UploadService,
     public auth: AuthService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.spotForm = this.fb.group({
@@ -230,6 +237,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.spots && changes.spots.currentValue.length >= 1) {
+      this.setInitializationState(InitializationState.initialized);
+    }
   }
 
   ngOnDestroy(): void {

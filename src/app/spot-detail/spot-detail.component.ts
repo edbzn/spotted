@@ -14,6 +14,7 @@ import {
   popup,
   Map,
 } from 'leaflet';
+import { Loadable, InitializationState } from '../shared/loadable';
 
 @Component({
   selector: 'spt-detail',
@@ -23,7 +24,7 @@ import {
   // tslint:disable-next-line:use-host-property-decorator
   host: { '[@fade]': '' },
 })
-export class DetailComponent implements AfterViewInit {
+export class DetailComponent extends Loadable implements AfterViewInit {
   /**
    * Spot data
    */
@@ -97,7 +98,9 @@ export class DetailComponent implements AfterViewInit {
     public spotsService: SpotsService,
     public auth: AngularFireAuth,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super();
+  }
 
   ngAfterViewInit() {
     // get spot data from router param
@@ -114,6 +117,7 @@ export class DetailComponent implements AfterViewInit {
           doubleClickZoom: false,
           dragging: false,
         };
+        this.setInitializationState(InitializationState.initialized);
       });
     });
   }
