@@ -126,7 +126,6 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   googleMaps: Layer = tileLayer(
     'https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
     {
-      maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       detectRetina: true,
     }
@@ -138,7 +137,6 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   googleHybrid: Layer = tileLayer(
     'https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
     {
-      maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       detectRetina: true,
     }
@@ -170,6 +168,8 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   options: MapOptions = {
     layers: [this.googleMaps],
     zoom: this.zoom,
+    maxZoom: appConfiguration.map.maxZoom,
+    minZoom: appConfiguration.map.minZoom,
     center: this.center,
     tap: true,
     zoomControl: false,

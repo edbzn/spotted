@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onFlyTo(latLng: LatLng): void {
-    this.map.setPosition(latLng, 18);
+    this.map.setPosition(latLng, appConfiguration.map.maxZoom);
   }
 
   onSpotClick(spot: Api.Spot): void {

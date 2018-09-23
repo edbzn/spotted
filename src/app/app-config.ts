@@ -11,11 +11,13 @@ export const appConfiguration: AppConfiguration = {
     nameMinLength: 3,
   },
   map: {
+    spotIconUrl: 'assets/images/spot-marker.png',
     helpMarker: 'assets/images/help-marker.png',
     latitude: 46.879966,
     longitude: -121.726909,
     zoom: 15,
-    maxZoom: 20,
+    maxZoom: 17,
+    minZoom: 14,
     totalMapHeight: 100, // in %
     mobileExpandedMapHeight: 85, // in %
   },

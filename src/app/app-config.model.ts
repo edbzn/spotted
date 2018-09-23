@@ -13,10 +13,12 @@ export interface AppConfiguration {
   };
   map: {
     helpMarker: string;
+    spotIconUrl: string;
     latitude: number;
     longitude: number;
     zoom: number;
     maxZoom: number;
+    minZoom: number;
     totalMapHeight: number;
     mobileExpandedMapHeight: number;
   };
