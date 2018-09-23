@@ -1,3 +1,5 @@
 {
+  "name": "spotted",
+  "type": "docker",
   "alias": ["spotted-city.com"]
 }

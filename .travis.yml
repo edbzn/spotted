@@ -1,5 +1,7 @@
 #  Every time you push something new to any branch it will create a new deployment
 #  if the branch is master it will also move the project aliases to it
+#  @todo: using docker engine in Travis
+#  @todo: play e2e & unit tests
 
 language: node_js
 node_js:
@@ -7,7 +9,7 @@ node_js:
 cache:
   directories:
     - 'node_modules'
-script: npm test
+script: npm run build:prod
 before_deploy: npm install now --no-save
 deploy:
   - provider: script
