@@ -3,8 +3,9 @@
   "pictureUploaded": "Photo téléchargée!",
   "spotCreated": "Ton spot est maintenant visible pour tout le monde!",
   "hello": "Bonjour",
-  "register": "s'inscrire",
-  "connection": "connexion",
+  "register": "créer un compte",
+  "connection": "connection",
+  "or": "ou",
   "logout": "Se déconnecter",
   "form": {
     "validation": {

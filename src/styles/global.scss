@@ -23,7 +23,9 @@ spt-root {
 }
 
 // Remove bootstrap default link style
-a.mat-button {
+.mat-stroked-button,
+.mat-raised-button,
+.mat-button {
   &:hover,
   &:focus {
     text-decoration: none;

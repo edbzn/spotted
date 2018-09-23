@@ -2,6 +2,7 @@
   "updateBrowser": "Oops, your browser is too old to navigate this page. Please upgrade.",
   "hello": "Hello",
   "pictureUploaded": "Picture uploaded!",
+  "or": "or",
   "spotCreated": "Your spot is now visible by every one!",
   "map": {
     "addSpotBtn": "Add a spot here"
@@ -25,7 +26,7 @@
     "passwordChangedSuccess": "Your password is up to date"
   },
   "logout": "Logout",
-  "connection": "connection",
+  "connection": "login",
   "connected": "You're now connected",
   "register": "register",
   "overview": {
