@@ -149,7 +149,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
    */
   iconConfig: IconOptions = {
     iconSize: [42, 42],
-    iconAnchor: [42, 42],
+    iconAnchor: [21, 21],
     iconUrl: appConfiguration.map.spotIconUrl,
   };
 
@@ -208,8 +208,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.spots) {
       const { currentValue } = changes.spots;
-      this.layers = this.mapSpotsToMarkers(currentValue);
-      this.changeDetector.detectChanges();
+      this.updateMarkers(currentValue);
     }
   }
 
@@ -225,49 +224,6 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       const position = this.map.getCenter();
       this.lat = position.lat;
       this.lng = position.lng;
-    });
-  }
-
-  /**
-   * Create markers from spots
-   */
-  mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
-    return spots.map(spot => {
-      const spotMarker = popup({
-        maxWidth: 400,
-        minWidth: 200,
-        maxHeight: 400,
-        autoPan: false,
-        keepInView: true,
-        closeButton: false,
-        autoClose: false,
-        closeOnClick: false,
-      });
-
-      const { latitude, longitude } = spot.location;
-
-      // @todo crate a popup-content Angular component
-      // @todo make a component factory that compile the popup-content in HTML
-      // @todo append this HTML Element
-      spotMarker.setContent(`
-        <div class="spot-marker-wrapper">
-          <img src="assets/images/spot-marker.png" />
-          <div class="description">
-            <span>${spot.type.toUpperCase()}</span>
-            <span>${(spot.name || '').toUpperCase()}</span>
-            <address>${spot.location.address}</address>
-            <span>${spot.disciplines}</span>
-         </div>
-        </div>
-      `);
-      spotMarker.setLatLng(new LatLng(latitude, longitude));
-      spotMarker.openOn(this.map);
-
-      spotMarker.getElement().addEventListener('click', e => {
-        this.spotClicked.emit(spot);
-      });
-
-      return spotMarker;
     });
   }
 
@@ -304,7 +260,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     const helpMarker = marker(latitudeLongitude, {
       icon: icon(helpMarkerOptions),
       draggable: true,
-      title: 'helpMarker',
+      title: 'Add my spot here',
     });
 
     // bind marker drag event to the spot creation form
@@ -358,5 +314,28 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       // Browser doesn't support Geolocation
       // @todo center map, handle error
     }
+  }
+
+  private updateMarkers(spots: Api.Spot[]): void {
+    this.layers = this.mapSpotsToMarkers(spots);
+    this.changeDetector.detectChanges();
+  }
+
+  private mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
+    return spots.map(spot => {
+      const { latitude, longitude } = spot.location;
+      const spotMarker = marker(latLng(latitude, longitude), {
+        icon: icon(this.iconConfig),
+        draggable: false,
+        title: spot.location.address,
+      });
+      this.map.addLayer(spotMarker);
+
+      spotMarker.getElement().addEventListener('click', e => {
+        this.spotClicked.emit(spot);
+      });
+
+      return spotMarker;
+    });
   }
 }
