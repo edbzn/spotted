@@ -250,13 +250,15 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       // @todo make a component factory that compile the popup-content in HTML
       // @todo append this HTML Element
       spotMarker.setContent(`
-        <article>
-         <div class="description">
-          <span>${spot.type.toUpperCase()}</span>
-          <span>${(spot.name || '').toUpperCase()}</span>
+        <div class="spot-marker-wrapper">
+          <img src="assets/images/spot-marker.png" />
+          <div class="description">
+            <span>${spot.type.toUpperCase()}</span>
+            <span>${(spot.name || '').toUpperCase()}</span>
+            <address>${spot.location.address}</address>
+            <span>${spot.disciplines}</span>
          </div>
-         <div class="address">${spot.location.address}</div>
-        </article>
+        </div>
       `);
       spotMarker.setLatLng(new LatLng(latitude, longitude));
       spotMarker.openOn(this.map);

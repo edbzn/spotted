@@ -9,3 +9,5 @@ $grid-breakpoints: (
 $mediaMaxWidth: map-get($grid-breakpoints, xl);
 $mediaMidWidth: map-get($grid-breakpoints, md);
 $mediaMinWidth: map-get($grid-breakpoints, sm);
+
+$map-tooltip-bg: rgba(31, 31, 31, 0.85);

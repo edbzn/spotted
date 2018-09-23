@@ -1,3 +1,6 @@
+@import '~src/styles/variables.scss';
+@import '~src/styles/leaflet.scss';
+
 :host {
   display: block;
   height: 100%;
@@ -17,4 +20,41 @@
   position: absolute;
   width: 50px;
   height: 50px;
+}
+
+::ng-deep {
+  .leaflet-popup-content-wrapper {
+    background: transparent !important;
+    position: relative;
+
+    img {
+      width: 32px;
+    }
+
+    .description {
+      background: $map-tooltip-bg;
+      padding: 6px;
+      border-radius: 2px;
+      position: absolute;
+      transform: translateY(-30%);
+      opacity: 0;
+      transition: all 200ms ease;
+
+      address {
+        font-size: 10px;
+      }
+    }
+    &:hover .description {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .leaflet-popup-tip-container {
+    display: none;
+  }
+
+  .leaflet-popup-content {
+    pointer-events: none;
+  }
 }

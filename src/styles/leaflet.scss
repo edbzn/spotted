@@ -1,10 +1,12 @@
+@import '~src/styles/variables.scss';
+
 ::ng-deep {
   .leaflet-popup {
     margin-bottom: 0;
 
     .leaflet-popup-content-wrapper {
       padding: 6px;
-      background-color: rgba(31, 31, 31, 0.85);
+      background-color: $map-tooltip-bg;
       box-shadow: none;
       color: #fff;
       border-radius: 4px;
@@ -23,7 +25,7 @@
     }
 
     .leaflet-popup-tip-container > div {
-      background-color: rgba(31, 31, 31, 0.85);
+      background-color: $map-tooltip-bg;
       box-shadow: none;
       width: 18px;
       height: 18px;
