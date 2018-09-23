@@ -16,24 +16,13 @@
     *ngIf="spot; else loading"
     @fade>
 
-    <mat-card>
-      <mat-card-content fxLayout="row"
-        fxLayoutAlign="start center">
-        <mat-icon class="mr-4">explore</mat-icon>
-        <span>
-          <a mat-button
-            [routerLink]="['/']">dashboard</a> /
-          <button mat-button
-            disabled>spots</button> /
-          <button mat-button
-            disabled>{{ spot.id }}</button> /
-          <button mat-button
-            disabled>detail</button>
-        </span>
-      </mat-card-content>
-    </mat-card>
+    <a mat-button
+      [routerLink]="['/']">
+      <mat-icon class="mr-1">arrow_back</mat-icon>
+      Revenir au dashboard
+    </a>
 
-    <mat-card class="card mt-1">
+    <mat-card class="card mt-3">
       <mat-card-title>
         Description
       </mat-card-title>
@@ -104,19 +93,19 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="card mt-1">
+    <mat-card class="card mt-1 pb-0">
       <mat-card-title>
         <h3>Media</h3>
       </mat-card-title>
       <mat-card-subtitle>
-        <h1>{{ spot?.media?.pictures.length }} photos</h1>
+        <h1>{{ spot.media.pictures.length }} photos</h1>
       </mat-card-subtitle>
       <mat-grid-list mat-card-image
         class="media-wrapper"
-        [cols]="spot.media.pictures.length > 1 ? 2 : 1"
-        [rowHeight]="spot.media.pictures.length % 2 + ':1'">
+        [cols]="spot.media.pictures.length >= 2 ? 2 : 1"
+        [rowHeight]="400">
         <mat-grid-tile class="picture"
-          *ngFor="let media of spot?.media?.pictures"
+          *ngFor="let media of spot.media.pictures"
           [style.backgroundImage]="'url(' + media + ')'">
         </mat-grid-tile>
       </mat-grid-list>
