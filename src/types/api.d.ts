@@ -25,9 +25,16 @@ export declare namespace Api {
     address: string;
   }
 
-  type Difficulty = 'easy' | 'mid' | 'pro' | 'mixed';
+  type Difficulty = 'easy' | 'mid' | 'pro' | 'all';
 
   type Disciplines = 'BMX' | 'skate' | 'roller';
 
-  type Type = 'park' | 'street' | 'dirt' | 'street-park' | 'bowl';
+  type Type =
+    | 'curb'
+    | 'rail'
+    | 'ramp'
+    | 'street-plaza'
+    | 'park'
+    | 'bowl'
+    | 'dirt';
 }

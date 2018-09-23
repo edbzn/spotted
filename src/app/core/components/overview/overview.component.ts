@@ -12,7 +12,12 @@ import {
   ViewChild,
   Input,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { SpotsService } from '../../../core/services/spots.service';
 import { Api } from '../../../../types/api';
 import { MatStepper, MatSnackBar } from '@angular/material';
@@ -189,11 +194,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.formStatusChangeSub = this.spotForm.statusChanges.subscribe(status => {
-      if ('VALID' === status) {
-        this.stepper.selectedIndex = 3;
-      }
-    });
+    this.formStatusChangeSub = this.spotForm.statusChanges
+      .pipe(debounceTime(1000))
+      .subscribe(status => {
+        if ('VALID' === status) {
+          this.stepper.selectedIndex = 3;
+        }
+      });
 
     this.fillSpotFormSub = this.fillSpotFormHandler
       .pipe(
@@ -210,6 +217,11 @@ export class OverviewComponent implements OnInit, OnDestroy {
           const nearest = results[0];
           const address = nearest.formatted_address;
           const placeId = nearest.place_id;
+          const nameCtrl = this.spotForm.get('name') as FormControl;
+
+          if (nameCtrl.value === '') {
+            nameCtrl.setValue(address);
+          }
 
           this.location.patchValue({ address, placeId });
         })

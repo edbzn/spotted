@@ -34,12 +34,6 @@
             <mat-step [completed]="descriptionCompleted()">
               <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
               <mat-form-field class="full-width">
-                <input matInput
-                  type="text"
-                  placeholder="{{ 'overview.form.name' | translate }}"
-                  formControlName="name">
-              </mat-form-field>
-              <mat-form-field class="full-width">
                 <mat-select placeholder="Type"
                   formControlName="type">
                   <mat-option *ngFor="let type of types"
@@ -58,23 +52,38 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <div class="full-width pb">
-                <mat-slide-toggle formControlName="indoor">
-                  {{ 'overview.form.indoor' | translate }}
-                </mat-slide-toggle>
-              </div>
-              <mat-radio-group class="full-width"
-                formControlName="difficulty">
-                <mat-radio-button class="radio"
-                  *ngFor="let difficulty of difficulties"
-                  [value]="difficulty">
-                  {{ difficulty }}
-                </mat-radio-button>
-              </mat-radio-group>
-              <div class="mt">
-                <button mat-button
-                  matStepperNext>{{ 'overview.form.next' | translate }}</button>
-              </div>
+              <mat-card>
+                <mat-card-content>
+                  <mat-form-field class="full-width">
+                    <input matInput
+                      type="text"
+                      placeholder="{{ 'overview.form.name' | translate }}"
+                      formControlName="name">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+              <mat-card>
+                <mat-card-content>
+                  <div class="full-width">
+                    <mat-slide-toggle formControlName="indoor">
+                      {{ 'overview.form.indoor' | translate }}
+                    </mat-slide-toggle>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card>
+                <mat-card-subtitle>Difficulty</mat-card-subtitle>
+                <mat-card-content>
+                  <mat-radio-group class="full-width"
+                    formControlName="difficulty">
+                    <mat-radio-button class="radio"
+                      *ngFor="let difficulty of difficulties"
+                      [value]="difficulty">
+                      {{ difficulty }}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </mat-card-content>
+              </mat-card>
             </mat-step>
             <mat-step [completed]="media.valid">
               <ng-template matStepLabel>{{ 'overview.stepper.media' | translate }}</ng-template>
@@ -130,12 +139,6 @@
                     class="hidden" />
                 </button>
               </div>
-              <div class="mt">
-                <button mat-button
-                  matStepperPrevious>{{ 'overview.form.back' | translate }}</button>
-                <button mat-button
-                  matStepperNext>{{ 'overview.form.next' | translate }}</button>
-              </div>
             </mat-step>
             <mat-step [stepControl]="location"
               [completed]="location.valid">
@@ -164,12 +167,6 @@
                     placeholder="{{ 'overview.form.longitude' | translate }}"
                     formControlName="longitude">
                 </mat-form-field>
-              </div>
-              <div class="mt">
-                <button mat-button
-                  matStepperPrevious>{{ 'overview.form.back' | translate }}</button>
-                <button mat-button
-                  matStepperNext>{{ 'overview.form.next' | translate }}</button>
               </div>
             </mat-step>
             <mat-step [completed]="valid">
