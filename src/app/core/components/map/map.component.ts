@@ -292,7 +292,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
     this.map.flyTo(this.center, zoom || this.map.getZoom(), {
       duration: this.mapMoveDuration,
-      animate: false,
+      animate: true,
     });
   }
 

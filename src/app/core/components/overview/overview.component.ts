@@ -172,9 +172,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.spotForm = this.fb.group({
-      name: '',
-      description: '',
-      indoor: false,
+      name: ['', Validators.required],
+      indoor: [false, Validators.required],
       difficulty: ['', Validators.required],
       type: ['', Validators.required],
       disciplines: [[], Validators.required],
@@ -218,9 +217,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
           const address = nearest.formatted_address;
           const placeId = nearest.place_id;
           const nameCtrl = this.spotForm.get('name') as FormControl;
+          const street = nearest.address_components[1].long_name;
 
           if (nameCtrl.value === '') {
-            nameCtrl.setValue(address);
+            nameCtrl.setValue('Spot ' + street);
           }
 
           this.location.patchValue({ address, placeId });
