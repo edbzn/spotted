@@ -1,3 +1,4 @@
+import { AuthService } from './../../../authentication/auth.service';
 import { WINDOW } from '../../../core/services/window.service';
 import { LatLng, latLng } from 'leaflet';
 import {
@@ -33,6 +34,7 @@ import {
 import { appConfiguration } from '../../../app-config';
 import { TranslateService } from '@ngx-translate/core';
 import { NguCarouselConfig } from '@ngu/carousel';
+import { FirebaseAuth } from 'angularfire2';
 
 @Component({
   selector: 'spt-overview',
@@ -167,7 +169,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
     public spotsService: SpotsService,
-    public upload: UploadService
+    public upload: UploadService,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -238,11 +241,14 @@ export class OverviewComponent implements OnInit, OnDestroy {
     if (!this.valid) {
       return;
     }
+    if (!this.auth.authenticated) {
+      return;
+    }
 
     const { value } = this.spotForm;
-    const spot: Api.Spot = value;
+    const spotObj = value;
 
-    this.spotsService.add(spot).then(() => {
+    this.spotsService.add(spotObj).then(() => {
       this.reset();
       this.setTabIndexTo(0);
       this.removeHelpMarker.emit();

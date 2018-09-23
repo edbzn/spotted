@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -7,8 +8,6 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { mergeMap } from 'rxjs/internal/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../app-config';
 import { PasswordValidation } from '../../shared/match-password.validator';
@@ -46,7 +45,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AngularFireAuth,
+    private auth: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
@@ -92,31 +91,13 @@ export class RegisterComponent implements OnInit {
 
     // @todo translate
     this.snackBar.open('Connection', 'ok');
-    this.auth.auth
-      .createUserWithEmailAndPassword(this.email.value, this.password.value)
+    this.auth
+      .register(this.email.value, this.password.value, this.name.value)
       .then(() => {
-        this.auth.user
-          .pipe(
-            mergeMap(user =>
-              user.updateProfile({
-                displayName: this.name.value,
-                photoURL: appConfiguration.defaultPhotoUrl,
-              })
-            )
-          )
-          .subscribe(
-            _ => {
-              this.translate.get(['connected']).subscribe(texts => {
-                this.snackBar.open(texts.connected, 'ok');
-                this.router.navigateByUrl('/');
-              });
-            },
-            _ => {
-              this.translate.get(['user.error']).subscribe(texts => {
-                this.snackBar.open(texts['user.error']);
-              });
-            }
-          );
+        this.translate.get(['connected']).subscribe(texts => {
+          this.snackBar.open(texts.connected, 'ok');
+          this.router.navigateByUrl('/');
+        });
       })
       .catch(_ => {
         this.translate.get(['user.error']).subscribe(texts => {

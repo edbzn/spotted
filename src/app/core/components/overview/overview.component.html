@@ -24,7 +24,8 @@
     </ng-template>
     <div class="scrollable"
       cdkScrollable
-      (scroll)="scrollChanged.next($event)">
+      (scroll)="scrollChanged.next($event)"
+      [class.disabled]="!auth.authenticated">
       <section class="p0">
         <form [formGroup]="spotForm"
           (submit)="createSpot()"
