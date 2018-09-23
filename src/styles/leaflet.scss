@@ -15,7 +15,7 @@
         font-weight: 100;
       }
       .description {
-        span:first-child {
+        > div:first-child {
           font-weight: 800;
         }
       }

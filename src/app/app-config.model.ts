@@ -12,7 +12,7 @@ export interface AppConfiguration {
     nameMinLength: number;
   };
   map: {
-    spotIconUrl: string;
+    helpMarker: string;
     latitude: number;
     longitude: number;
     zoom: number;

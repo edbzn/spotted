@@ -145,11 +145,11 @@ export class DetailComponent implements AfterViewInit {
     // @todo append this HTML Element
     marker.setContent(`
         <article>
-         <div class="description">
-          <span>${spot.type.toUpperCase()}</span>
-          <span>${(spot.name || '').toUpperCase()}</span>
-         </div>
-         <div class="address">${spot.location.address}</div>
+          <div class="description">
+            <div>${spot.type.toUpperCase()}</div>
+            <div>${spot.name}</div>
+            <div class="address">${spot.location.address}</div>
+          </div>
         </article>
       `);
     marker.setLatLng(new LatLng(latitude, longitude));
