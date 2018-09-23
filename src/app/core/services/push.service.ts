@@ -1,33 +1,29 @@
-import { environment } from './../../../environments/environment';
-import { Injectable, Inject } from '@angular/core';
-import { SwPush, SwUpdate } from '@angular/service-worker';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { WINDOW } from './window.service';
+import { SwPush } from '@angular/service-worker';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { environment } from './../../../environments/environment';
 
 interface PushEvent {
   action: 'subscribe' | 'unsubscribe';
   subscription: PushSubscription;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class PushService {
   private VAPID_PUBLIC_KEY = environment.VAPID_PUBLIC_KEY;
   private pushSubscriptions: AngularFirestoreCollection<PushEvent>;
 
   constructor(
     private swPush: SwPush,
-    private swUpdate: SwUpdate,
     private snackBar: MatSnackBar,
-    readonly db: AngularFirestore,
-    @Inject(WINDOW) private window: Window
+    readonly db: AngularFirestore
   ) {
     this.pushSubscriptions = db.collection<PushEvent>('pushSubscriptions');
   }
@@ -93,39 +89,6 @@ export class PushService {
         }
       );
     });
-  }
-
-  public checkForUpdate(): void {
-    if (!this.swPush.isEnabled) {
-      return;
-    }
-
-    console.log('[App] checkForUpdate started');
-    this.swUpdate
-      .checkForUpdate()
-      .then(() => {
-        console.log('[App] checkForUpdate completed');
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  public activateUpdate(): void {
-    if (!this.swPush.isEnabled) {
-      return;
-    }
-
-    console.log('[App] activateUpdate started');
-    this.swUpdate
-      .activateUpdate()
-      .then(() => {
-        console.log('[App] activateUpdate completed');
-        this.window.location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
   }
 
   private addSubscriber(

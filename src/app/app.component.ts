@@ -23,6 +23,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { SwUpdate } from '@angular/service-worker';
 import { WINDOW } from './core/services/window.service';
 import { PushService } from './core/services/push.service';
+import { UpdateService } from './core/services/update.service';
 
 declare const Modernizr;
 
@@ -44,26 +45,15 @@ export class AppComponent implements AfterViewInit, OnInit {
     private storage: StorageService,
     private snackBar: MatSnackBar,
     private title: Title,
-    private meta: Meta,
-    private swUpdate: SwUpdate,
-    @Inject(WINDOW) private window: Window,
     private pushService: PushService,
+    private updateService: UpdateService,
     public auth: AngularFireAuth
   ) {}
 
   ngOnInit(): void {
-    const langs: Language[] = ['en', 'fr'];
-    this.translate.addLangs(langs);
-    this.translate.setDefaultLang(appConfiguration.defaultLang);
-
-    const fromStorage = this.storage.get('defaultLang');
-    const browserLang = fromStorage || this.translate.getBrowserLang();
-    this.translate.use(
-      browserLang.match(/en|fr/) ? browserLang : appConfiguration.defaultLang
-    );
-
+    this.setupLanguage();
     this.pushService.subscribeToPush();
-    this.pushService.checkForUpdate();
+    this.updateService.handleVersionUpdate();
   }
 
   ngAfterViewInit() {
@@ -116,22 +106,17 @@ export class AppComponent implements AfterViewInit, OnInit {
     return supported;
   }
 
-  private handleVersionUpdate(): void {
-    this.swUpdate.available.subscribe(event => {
-      console.log(
-        '[App] Update available: current version is',
-        event.current,
-        'available version is',
-        event.available
-      );
-      const snackBarRef = this.snackBar.open(
-        'Newer version of the app is available',
-        'Refresh'
-      );
+  private setupLanguage(): void {
+    const langs: Language[] = ['en', 'fr'];
+    this.translate.addLangs(langs);
+    this.translate.setDefaultLang(appConfiguration.defaultLang);
 
-      snackBarRef.onAction().subscribe(() => {
-        this.window.location.reload();
-      });
-    });
+    const fromStorage = this.storage.get('defaultLang');
+    const browserLang = fromStorage || this.translate.getBrowserLang();
+    const lang = browserLang.match(/en|fr/)
+      ? browserLang
+      : appConfiguration.defaultLang;
+
+    this.translate.use(lang);
   }
 }
