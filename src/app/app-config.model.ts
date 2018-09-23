@@ -13,7 +13,6 @@ export interface AppConfiguration {
   };
   map: {
     spotIconUrl: string;
-    helpMarker: string;
     latitude: number;
     longitude: number;
     zoom: number;

@@ -149,7 +149,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
    */
   iconConfig: IconOptions = {
     iconSize: [42, 42],
-    iconAnchor: [21, 21],
+    iconAnchor: [42, 42],
     iconUrl: appConfiguration.map.spotIconUrl,
   };
 
@@ -324,10 +324,16 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   private mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
     return spots.map(spot => {
       const { latitude, longitude } = spot.location;
+
       const spotMarker = marker(latLng(latitude, longitude), {
-        icon: icon(this.iconConfig),
+        icon: icon({
+          ...this.iconConfig,
+          iconUrl: `assets/images/marker-${this.getMarkerColor(spot)}.png`,
+        }),
         draggable: false,
-        title: spot.location.address,
+        title: `${(spot.type as string).toUpperCase()} ${
+          spot.location.address
+        }`,
       });
       this.map.addLayer(spotMarker);
 
@@ -337,5 +343,33 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
       return spotMarker;
     });
+  }
+
+  private getMarkerColor(spot: Api.Spot): string {
+    let markerColor = 'gray';
+
+    if (spot.type === 'bowl') {
+      markerColor = 'blue';
+    }
+    if (spot.type === 'curb') {
+      markerColor = 'cyan';
+    }
+    if (spot.type === 'dirt') {
+      markerColor = 'red';
+    }
+    if (spot.type === 'park') {
+      markerColor = 'violet';
+    }
+    if (spot.type === 'rail') {
+      markerColor = 'green';
+    }
+    if (spot.type === 'ramp') {
+      markerColor = 'brown';
+    }
+    if (spot.type === 'street-plaza') {
+      markerColor = 'dark-blue';
+    }
+
+    return markerColor;
   }
 }
