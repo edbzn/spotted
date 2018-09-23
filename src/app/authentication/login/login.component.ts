@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -7,7 +8,6 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { TranslateService } from '@ngx-translate/core';
 import { appConfiguration } from '../../app-config';
 import { fade } from '../../shared/animations';
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AngularFireAuth,
+    private auth: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
     private translate: TranslateService
@@ -62,23 +62,18 @@ export class LoginComponent implements OnInit {
 
     this.snackBar.open('Connection...');
 
-    this.auth.auth
-      .signInAndRetrieveDataWithEmailAndPassword(
-        this.email.value,
-        this.password.value
-      )
-      .then(
-        () => {
-          this.translate.get(['connected']).subscribe(texts => {
-            this.snackBar.open(texts.connected, 'ok');
-            this.router.navigate(['/']);
-          });
-        },
-        () => {
-          this.translate.get(['user.error']).subscribe(texts => {
-            this.snackBar.open(texts['user.error']);
-          });
-        }
-      );
+    this.auth.login(this.email.value, this.password.value).then(
+      () => {
+        this.translate.get(['connected']).subscribe(texts => {
+          this.snackBar.open(texts.connected, 'ok');
+          this.router.navigate(['/']);
+        });
+      },
+      () => {
+        this.translate.get(['user.error']).subscribe(texts => {
+          this.snackBar.open(texts['user.error']);
+        });
+      }
+    );
   }
 }

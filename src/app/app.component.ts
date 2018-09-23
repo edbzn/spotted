@@ -1,28 +1,26 @@
-import { appConfiguration } from './app-config';
-import { StorageService } from './core/services/storage.service';
 import {
-  Component,
   AfterViewInit,
-  ViewEncapsulation,
+  Component,
   OnInit,
-  Inject,
+  ViewEncapsulation,
 } from '@angular/core';
-import { environment } from '../environments/environment';
+import { MatSnackBar } from '@angular/material';
+import { Title } from '@angular/platform-browser';
 import {
+  NavigationCancel,
+  NavigationEnd,
   NavigationStart,
   Router,
-  NavigationEnd,
-  NavigationCancel,
 } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material';
-import { ProgressBarService } from './core/services/progress-bar.service';
+
+import { environment } from '../environments/environment';
 import { Language } from '../types/global';
-import { Title, Meta } from '@angular/platform-browser';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { SwUpdate } from '@angular/service-worker';
-import { WINDOW } from './core/services/window.service';
+import { appConfiguration } from './app-config';
+import { AuthService } from './authentication/auth.service';
+import { ProgressBarService } from './core/services/progress-bar.service';
 import { PushService } from './core/services/push.service';
+import { StorageService } from './core/services/storage.service';
 import { UpdateService } from './core/services/update.service';
 
 declare const Modernizr;
@@ -47,7 +45,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     private title: Title,
     private pushService: PushService,
     private updateService: UpdateService,
-    public auth: AngularFireAuth
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {

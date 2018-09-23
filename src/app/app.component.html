@@ -5,18 +5,18 @@
         [routerLink]="['/']"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
-        <h1 *ngIf="auth.user | async as user; else showName"
+        <h1 *ngIf="auth.authenticated else showName"
           class="profile">
-          <img [src]="user.photoURL"
+          <img [src]="auth.user.photoURL"
             class="avatar">
-          <span>{{ user.displayName }}</span>
+          <span>{{ auth.user.displayName }}</span>
         </h1>
         <ng-template #showName>spotted</ng-template>
       </a>
       <div class="pull-right">
         <button mat-icon-button
           class="account"
-          *ngIf="auth.user | async as user; else connectBtn"
+          *ngIf="auth.user; else connectBtn"
           color="primary"
           [routerLink]="['/user/profile']"
           routerLinkActive="active"
