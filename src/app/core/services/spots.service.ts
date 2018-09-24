@@ -1,3 +1,4 @@
+import { AuthService } from './../../authentication/auth.service';
 import { GeoLocatorService } from './geo-locator.service';
 import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
@@ -7,8 +8,6 @@ import {
 } from 'angularfire2/firestore';
 import { tap, delay } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
-import { User } from 'firebase';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
@@ -22,7 +21,7 @@ export class SpotsService {
   constructor(
     private readonly db: AngularFirestore,
     private progressBar: ProgressBarService,
-    private auth: AngularFireAuth,
+    private auth: AuthService,
     private geoLocator: GeoLocatorService
   ) {
     this.spotsCollection = this.db.collection<Api.Spot>(this.spotsPath);
@@ -39,7 +38,7 @@ export class SpotsService {
   /**
    * Get a spot
    */
-  public async get(id: string) {
+  public get(id: string): Promise<firebase.firestore.DocumentSnapshot> {
     return this.spotsCollection.doc<Api.Spot>(id).ref.get();
   }
 
@@ -49,88 +48,71 @@ export class SpotsService {
   public add(spot: Api.Spot): Promise<void> {
     const id = this.db.createId();
 
-    return new Promise<void>((resolve, reject) => {
-      this.db
-        .doc(this.spotsPath + '/' + id)
-        .set({ ...spot, id })
-        .then(() => {
-          return this.geoLocator.set(id, spot.location);
-        })
-        .then(() => resolve())
-        .catch(err => {
-          reject(err);
-        });
-    });
+    return this.db
+      .doc(this.spotsPath + '/' + id)
+      .set({ ...spot, id })
+      .then(() => {
+        return this.geoLocator.set(id, spot.location);
+      });
   }
 
   /**
    * Update a Spot
    */
-  public async update(ref: string, spot: Api.Spot): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.spotsCollection
-        .doc(ref)
-        .update(spot)
-        .then(() => {
-          return this.geoLocator.set(spot.id, spot.location);
-        })
-        .then(() => resolve())
-        .catch(err => reject(err));
-    });
+  public update(ref: string, spot: Api.Spot): Promise<void> {
+    return this.spotsCollection
+      .doc(ref)
+      .update(spot)
+      .then(() => {
+        return this.geoLocator.set(spot.id, spot.location);
+      });
   }
 
   /**
    * Delete a Spot
    */
   public delete(ref: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.spotsCollection
-        .doc(ref)
-        .delete()
-        .then(() => {
-          return this.geoLocator.delete(ref);
-        })
-        .then(() => resolve())
-        .catch(err => reject(err));
-    });
+    return this.spotsCollection
+      .doc(ref)
+      .delete()
+      .then(() => {
+        return this.geoLocator.delete(ref);
+      });
   }
 
   /**
    * Like a spot
    */
   public like(spot: Api.Spot): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.auth.user.subscribe(
-        user => {
-          if (!this.likable(spot, user)) {
-            return;
-          }
+    if (!this.auth.authenticated) {
+      return;
+    }
+    const { user } = this.auth;
+    if (!this.likable(spot)) {
+      return;
+    }
 
-          const { likes } = spot;
-          ++likes.count;
-          likes.byUsers.push(user.uid.toString());
+    const { likes } = spot;
+    ++likes.count;
+    likes.byUsers.push(user.uid.toString());
 
-          const likedSpot: Api.Spot = {
-            ...spot,
-            likes,
-          };
+    const likedSpot: Api.Spot = {
+      ...spot,
+      likes,
+    };
 
-          this.update(spot.id, likedSpot)
-            .then(() => resolve())
-            .catch(err => reject(err));
-        },
-        err => reject(err)
-      );
-    });
+    return this.update(spot.id, likedSpot);
   }
 
   /**
    * Check if spot is likable
    */
-  public likable(spot: Api.Spot, user: User): boolean {
-    if (null === user) {
+  public likable(spot: Api.Spot): boolean {
+    if (!this.auth.authenticated) {
       return false;
     }
+
+    const { user } = this.auth;
     const { byUsers } = spot.likes;
 
     return !byUsers.includes(user.uid.toString());
