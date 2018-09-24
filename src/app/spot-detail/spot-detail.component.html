@@ -84,7 +84,7 @@
       </mat-card-subtitle>
       <mat-card-content>
         <button mat-raised-button
-          [disabled]="!spotsService.likable(spot, auth?.user | async)"
+          [disabled]="!spotsService.likable(spot)"
           (click)="spotsService.like(spot)"
           color="accent">
           <mat-icon>favorite</mat-icon>
