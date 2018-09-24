@@ -1,4 +1,5 @@
-<main class="map-wrapper">
+<main class="map-wrapper"
+  [style.height]="mapHeight + '%'">
   <spt-map #map
     [spots]="spots"
     (mapReady)="onMapReady($event)"
@@ -6,7 +7,7 @@
     (spotClicked)="onSpotClick($event)">
   </spt-map>
 </main>
-<aside *ngIf="!deviceDetector.detectMobile()">
+<aside class="overview-wrapper">
   <spt-overview #overview
     [spots]="spots"
     (removeHelpMarker)="onSpotFormSubmitted()"
