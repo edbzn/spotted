@@ -31,7 +31,6 @@ import {
 import { MatMenuTrigger } from '@angular/material';
 import { WINDOW } from '../../../core/services/window.service';
 import { Api } from 'src/types/api';
-import { Subscription } from 'rxjs';
 import { appConfiguration } from '../../../app-config';
 
 @Component({
@@ -179,7 +178,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Help marker ref to ensure only one is present
    */
-  helpMarker: Layer;
+  helpMarker: Layer | null = null;
 
   /**
    * Each click emit event to change UI for mobiles in parent component
@@ -254,6 +253,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     // ensure one help marker is present at a time
     if (this.helpMarker) {
       this.map.removeLayer(this.helpMarker);
+      this.helpMarker = null;
     }
 
     const latitudeLongitude = this.map.containerPointToLatLng(this.point);
@@ -289,7 +289,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   removeHelpMarker(): void {
-    this.map.removeLayer(this.helpMarker);
+    if (this.helpMarker) {
+      this.map.removeLayer(this.helpMarker);
+      this.helpMarker = null;
+    }
   }
 
   setPosition(latitudeLongitude: LatLng, zoom?: number): void {
