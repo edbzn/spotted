@@ -6,6 +6,13 @@
     (helpMarkerChanged)="onHelpMarkerChanged($event)"
     (spotClicked)="onSpotClick($event)">
   </spt-map>
+  <button mat-mini-fab
+    *ngIf="deviceDetector.detectMobile()"
+    class="expand-btn"
+    (click)="toggleExpand()">
+    <mat-icon *ngIf="expandMap">keyboard_arrow_up</mat-icon>
+    <mat-icon *ngIf="!expandMap">keyboard_arrow_down</mat-icon>
+  </button>
 </main>
 <aside class="overview-wrapper">
   <spt-overview #overview
