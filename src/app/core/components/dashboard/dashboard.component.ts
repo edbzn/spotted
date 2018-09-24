@@ -15,6 +15,7 @@ import {
   filter,
   switchMap,
   tap,
+  takeWhile,
 } from 'rxjs/operators';
 import { Api } from 'src/types/api';
 import { isEqual } from 'src/utils/functions/deep-compare';
@@ -41,12 +42,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /**
    * Child map component ref
    */
-  @ViewChild('map') map: MapComponent;
+  @ViewChild('map')
+  map: MapComponent;
 
   /**
    * Child overview component ref
    */
-  @ViewChild('overview') overview: OverviewComponent;
+  @ViewChild('overview')
+  overview: OverviewComponent;
 
   /**
    * Spots displayed in map & overview 'around me'
@@ -59,31 +62,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   mapMoved = new Subject<void>();
 
   /**
-   * Map move subscription
-   */
-  mapMovedSub: Subscription;
-
-  /**
-   * Used to expand map when interacted
-   */
-  mapInteractedSub: Subscription;
-
-  /**
-   * Attach overview scroll change to expand overview
-   */
-  overviewScrolledSub: Subscription;
-
-  /**
    * Expanded map state
    */
   expandMap = false;
 
   /**
-   * Map height when mobile
+   * Dynamic map height for desktop & mobile
    */
   mapHeight: number = this.deviceDetector.detectMobile()
     ? appConfiguration.map.totalMapHeight
     : appConfiguration.map.mobileExpandedMapHeight;
+
+  /**
+   * Used to unsubscribe component observables
+   */
+  alive = true;
 
   constructor(
     public deviceDetector: DeviceDetectorService,
@@ -92,8 +85,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.mapMovedSub = this.mapMoved
+    this.mapMoved
       .pipe(
+        takeWhile(() => this.alive),
         filter(() => this.overview.selectedTab === 0),
         debounceTime(200),
         tap(() => {
@@ -112,8 +106,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.changeDetector.detectChanges();
       });
 
-    this.mapInteractedSub = this.map.mapInteracted
+    this.map.mapInteracted
       .pipe(
+        takeWhile(() => this.alive),
         filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
@@ -124,8 +119,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.overviewScrolledSub = this.overview.scrollChanged
+    this.overview.scrollChanged
       .pipe(
+        takeWhile(() => this.alive),
         filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
@@ -137,40 +133,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mapInteractedSub.unsubscribe();
-    this.overviewScrolledSub.unsubscribe();
-    this.mapMovedSub.unsubscribe();
-    this.map.map.off(listenMapChangeEvents);
+    this.alive = false;
   }
 
-  onMapReady(map: Map) {
+  onMapReady(map: Map): void {
     map.on(listenMapChangeEvents, () => {
       this.mapMoved.next();
     });
-  }
-
-  toggleExpand(expanded: boolean | null = null): void {
-    let toState = expanded;
-    if (toState === null) {
-      toState = !this.expandMap;
-    }
-    this.expandMap = toState;
-    this.getMapHeight();
-    this.changeDetector.detectChanges();
-  }
-
-  getMapHeight(): void {
-    if (this.deviceDetector.detectMobile() === false) {
-      this.mapHeight = appConfiguration.map.totalMapHeight;
-      return;
-    }
-
-    const { totalMapHeight, mobileExpandedMapHeight } = appConfiguration.map;
-    const shrinkMapHeight = totalMapHeight - mobileExpandedMapHeight;
-
-    this.mapHeight = this.expandMap
-      ? appConfiguration.map.mobileExpandedMapHeight
-      : shrinkMapHeight;
   }
 
   onHelpMarkerChanged(latLng: LatLng): void {
@@ -188,6 +157,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onSpotClick(spot: Api.Spot): void {
     this.overview.scrollTo(spot);
+  }
+
+  toggleExpand(expanded: boolean | null = null): void {
+    let toState = expanded;
+    if (toState === null) {
+      toState = !this.expandMap;
+    }
+    this.expandMap = toState;
+    this.updateMapHeight();
+    this.changeDetector.detectChanges();
+  }
+
+  private updateMapHeight(): void {
+    if (this.deviceDetector.detectMobile() === false) {
+      this.mapHeight = appConfiguration.map.totalMapHeight;
+      return;
+    }
+
+    const { totalMapHeight, mobileExpandedMapHeight } = appConfiguration.map;
+    const shrinkMapHeight = totalMapHeight - mobileExpandedMapHeight;
+
+    this.mapHeight = this.expandMap
+      ? appConfiguration.map.mobileExpandedMapHeight
+      : shrinkMapHeight;
   }
 
   private searchSpotsFromMapBounds(): void {
