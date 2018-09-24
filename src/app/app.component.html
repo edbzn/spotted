@@ -25,14 +25,14 @@
         </button>
         <ng-template #connectBtn>
           <span class="mr-3">
-            <a mat-stroked-button
+            <a mat-button
               [routerLink]="['./user/login']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{exact: true}">
               <mat-icon>account_circle</mat-icon> {{ 'connection' | translate }}
             </a>
             <span class="mr-2 ml-2">{{ 'or' | translate }}</span>
-            <a mat-stroked-button
+            <a mat-button
               [routerLink]="['./user/register']"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{exact: true}">

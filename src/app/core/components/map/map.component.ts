@@ -1,3 +1,4 @@
+import { AuthService } from './../../../authentication/auth.service';
 import {
   LatLng,
   Layer,
@@ -194,7 +195,8 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -228,10 +230,14 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * On right-click display mat menu (@todo desktop-only)
+   * On right-click display mat menu
    */
   onMapContextClick(event: MouseEvent): void {
     event.preventDefault();
+
+    if (!this.auth.authenticated) {
+      return;
+    }
 
     if (event instanceof MouseEvent) {
       this.mouseY = event.layerY;

@@ -35,7 +35,8 @@
       cdkScrollable
       (scroll)="scrollChanged.next($event)"
       [class.disabled]="!auth.authenticated">
-      <section class="p0">
+      <section class="p0"
+        *ngIf="auth.authenticated; else authRequired">
         <form [formGroup]="spotForm"
           (submit)="createSpot()"
           novalidate>
@@ -212,6 +213,12 @@
           </mat-vertical-stepper>
         </form>
       </section>
+      <ng-template #authRequired>
+        <div class="auth-required"
+          fxLayoutAlign="center center">
+          <h1 class="mat-title mt-5">Authentication required</h1>
+        </div>
+      </ng-template>
     </div>
   </mat-tab>
 </mat-tab-group>
