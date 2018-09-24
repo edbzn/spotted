@@ -1,20 +1,12 @@
-<main class="map-wrapper"
-  [style.height]="mapHeight + '%'">
+<main class="map-wrapper">
   <spt-map #map
     [spots]="spots"
     (mapReady)="onMapReady($event)"
     (helpMarkerChanged)="onHelpMarkerChanged($event)"
     (spotClicked)="onSpotClick($event)">
   </spt-map>
-  <button mat-mini-fab
-    *ngIf="deviceDetector.detectMobile()"
-    class="expand-btn"
-    (click)="toggleExpand()">
-    <mat-icon *ngIf="expandMap">keyboard_arrow_up</mat-icon>
-    <mat-icon *ngIf="!expandMap">keyboard_arrow_down</mat-icon>
-  </button>
 </main>
-<aside class="map-overview-wrapper">
+<aside *ngIf="!deviceDetector.detectMobile()">
   <spt-overview #overview
     [spots]="spots"
     (removeHelpMarker)="onSpotFormSubmitted()"

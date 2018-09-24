@@ -1,25 +1,8 @@
 @import '~src/styles/variables.scss';
 
-main,
-aside {
-  height: 100%;
-  @media screen and (max-width: $mediaMidWidth) {
-    height: 50%;
-  }
-}
-
 :host {
   display: flex;
-  height: 95vh;
-
-  @media screen and (max-width: $mediaMidWidth) {
-    flex-direction: column;
-  }
-  @media screen and (min-width: $mediaMidWidth) {
-    .map-wrapper {
-      flex: 2;
-    }
-  }
+  height: calc(100vh - 61px);
 
   .map-overview-wrapper {
     flex: 1;
@@ -27,9 +10,9 @@ aside {
   }
 }
 
-.map-wrapper {
-  position: relative;
-  transition: all ease 200ms;
+main,
+aside {
+  height: 100%;
 }
 
 .expand-btn {
