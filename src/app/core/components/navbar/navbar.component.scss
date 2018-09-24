@@ -1,0 +1,32 @@
+@import '~src/styles/variables.scss';
+@import '~src/styles/theme.scss';
+
+.brand {
+  font-size: 130%;
+  font-weight: 900;
+  text-decoration: none;
+  color: $primary;
+}
+
+.progress-bar {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 5px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    margin-right: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+  }
+}
+
+.account {
+  margin: 0 10px;
+}

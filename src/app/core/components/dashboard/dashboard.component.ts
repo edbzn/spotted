@@ -1,31 +1,30 @@
-import { GeoSpotsService } from '../../services/geo-spots.service';
-import { OverviewComponent } from '../overview/overview.component';
 import {
-  Component,
-  OnInit,
-  ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { LatLng, Map } from 'leaflet';
-import { Api } from 'src/types/api';
-import { fade } from '../../../shared/animations';
-import { MapComponent } from '../map/map.component';
+import { Subject, Subscription } from 'rxjs';
 import {
-  distinct,
   debounceTime,
-  tap,
-  filter,
-  switchMapTo,
-  mergeMapTo,
-  switchMap,
+  distinct,
   distinctUntilChanged,
+  filter,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
-import { Subscription, Subject, Observable } from 'rxjs';
-import { DeviceDetectorService } from '../../../core/services/device-detector.service';
-import { appConfiguration } from '../../../app-config';
+import { Api } from 'src/types/api';
 import { isEqual } from 'src/utils/functions/deep-compare';
+
+import { appConfiguration } from '../../../app-config';
+import { DeviceDetectorService } from '../../../core/services/device-detector.service';
+import { fade } from '../../../shared/animations';
+import { GeoSpotsService } from '../../services/geo-spots.service';
+import { MapComponent } from '../map/map.component';
+import { OverviewComponent } from '../overview/overview.component';
 
 const listenMapChangeEvents = 'load zoomlevelschange move zoom';
 
@@ -39,18 +38,49 @@ const listenMapChangeEvents = 'load zoomlevelschange move zoom';
   host: { '[@fade]': '' },
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  @ViewChild('map')
-  map: MapComponent;
-  @ViewChild('overview')
-  overview: OverviewComponent;
+  /**
+   * Child map component ref
+   */
+  @ViewChild('map') map: MapComponent;
 
+  /**
+   * Child overview component ref
+   */
+  @ViewChild('overview') overview: OverviewComponent;
+
+  /**
+   * Spots displayed in map & overview 'around me'
+   */
   spots: Api.Spot[] = [];
+
+  /**
+   * Track map move to handle spots in the given radius
+   */
   mapMoved = new Subject<void>();
+
+  /**
+   * Map move subscription
+   */
   mapMovedSub: Subscription;
 
+  /**
+   * Used to expand map when interacted
+   */
   mapInteractedSub: Subscription;
+
+  /**
+   * Attach overview scroll change to expand overview
+   */
   overviewScrolledSub: Subscription;
+
+  /**
+   * Expanded map state
+   */
   expandMap = false;
+
+  /**
+   * Map height when mobile
+   */
   mapHeight: number = this.deviceDetector.detectMobile()
     ? appConfiguration.map.totalMapHeight
     : appConfiguration.map.mobileExpandedMapHeight;

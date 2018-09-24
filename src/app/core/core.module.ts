@@ -19,6 +19,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.translate.factory';
 import { MapComponent } from './components/map/map.component';
 import { ExceptionHandler } from './services/exception.handler.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,12 @@ import { ExceptionHandler } from './services/exception.handler.service';
     }),
     AppRoutingModule,
   ],
-  declarations: [DashboardComponent, OverviewComponent, MapComponent],
+  declarations: [
+    DashboardComponent,
+    OverviewComponent,
+    MapComponent,
+    NavbarComponent,
+  ],
   providers: [
     WINDOW_PROVIDERS,
     {
@@ -53,6 +59,7 @@ import { ExceptionHandler } from './services/exception.handler.service';
     { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
     { provide: ErrorHandler, useClass: ExceptionHandler },
   ],
+  exports: [NavbarComponent],
 })
 export class CoreModule {
   constructor(
