@@ -17,7 +17,13 @@ export class AuthService {
    */
   public user: User | null = null;
 
-  constructor(private auth: AngularFireAuth, private router: Router) {}
+  constructor(private auth: AngularFireAuth, private router: Router) {
+    this.auth.user.subscribe(user => {
+      if (user) {
+        this.authenticate(user);
+      }
+    });
+  }
 
   /**
    * Login using credentials
