@@ -151,7 +151,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onSpotClick(spot: Api.Spot): void {
-    this.overview.scrollTo(spot);
+    this.overview.triggerScrollTo(
+      this.spots.findIndex(_spot => spot.id === _spot.id)
+    );
   }
 
   toggleExpand(expanded: boolean | null = null): void {

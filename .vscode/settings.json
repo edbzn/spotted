@@ -3,6 +3,7 @@
     "Firestore",
     "Gmap",
     "Modernizr",
+    "Scrollable",
     "Truthy",
     "latlng",
     "zoomlevelschange"

@@ -14,6 +14,9 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  QueryList,
+  ViewChildren,
+  ElementRef,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -38,6 +41,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { NguCarouselConfig } from '@ngu/carousel';
 import { slideInOut } from 'src/app/shared/animations';
 import { Loadable, InitializationState } from '../../../shared/loadable';
+import { SpotComponent } from '../../../shared/spot/spot.component';
+import {
+  ScrollToConfigOptions,
+  ScrollToService,
+} from '@nicky-lenaers/ngx-scroll-to';
+import { ScrollToTarget } from '@nicky-lenaers/ngx-scroll-to/src/app/modules/scroll-to/scroll-to-config.interface';
 
 @Component({
   selector: 'spt-overview',
@@ -139,6 +148,17 @@ export class OverviewComponent extends Loadable
   formStatusChangeSub: Subscription;
 
   /**
+   * Components ref
+   */
+  @ViewChildren(SpotComponent, { read: ElementRef })
+  spotsElementRefs: QueryList<ElementRef>;
+
+  /**
+   * Spot index to scroll when tab animation needs to complete
+   */
+  private spotIndexToScroll: number | null = null;
+
+  /**
    * Form valid
    */
   get valid(): boolean {
@@ -167,7 +187,7 @@ export class OverviewComponent extends Loadable
   }
 
   constructor(
-    @Inject(WINDOW) private window: Window,
+    private scrollToService: ScrollToService,
     private fb: FormBuilder,
     private geocoder: GeocoderService,
     private translateService: TranslateService,
@@ -309,7 +329,7 @@ export class OverviewComponent extends Loadable
     });
   }
 
-  locate(spot: Api.Spot) {
+  locate(spot: Api.Spot): void {
     this.flyTo.emit(latLng(spot.location.latitude, spot.location.longitude));
   }
 
@@ -327,18 +347,30 @@ export class OverviewComponent extends Loadable
     );
   }
 
-  scrollTo(spot: Api.Spot): void {
-    this.setTabIndexTo(0);
-    this.changeDetector.detectChanges();
-    const { document } = this.window;
-    const wrapper = document.querySelector('.mat-tab-body-content');
-    const target = document.getElementById('scroll-hook-' + spot.id);
+  onTabAnimationDone(): void {
+    if (typeof this.spotIndexToScroll === 'number') {
+      this.scrollToSpotIndex();
+    }
+  }
 
-    // @todo fix that with animation done hook
-    if (target === null) {
-      return;
+  triggerScrollTo(index: number): void {
+    this.spotIndexToScroll = index;
+
+    if (this.selectedTab !== 0) {
+      this.setTabIndexTo(0);
+      this.changeDetector.detectChanges();
     }
 
-    wrapper.scrollTo({ top: target.offsetTop - 8 });
+    this.scrollToSpotIndex();
+  }
+
+  private scrollToSpotIndex(): void {
+    const target = this.spotsElementRefs.find((_, i) => {
+      return this.spotIndexToScroll === i;
+    });
+
+    const config: ScrollToConfigOptions = { target };
+    this.scrollToService.scrollTo(config);
+    this.spotIndexToScroll = null;
   }
 }
