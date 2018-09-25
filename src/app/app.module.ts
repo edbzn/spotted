@@ -9,6 +9,12 @@ import { SharedModule } from './shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/app.translate.factory';
 import { CoreModule } from './core/core.module';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireModule } from 'angularfire2';
+import { AgmCoreModule } from '@agm/core';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +22,15 @@ import { CoreModule } from './core/core.module';
     SharedModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleApiKey,
+      libraries: ['places'],
+    }),
+    ScrollToModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
