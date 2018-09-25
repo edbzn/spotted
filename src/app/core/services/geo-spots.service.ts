@@ -5,11 +5,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Api } from 'src/types/api';
 import { GeoCallbackRegistration } from 'geofirestore';
 import { MatSnackBar } from '@angular/material';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { isEqual } from 'src/utils/functions/deep-compare';
 
 @Injectable({ providedIn: 'root' })
 export class GeoSpotsService {
+  /**
+   * Spot moved event registration
+   */
   private movedRegistration: GeoCallbackRegistration | null = null;
 
+  /**
+   * Spot entered event registration
+   */
   private enteredRegistration: GeoCallbackRegistration | null = null;
 
   /**
@@ -40,7 +48,7 @@ export class GeoSpotsService {
     query?: (
       ref: firebase.firestore.CollectionReference
     ) => firebase.firestore.Query
-  ) {
+  ): Observable<Api.Spot[]> {
     if (this.movedRegistration !== null) {
       this.movedRegistration.cancel();
     }
@@ -58,6 +66,13 @@ export class GeoSpotsService {
     this.movedRegistration = geoQuery.on(
       'key_moved',
       this.updateSpotsCollection
+    );
+
+    return this.spots.pipe(
+      distinctUntilChanged(
+        (prevSpotsCollection: Api.Spot[], nextSpotsCollection: Api.Spot[]) =>
+          isEqual(prevSpotsCollection, nextSpotsCollection)
+      )
     );
   }
 
