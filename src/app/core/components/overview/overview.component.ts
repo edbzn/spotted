@@ -47,6 +47,8 @@ import {
   ScrollToService,
 } from '@nicky-lenaers/ngx-scroll-to';
 import { ScrollToTarget } from '@nicky-lenaers/ngx-scroll-to/src/app/modules/scroll-to/scroll-to-config.interface';
+import { OverviewTabIndex } from './tapbar-index.enum';
+import { OverviewStepperIndex } from './stepper-index.enum';
 
 @Component({
   selector: 'spt-overview',
@@ -77,7 +79,7 @@ export class OverviewComponent extends Loadable
   /**
    * Tap index
    */
-  selectedTab = 0;
+  selectedTab = OverviewTabIndex.SpotsAroundMeList;
 
   /**
    * Disciplines used in form select
@@ -227,7 +229,7 @@ export class OverviewComponent extends Loadable
       .pipe(debounceTime(1000))
       .subscribe(status => {
         if ('VALID' === status) {
-          this.stepper.selectedIndex = 3;
+          this.stepper.selectedIndex = OverviewStepperIndex.Resume;
         }
       });
 
@@ -283,7 +285,7 @@ export class OverviewComponent extends Loadable
 
     this.spotsService.add(spotObj).then(() => {
       this.reset();
-      this.setTabIndexTo(0);
+      this.setTabIndexTo(OverviewTabIndex.SpotsAroundMeList);
       this.removeHelpMarker.emit();
 
       this.translateService.get(['spotCreated']).subscribe(texts => {
@@ -302,31 +304,7 @@ export class OverviewComponent extends Loadable
 
   fillSpotForm(latitudeLongitude: LatLng): void {
     this.fillSpotFormHandler.next(latitudeLongitude);
-    this.stepper.selectedIndex = 2;
-  }
-
-  async onFileAdded(event: any) {
-    if (
-      !event ||
-      !event.target.files ||
-      !(event.target.files instanceof FileList)
-    ) {
-      return;
-    }
-
-    await this.upload.files(event.target.files);
-
-    this.upload.downloadURLs.forEach(downloadURL => {
-      downloadURL.subscribe(url => {
-        this.pictures.push(url);
-        this.media.get('pictures').patchValue(this.pictures);
-        this.changeDetector.detectChanges();
-      });
-    });
-
-    this.translateService.get(['pictureUploaded']).subscribe(texts => {
-      this.snackBar.open(texts.pictureUploaded, 'OK');
-    });
+    this.stepper.selectedIndex = OverviewStepperIndex.Location;
   }
 
   locate(spot: Api.Spot): void {
@@ -356,12 +334,36 @@ export class OverviewComponent extends Loadable
   triggerScrollTo(index: number): void {
     this.spotIndexToScroll = index;
 
-    if (this.selectedTab !== 0) {
-      this.setTabIndexTo(0);
+    if (this.selectedTab !== OverviewTabIndex.SpotsAroundMeList) {
+      this.setTabIndexTo(OverviewTabIndex.SpotsAroundMeList);
       this.changeDetector.detectChanges();
     }
 
     this.scrollToSpotIndex();
+  }
+
+  async onFileAdded(event: any) {
+    if (
+      !event ||
+      !event.target.files ||
+      !(event.target.files instanceof FileList)
+    ) {
+      return;
+    }
+
+    await this.upload.files(event.target.files);
+
+    this.upload.downloadURLs.forEach(downloadURL => {
+      downloadURL.subscribe(url => {
+        this.pictures.push(url);
+        this.media.get('pictures').patchValue(this.pictures);
+        this.changeDetector.detectChanges();
+      });
+    });
+
+    this.translateService.get(['pictureUploaded']).subscribe(texts => {
+      this.snackBar.open(texts.pictureUploaded, 'OK');
+    });
   }
 
   private scrollToSpotIndex(): void {

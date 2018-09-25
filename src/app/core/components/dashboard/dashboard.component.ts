@@ -12,7 +12,6 @@ import {
   debounceTime,
   distinct,
   filter,
-  map,
   takeWhile,
   tap,
   switchMap,
@@ -25,6 +24,7 @@ import { fade } from '../../../shared/animations';
 import { GeoSpotsService } from '../../services/geo-spots.service';
 import { MapComponent } from '../map/map.component';
 import { OverviewComponent } from '../overview/overview.component';
+import { OverviewTabIndex } from '../overview/tapbar-index.enum';
 
 const listenMapChangeEvents = 'load zoomlevelschange move zoom';
 
@@ -86,7 +86,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapMoved
       .pipe(
-        filter(() => this.overview.selectedTab === 0),
+        filter(
+          () => this.overview.selectedTab === OverviewTabIndex.SpotsAroundMeList
+        ),
         debounceTime(200),
         switchMap(() =>
           this.geoSpots.getSpotsByLocation(
@@ -138,7 +140,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onHelpMarkerChanged(latLng: LatLng): void {
-    this.overview.setTabIndexTo(1);
+    this.overview.setTabIndexTo(OverviewTabIndex.CreateSpot);
     this.overview.fillSpotForm(latLng);
   }
 
@@ -151,6 +153,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onSpotClick(spot: Api.Spot): void {
+    if (this.deviceDetector.detectMobile()) {
+      this.toggleExpand(false);
+    }
+
     this.overview.triggerScrollTo(
       this.spots.findIndex(_spot => spot.id === _spot.id)
     );

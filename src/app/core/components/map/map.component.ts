@@ -346,7 +346,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       });
       this.map.addLayer(spotMarker);
 
-      spotMarker.getElement().addEventListener('click', e => {
+      spotMarker.getElement().addEventListener('click', () => {
         this.spotClicked.emit(spot);
       });
 
