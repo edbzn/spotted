@@ -7,18 +7,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { LatLng, Map } from 'leaflet';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
   debounceTime,
   distinct,
-  distinctUntilChanged,
   filter,
-  switchMap,
-  tap,
+  map,
   takeWhile,
+  tap,
+  switchMap,
 } from 'rxjs/operators';
 import { Api } from 'src/types/api';
-import { isEqual } from 'src/utils/functions/deep-compare';
 
 import { appConfiguration } from '../../../app-config';
 import { DeviceDetectorService } from '../../../core/services/device-detector.service';
@@ -90,15 +89,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive),
         filter(() => this.overview.selectedTab === 0),
         debounceTime(200),
-        tap(() => {
-          this.searchSpotsFromMapBounds();
-        }),
-        switchMap(() => {
-          return this.geoSpots.spots;
-        }),
-        distinctUntilChanged(
-          (prevSpotsCollection: Api.Spot[], nextSpotsCollection: Api.Spot[]) =>
-            isEqual(prevSpotsCollection, nextSpotsCollection)
+        switchMap(() =>
+          this.geoSpots.getSpotsByLocation(
+            { latitude: this.map.lat, longitude: this.map.lng },
+            this.getRadiusFromBounds()
+          )
         )
       )
       .subscribe(spots => {
@@ -181,13 +176,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.mapHeight = this.expandMap
       ? appConfiguration.map.mobileExpandedMapHeight
       : shrinkMapHeight;
-  }
-
-  private searchSpotsFromMapBounds(): void {
-    this.geoSpots.getSpotsByLocation(
-      { latitude: this.map.lat, longitude: this.map.lng },
-      this.getRadiusFromBounds()
-    );
   }
 
   private getRadiusFromBounds(): number {
