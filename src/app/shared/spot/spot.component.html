@@ -1,12 +1,18 @@
-<mat-card class="spot"
-  [id]="'scroll-hook-' + spot.id">
+<mat-card class="spot">
   <mat-card-header>
-    <mat-card-title *ngIf="spot.name">{{ spot.name }}</mat-card-title>
-    <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>
+    <mat-card-title class="header">
+      <mat-chip-list>
+        <mat-chip>{{ spot.type }}</mat-chip>
+      </mat-chip-list>
+      <div class="title">
+        <h2>{{ spot.name }}</h2>
+        <mat-card-subtitle>{{ spot.location.address }}</mat-card-subtitle>
+      </div>
+    </mat-card-title>
   </mat-card-header>
-  <div mat-card-image
-    *ngIf="spot.media.pictures.length > 0">
-    <ngu-carousel class="mb"
+  <div mat-card-image>
+    <ngu-carousel #carouselRef
+      class="mb"
       [inputs]="carouselConfig"
       [dataSource]="spot.media.pictures">
       <ngu-tile NguCarouselItem
@@ -17,13 +23,15 @@
       <button mat-icon-button
         NguCarouselPrev
         type="button"
-        class="left-arrow">
+        class="left-arrow"
+        [style.opacity]="spot.media.pictures.length >=2 && !carouselRef.isFirst ? 1 : 0">
         <mat-icon>arrow_left</mat-icon>
       </button>
       <button mat-icon-button
         NguCarouselNext
         type="button"
-        class="right-arrow">
+        class="right-arrow"
+        [style.opacity]="spot.media.pictures.length >=2 && !carouselRef.isLast ? 1 : 0">
         <mat-icon>arrow_right</mat-icon>
       </button>
     </ngu-carousel>

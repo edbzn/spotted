@@ -11,6 +11,21 @@
   background-size: cover;
 }
 
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin-left: 1.4em;
+  h2 {
+    font-size: 105%;
+  }
+  .mat-card-subtitle {
+    margin-top: 6px;
+  }
+}
+
 .arrow {
   position: absolute;
   margin: auto;

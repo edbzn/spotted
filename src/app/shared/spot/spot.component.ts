@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Api } from '../../../types/api';
-import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import { NguCarouselConfig } from '@ngu/carousel';
 import { DeviceDetectorService } from '../../core/services/device-detector.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -42,7 +42,7 @@ export class SpotComponent implements OnInit {
    */
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    slide: 1,
+    slide: 10,
     speed: 400,
     point: {
       visible: false,
