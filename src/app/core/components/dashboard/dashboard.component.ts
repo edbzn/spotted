@@ -86,7 +86,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapMoved
       .pipe(
-        takeWhile(() => this.alive),
         filter(() => this.overview.selectedTab === 0),
         debounceTime(200),
         switchMap(() =>
@@ -94,7 +93,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { latitude: this.map.lat, longitude: this.map.lng },
             this.getRadiusFromBounds()
           )
-        )
+        ),
+        takeWhile(() => this.alive)
       )
       .subscribe(spots => {
         this.spots = spots;
@@ -103,24 +103,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.map.mapInteracted
       .pipe(
-        takeWhile(() => this.alive),
         filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
         tap(() => {
           this.toggleExpand(true);
           this.map.map.invalidateSize();
-        })
+        }),
+        takeWhile(() => this.alive)
       )
       .subscribe();
 
     this.overview.scrollChanged
       .pipe(
-        takeWhile(() => this.alive),
         filter(_ => this.deviceDetector.detectMobile()),
         distinct(),
         debounceTime(80),
-        tap(() => this.toggleExpand(false))
+        tap(() => this.toggleExpand(false)),
+        takeWhile(() => this.alive)
       )
       .subscribe();
 
