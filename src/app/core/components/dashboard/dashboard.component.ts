@@ -15,6 +15,7 @@ import {
   takeWhile,
   tap,
   switchMap,
+  mergeMap,
 } from 'rxjs/operators';
 import { Api } from 'src/types/api';
 
@@ -25,6 +26,7 @@ import { SpotLocatorService } from '../../services/spot-locator.service';
 import { MapComponent } from '../map/map.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { OverviewTabIndex } from '../overview/tapbar-index.enum';
+import { SpotsService } from '../../services/spots.service';
 
 const listenMapChangeEvents = 'load zoomlevelschange move zoom';
 
@@ -80,20 +82,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef,
-    private spotLocator: SpotLocatorService
+    private spotLocator: SpotLocatorService,
+    private spotService: SpotsService
   ) {}
 
   ngOnInit(): void {
     this.mapMoved
       .pipe(
-        filter(
-          () => this.overview.selectedTab === OverviewTabIndex.SpotsAroundMeList
-        ),
-        debounceTime(200),
+        debounceTime(500),
         switchMap(() =>
           this.spotLocator.getSpotsByLocation(
             { latitude: this.map.lat, longitude: this.map.lng },
             this.getRadiusFromBounds()
+          )
+        ),
+        mergeMap(spotLocations =>
+          this.spotService.getByIds(
+            spotLocations.map(spotLocation => spotLocation.id)
           )
         ),
         takeWhile(() => this.alive)

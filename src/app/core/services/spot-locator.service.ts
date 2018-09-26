@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { GeoLocator } from './geo-locator.service';
-import { SpotsService } from './spots.service';
+import { GeoCallbackRegistration, GeoFirestoreQuery } from 'geofirestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Api } from 'src/types/api';
-import { GeoCallbackRegistration } from 'geofirestore';
-import { MatSnackBar } from '@angular/material';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { isEqual } from 'src/utils/functions/deep-compare';
+import { SpotLocation } from '../../../model/spot-location.model';
+
+import { GeoLocator } from './geo-locator.service';
+
+const enum GeofireEvents {
+  onEnter = 'key_entered',
+  onMove = 'key_moved',
+  onExit = 'key_exited',
+}
 
 @Injectable({ providedIn: 'root' })
 export class SpotLocatorService extends GeoLocator {
@@ -21,21 +24,28 @@ export class SpotLocatorService extends GeoLocator {
   private enteredRegistration: GeoCallbackRegistration | null = null;
 
   /**
-   * Internal spot collection
+   * Spot exited event registration
    */
-  private _spots = new BehaviorSubject<Api.Spot[]>([]);
+  private exitedRegistration: GeoCallbackRegistration | null = null;
 
   /**
-   * Exposed spot collection
+   * Internal spot locations
    */
-  public spots: Observable<Api.Spot[]> = this._spots.asObservable();
+  private _spotLocations = new BehaviorSubject<SpotLocation[]>([]);
 
-  constructor(private spotsService: SpotsService, private snack: MatSnackBar) {
+  /**
+   * Exposed spot locations
+   */
+  public spotLocations: Observable<
+    SpotLocation[]
+  > = this._spotLocations.asObservable();
+
+  constructor() {
     super('spotLocation');
   }
 
   /**
-   * Get spots around given location
+   * Get spots ids around given location
    */
   public getSpotsByLocation(
     location: {
@@ -46,83 +56,84 @@ export class SpotLocatorService extends GeoLocator {
     query?: (
       ref: firebase.firestore.CollectionReference
     ) => firebase.firestore.Query
-  ): Observable<Api.Spot[]> {
+  ): Observable<SpotLocation[]> {
+    this.clearRegistrations();
+
+    const geoQuery = this.query(location, radius, query);
+
+    this.setupRegistrations(geoQuery);
+
+    return this.spotLocations;
+  }
+
+  /**
+   * Setup event listeners
+   */
+  private setupRegistrations(geoQuery: GeoFirestoreQuery): void {
+    this.enteredRegistration = geoQuery.on(
+      GeofireEvents.onEnter,
+      this.onLocationEnter.bind(this)
+    );
+    this.movedRegistration = geoQuery.on(
+      GeofireEvents.onMove,
+      this.onLocationMove.bind(this)
+    );
+    this.movedRegistration = geoQuery.on(
+      GeofireEvents.onExit,
+      this.onLocationExit.bind(this)
+    );
+  }
+
+  /**
+   * Cancel event listeners
+   */
+  private clearRegistrations(): void {
     if (this.movedRegistration !== null) {
       this.movedRegistration.cancel();
     }
     if (this.enteredRegistration !== null) {
       this.enteredRegistration.cancel();
     }
-
-    const geoQuery = this.query(location, radius, query);
-
-    this.enteredRegistration = geoQuery.on(
-      'key_entered',
-      this.updateSpotsCollection
-    );
-
-    this.movedRegistration = geoQuery.on(
-      'key_moved',
-      this.updateSpotsCollection
-    );
-
-    return this.spots.pipe(
-      distinctUntilChanged(
-        (prevSpotsCollection: Api.Spot[], nextSpotsCollection: Api.Spot[]) =>
-          isEqual(prevSpotsCollection, nextSpotsCollection)
-      )
-    );
-  }
-
-  /**
-   * Update spot collection
-   */
-  private updateSpotsCollection = async (key: string): Promise<void> => {
-    const doc = await this.spotsService.get(key);
-    const spot = doc.data() as Api.Spot;
-    const spots = this._spots.value;
-    const isNew = spots.findIndex(_spot => _spot.id === key) === -1;
-    const hasChanged = spots.some(_spot => spot.id === key && spot === _spot);
-
-    if (!isNew && hasChanged) {
-      this.update(spot, spots);
-
-      // @todo add locate action
-      // @todo translation
-      this.snack.open(`A spot was updated near you're looking!`, 'ok', {
-        duration: 10000, // 10s
-      });
-    } else if (isNew) {
-      this.add(spot);
-
-      // @todo add locate action
-      // @todo translation
-      this.snack.open(`A spot found near you're looking!`, 'ok', {
-        duration: 10000, // 10s
-      });
+    if (this.exitedRegistration !== null) {
+      this.exitedRegistration.cancel();
     }
-    // tslint:disable-next-line:semicolon
-  };
-
-  /**
-   * Add a spot to the collection
-   */
-  private add(spot: Api.Spot): void {
-    this._spots.next([...this._spots.value, spot]);
   }
 
   /**
-   * Update the given spot in collection
+   * Add an entry in exposed spotLocations
    */
-  private update(spotToCommit: Api.Spot, spots: Api.Spot[]): void {
-    const commit = spots.map(spot => {
-      if (spotToCommit.id === spot.id) {
-        return spotToCommit;
+  private onLocationEnter(key: string, _doc: any, distance: number): void {
+    const location = new SpotLocation(key, distance);
+    const commit: SpotLocation[] = [location, ...this._spotLocations.value];
+
+    this._spotLocations.next(commit);
+  }
+
+  /**
+   * Modify an entry in exposed spotLocations
+   */
+  private onLocationMove(key: string, _doc: any, distance: number): void {
+    const commit: SpotLocation[] = this._spotLocations.value.map(
+      spotLocation => {
+        if (spotLocation.id === key) {
+          return spotLocation.setDistance(distance);
+        }
+
+        return spotLocation;
       }
+    );
 
-      return spot;
-    });
+    this._spotLocations.next(commit);
+  }
 
-    this._spots.next(commit);
+  /**
+   * Remove an entry in exposed spotLocations
+   */
+  private onLocationExit(key: string, _doc: any, _distance: number): void {
+    const commit: SpotLocation[] = this._spotLocations.value.filter(
+      spotLocation => spotLocation.id !== key
+    );
+
+    this._spotLocations.next(commit);
   }
 }

@@ -5,12 +5,16 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from 'angularfire2/firestore';
-import { tap, delay } from 'rxjs/internal/operators';
+import { tap, delay, map } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
 import { SpotLocatorService } from './spot-locator.service';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
+  /**
+   * Firebase endpoint path
+   */
   private spotsPath = 'spots';
 
   /**
@@ -40,6 +44,15 @@ export class SpotsService {
    */
   public get(id: string): Promise<firebase.firestore.DocumentSnapshot> {
     return this.spotsCollection.doc<Api.Spot>(id).ref.get();
+  }
+
+  /**
+   * Get spot collection observable by ids
+   */
+  public getByIds(ids: string[]): Observable<Api.Spot[]> {
+    return this.spotsCollection
+      .valueChanges()
+      .pipe(map(spots => spots.filter(spot => ids.some(id => id === spot.id))));
   }
 
   /**
