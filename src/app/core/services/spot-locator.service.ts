@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GeoLocatorService } from './geo-locator.service';
+import { GeoLocator } from './geo-locator.service';
 import { SpotsService } from './spots.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Api } from 'src/types/api';
@@ -9,7 +9,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { isEqual } from 'src/utils/functions/deep-compare';
 
 @Injectable({ providedIn: 'root' })
-export class GeoSpotsService {
+export class SpotLocatorService extends GeoLocator {
   /**
    * Spot moved event registration
    */
@@ -30,11 +30,9 @@ export class GeoSpotsService {
    */
   public spots: Observable<Api.Spot[]> = this._spots.asObservable();
 
-  constructor(
-    private spotsService: SpotsService,
-    private geoLocator: GeoLocatorService,
-    private snack: MatSnackBar
-  ) {}
+  constructor(private spotsService: SpotsService, private snack: MatSnackBar) {
+    super('spotLocation');
+  }
 
   /**
    * Get spots around given location
@@ -56,7 +54,7 @@ export class GeoSpotsService {
       this.enteredRegistration.cancel();
     }
 
-    const geoQuery = this.geoLocator.query(location, radius, query);
+    const geoQuery = this.query(location, radius, query);
 
     this.enteredRegistration = geoQuery.on(
       'key_entered',

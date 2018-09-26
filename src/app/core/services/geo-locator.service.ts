@@ -1,9 +1,7 @@
 import * as firebase from 'firebase/app';
-import { Injectable } from '@angular/core';
 import { GeoFirestore, GeoFirestoreQuery, QueryCriteria } from 'geofirestore';
 
-@Injectable({ providedIn: 'root' })
-export class GeoLocatorService {
+export abstract class GeoLocator {
   /**
    * The running query
    */
@@ -12,10 +10,13 @@ export class GeoLocatorService {
   /**
    * Collection store ref
    */
-  private geoStore: GeoFirestore;
+  protected geoStore: GeoFirestore;
 
-  constructor() {
-    const collectionRef = firebase.firestore().collection('spotLocation');
+  /**
+   * Create the geo store & the firebase collection end point
+   */
+  constructor(endPoint: string) {
+    const collectionRef = firebase.firestore().collection(endPoint);
     this.geoStore = new GeoFirestore(collectionRef);
   }
 

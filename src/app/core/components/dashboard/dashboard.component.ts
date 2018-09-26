@@ -21,7 +21,7 @@ import { Api } from 'src/types/api';
 import { appConfiguration } from '../../../app-config';
 import { DeviceDetectorService } from '../../../core/services/device-detector.service';
 import { fade } from '../../../shared/animations';
-import { GeoSpotsService } from '../../services/geo-spots.service';
+import { SpotLocatorService } from '../../services/spot-locator.service';
 import { MapComponent } from '../map/map.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { OverviewTabIndex } from '../overview/tapbar-index.enum';
@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef,
-    private geoSpots: GeoSpotsService
+    private spotLocator: SpotLocatorService
   ) {}
 
   ngOnInit(): void {
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ),
         debounceTime(200),
         switchMap(() =>
-          this.geoSpots.getSpotsByLocation(
+          this.spotLocator.getSpotsByLocation(
             { latitude: this.map.lat, longitude: this.map.lng },
             this.getRadiusFromBounds()
           )

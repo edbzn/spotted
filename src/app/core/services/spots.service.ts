@@ -1,5 +1,4 @@
 import { AuthService } from './../../authentication/auth.service';
-import { GeoLocatorService } from './geo-locator.service';
 import { Api } from '../../../types/api';
 import { Injectable } from '@angular/core';
 import {
@@ -8,6 +7,7 @@ import {
 } from 'angularfire2/firestore';
 import { tap, delay } from 'rxjs/internal/operators';
 import { ProgressBarService } from './progress-bar.service';
+import { SpotLocatorService } from './spot-locator.service';
 
 @Injectable({ providedIn: 'root' })
 export class SpotsService {
@@ -22,7 +22,7 @@ export class SpotsService {
     private readonly db: AngularFirestore,
     private progressBar: ProgressBarService,
     private auth: AuthService,
-    private geoLocator: GeoLocatorService
+    private spotLocator: SpotLocatorService
   ) {
     this.spotsCollection = this.db.collection<Api.Spot>(this.spotsPath);
     this.spotsCollection
@@ -52,7 +52,7 @@ export class SpotsService {
       .doc(this.spotsPath + '/' + id)
       .set({ ...spot, id })
       .then(() => {
-        return this.geoLocator.set(id, spot.location);
+        return this.spotLocator.set(id, spot.location);
       });
   }
 
@@ -64,7 +64,7 @@ export class SpotsService {
       .doc(ref)
       .update(spot)
       .then(() => {
-        return this.geoLocator.set(spot.id, spot.location);
+        return this.spotLocator.set(spot.id, spot.location);
       });
   }
 
@@ -76,7 +76,7 @@ export class SpotsService {
       .doc(ref)
       .delete()
       .then(() => {
-        return this.geoLocator.delete(ref);
+        return this.spotLocator.delete(ref);
       });
   }
 

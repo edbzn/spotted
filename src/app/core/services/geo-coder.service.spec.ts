@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { GeocoderService } from './geocoder.service';
+import { GeocoderService } from './geo-coder.service';
 
 describe('GeocoderService', () => {
   beforeEach(() => {

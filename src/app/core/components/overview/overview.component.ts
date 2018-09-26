@@ -1,54 +1,52 @@
-import { AuthService } from './../../../authentication/auth.service';
-import { WINDOW } from '../../../core/services/window.service';
-import { LatLng, latLng } from 'leaflet';
 import {
-  Component,
-  OnInit,
-  EventEmitter,
-  Output,
-  OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Inject,
-  ViewChild,
+  Component,
+  ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
-  SimpleChanges,
+  OnDestroy,
+  OnInit,
+  Output,
   QueryList,
+  SimpleChanges,
+  ViewChild,
   ViewChildren,
-  ElementRef,
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
-import { SpotsService } from '../../../core/services/spots.service';
-import { Api } from '../../../../types/api';
-import { MatStepper, MatSnackBar } from '@angular/material';
-import { UploadService } from '../../../core/services/upload.service';
-import { GeocoderService } from '../../../core/services/geocoder.service';
-import { Subject, Subscription } from 'rxjs';
-import {
-  flatMap,
-  tap,
-  distinctUntilChanged,
-  debounceTime,
-} from 'rxjs/internal/operators';
-import { appConfiguration } from '../../../app-config';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar, MatStepper } from '@angular/material';
 import { NguCarouselConfig } from '@ngu/carousel';
-import { slideInOut } from 'src/app/shared/animations';
-import { Loadable, InitializationState } from '../../../shared/loadable';
-import { SpotComponent } from '../../../shared/spot/spot.component';
+import { TranslateService } from '@ngx-translate/core';
 import {
   ScrollToConfigOptions,
   ScrollToService,
 } from '@nicky-lenaers/ngx-scroll-to';
-import { ScrollToTarget } from '@nicky-lenaers/ngx-scroll-to/src/app/modules/scroll-to/scroll-to-config.interface';
-import { OverviewTabIndex } from './tapbar-index.enum';
+import { LatLng, latLng } from 'leaflet';
+import { Subject, Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  flatMap,
+  tap,
+} from 'rxjs/internal/operators';
+import { slideInOut } from 'src/app/shared/animations';
+
+import { Api } from '../../../../types/api';
+import { appConfiguration } from '../../../app-config';
+import { SpotsService } from '../../../core/services/spots.service';
+import { UploadService } from '../../../core/services/upload.service';
+import { InitializationState, Loadable } from '../../../shared/loadable';
+import { SpotComponent } from '../../../shared/spot/spot.component';
+import { GeocoderService } from '../../services/geo-coder.service';
+import { AuthService } from './../../../authentication/auth.service';
 import { OverviewStepperIndex } from './stepper-index.enum';
+import { OverviewTabIndex } from './tapbar-index.enum';
 
 @Component({
   selector: 'spt-overview',
