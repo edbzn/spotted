@@ -43,10 +43,10 @@ import { SpotsService } from '../../../core/services/spots.service';
 import { UploadService } from '../../../core/services/upload.service';
 import { InitializationState, Loadable } from '../../../shared/loadable';
 import { SpotComponent } from '../../../shared/spot/spot.component';
-import { GeocoderService } from '../../services/geo-coder.service';
 import { AuthService } from './../../../authentication/auth.service';
 import { OverviewStepperIndex } from './stepper-index.enum';
 import { OverviewTabIndex } from './tapbar-index.enum';
+import { GeocoderService } from '../../services/geo-coder.service';
 
 @Component({
   selector: 'spt-overview',

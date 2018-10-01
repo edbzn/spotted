@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         switchMap(() =>
-          this.spotLocator.getSpotsByLocation(
+          this.spotLocator.query(
             { latitude: this.map.lat, longitude: this.map.lng },
             this.getRadiusFromBounds()
           )

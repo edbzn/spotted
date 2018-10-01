@@ -99,7 +99,8 @@
 }
 
 .scrollable {
-  height: calc(100vh - 118px);
+  height: calc(100vh - 130px);
+
   &.disabled {
     pointer-events: none;
     position: relative;
