@@ -1,9 +1,4 @@
-export interface ILocation {
-  id: string;
-  distance: number;
-
-  setDistance(distance: number): ILocation;
-}
+import { ILocation } from './location';
 
 export class Location implements ILocation {
   constructor(public id: string, public distance: number) {}

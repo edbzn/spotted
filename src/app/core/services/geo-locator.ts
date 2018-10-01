@@ -7,7 +7,8 @@ import {
 } from 'geofirestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ILocation, Location } from '../../../model/location.model';
+import { Location } from '../../../model/location.model';
+import { ILocation } from '../../../model/location';
 
 const enum GeofireEvents {
   onEnter = 'key_entered',
@@ -64,14 +65,21 @@ export abstract class GeoLocator {
    */
   public set(
     key: string,
-    location: { latitude: number; longitude: number }
+    location: { latitude: number; longitude: number },
+    document?: any
   ): Promise<void> {
-    return this.geoStore.set(key, {
+    const _document = {
       coordinates: new firebase.firestore.GeoPoint(
         location.latitude,
         location.longitude
       ),
-    });
+    };
+
+    if (document) {
+      _document['entity'] = document;
+    }
+
+    return this.geoStore.set(key, _document);
   }
 
   /**

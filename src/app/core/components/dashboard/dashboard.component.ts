@@ -1,3 +1,4 @@
+import { AuthService } from './../../../authentication/auth.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,16 +7,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { User } from 'firebase';
 import { LatLng, Map } from 'leaflet';
-import { Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import {
   debounceTime,
   distinct,
   filter,
+  mergeMap,
+  switchMap,
   takeWhile,
   tap,
-  switchMap,
-  mergeMap,
 } from 'rxjs/operators';
 import { Api } from 'src/types/api';
 
@@ -23,10 +25,11 @@ import { appConfiguration } from '../../../app-config';
 import { DeviceDetectorService } from '../../../core/services/device-detector.service';
 import { fade } from '../../../shared/animations';
 import { SpotLocatorService } from '../../services/spot-locator.service';
+import { SpotsService } from '../../services/spots.service';
+import { UserLocatorService } from '../../services/user-locator.service';
 import { MapComponent } from '../map/map.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { OverviewTabIndex } from '../overview/tapbar-index.enum';
-import { SpotsService } from '../../services/spots.service';
 
 const listenMapChangeEvents = 'load zoomlevelschange move zoom';
 
@@ -58,6 +61,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   spots: Api.Spot[] = [];
 
   /**
+   * Users displayed in map
+   */
+  users: User[] = [];
+
+  /**
    * Track map move to handle spots in the given radius
    */
   mapMoved = new Subject<void>();
@@ -83,24 +91,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public deviceDetector: DeviceDetectorService,
     private changeDetector: ChangeDetectorRef,
     private spotLocator: SpotLocatorService,
-    private spotService: SpotsService
+    private userLocator: UserLocatorService,
+    private spotService: SpotsService,
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.mapMoved
       .pipe(
         debounceTime(500),
-        switchMap(() =>
-          this.spotLocator.query(
-            { latitude: this.map.lat, longitude: this.map.lng },
-            this.getRadiusFromBounds()
-          )
-        ),
-        mergeMap(spotLocations =>
-          this.spotService.getByIds(
-            spotLocations.map(spotLocation => spotLocation.id)
-          )
-        ),
+        switchMap(() => {
+          const radius = this.getRadiusFromBounds();
+          const latLng = { latitude: this.map.lat, longitude: this.map.lng };
+
+          return combineLatest([
+            this.spotLocator.query(latLng, radius),
+            this.userLocator.query(latLng, radius),
+          ]);
+        }),
+        mergeMap(locations => {
+          const [spots, users] = locations;
+
+          console.log(users);
+
+          return this.spotService.getByIds(
+            spots.map(spotLocation => spotLocation.id)
+          );
+        }),
         takeWhile(() => this.alive)
       )
       .subscribe(spots => {
