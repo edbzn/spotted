@@ -44,25 +44,6 @@
             #stepper>
             <mat-step [completed]="descriptionCompleted()">
               <ng-template matStepLabel>{{ 'overview.stepper.description' | translate }}</ng-template>
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Type"
-                  formControlName="type">
-                  <mat-option *ngFor="let type of types"
-                    [value]="type">
-                    {{ type }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field class="full-width pb">
-                <mat-select multiple
-                  placeholder="Disciplines"
-                  formControlName="disciplines">
-                  <mat-option *ngFor="let discipline of disciplines"
-                    [value]="discipline">
-                    {{ discipline }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
               <mat-card>
                 <mat-card-content>
                   <mat-form-field class="full-width">
@@ -70,6 +51,29 @@
                       type="text"
                       placeholder="{{ 'overview.form.name' | translate }}"
                       formControlName="name">
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+              <mat-card>
+                <mat-card-content>
+                  <mat-form-field class="full-width">
+                    <mat-select placeholder="Type"
+                      formControlName="type">
+                      <mat-option *ngFor="let type of types"
+                        [value]="type">
+                        {{ type }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="full-width pb">
+                    <mat-select multiple
+                      placeholder="Disciplines"
+                      formControlName="disciplines">
+                      <mat-option *ngFor="let discipline of disciplines"
+                        [value]="discipline">
+                        {{ discipline }}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </mat-card-content>
               </mat-card>

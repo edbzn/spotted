@@ -249,9 +249,7 @@ export class OverviewComponent extends Loadable
           const nameCtrl = this.spotForm.get('name') as FormControl;
           const street = nearest.address_components[1].long_name;
 
-          if (nameCtrl.value === '') {
-            nameCtrl.setValue('Spot ' + street);
-          }
+          nameCtrl.setValue('Spot ' + street);
 
           this.location.patchValue({ address, placeId });
         })
