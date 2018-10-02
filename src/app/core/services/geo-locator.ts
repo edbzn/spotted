@@ -65,21 +65,14 @@ export abstract class GeoLocator {
    */
   public set(
     key: string,
-    location: { latitude: number; longitude: number },
-    document?: any
+    location: { latitude: number; longitude: number }
   ): Promise<void> {
-    const _document = {
+    return this.geoStore.set(key, {
       coordinates: new firebase.firestore.GeoPoint(
         location.latitude,
         location.longitude
       ),
-    };
-
-    if (document) {
-      _document['entity'] = document;
-    }
-
-    return this.geoStore.set(key, _document);
+    });
   }
 
   /**
