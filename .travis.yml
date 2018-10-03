@@ -23,7 +23,7 @@ cache:
 
 script:
   - npm run build:prod
-  - npm test --watch=false --progress=false --browsers=ChromeHeadlessCI
+  - npm run test:CI
 before_deploy: npm install now --no-save
 deploy:
   - provider: script
