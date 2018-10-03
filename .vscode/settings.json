@@ -5,6 +5,7 @@
     "Modernizr",
     "Scrollable",
     "Truthy",
+    "angularfire",
     "latlng",
     "zoomlevelschange"
   ]

@@ -1,9 +1,9 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from 'firebase';
-import { Injectable } from '@angular/core';
-import { mergeMap } from 'rxjs/operators';
+
 import { appConfiguration } from '../app-config';
-import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
