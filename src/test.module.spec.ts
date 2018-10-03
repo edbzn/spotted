@@ -16,7 +16,6 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from './environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { angularFireAuthStub } from './auth.spec';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -33,12 +32,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [
-    ProgressBarService,
-    StorageService,
-    WINDOW_PROVIDERS,
-    { provide: AngularFireAuth, useValue: angularFireAuthStub },
-  ],
+  providers: [ProgressBarService, StorageService, WINDOW_PROVIDERS],
   declarations: [],
   entryComponents: [],
   exports: [
