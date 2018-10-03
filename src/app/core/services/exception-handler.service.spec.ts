@@ -13,13 +13,13 @@ describe('ExceptionHandler', () => {
     });
   });
 
-  it('Correctly handles error', inject(
+  it('Correctly print errors in development', inject(
     [ErrorHandler],
     (service: ErrorHandler) => {
       const spy = spyOn(console, 'error');
-      const error: Error = new Error('ERROR');
+      const error: Error = new Error('An exception message');
       service.handleError(error);
-      expect(spy).toHaveBeenCalledWith(error);
+      expect(spy).toHaveBeenCalledWith('ERROR', error);
     }
   ));
 });

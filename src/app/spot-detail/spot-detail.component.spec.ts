@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailComponent } from './spot-detail.component';
 import { TestModule } from '../../test.module.spec';
+import { ActivatedRoute } from '@angular/router';
+import { from } from 'rxjs';
 
 describe('SpotDetailComponent', () => {
   let component: DetailComponent;
@@ -10,6 +12,12 @@ describe('SpotDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { params: from([{ id: '1' }]), snapshot: {} },
+        },
+      ],
       declarations: [DetailComponent],
     }).compileComponents();
   }));
