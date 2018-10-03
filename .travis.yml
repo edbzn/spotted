@@ -3,17 +3,27 @@
 
 #  @todo: play e2e tests
 
+dist: trusty
+sudo: false
+
 addons:
-  chrome: stable
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
 language: node_js
 node_js:
   - '9'
+
 cache:
   directories:
-    - 'node_modules'
+    - './node_modules'
+
 script:
   - npm run build:prod
-  - npm test
+  - npm test --watch=false --progress=false --browsers=ChromeHeadlessCI
 before_deploy: npm install now --no-save
 deploy:
   - provider: script
