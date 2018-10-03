@@ -1,3 +1,4 @@
+import { TestModule } from 'src/test.module.spec';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { PushService } from './push.service';
@@ -5,7 +6,8 @@ import { PushService } from './push.service';
 describe('PushService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PushService]
+      imports: [TestModule],
+      providers: [PushService],
     });
   });
 

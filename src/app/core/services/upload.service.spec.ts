@@ -1,3 +1,4 @@
+import { TestModule } from './../../../test.module.spec';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { UploadService } from './upload.service';
@@ -5,7 +6,8 @@ import { UploadService } from './upload.service';
 describe('UploadService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UploadService]
+      imports: [TestModule],
+      providers: [UploadService],
     });
   });
 

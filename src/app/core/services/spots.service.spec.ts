@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { SpotsService } from './spots.service';
+import { TestModule } from '../../../test.module.spec';
 
 describe('SpotsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SpotsService]
+      imports: [TestModule],
+      providers: [SpotsService],
     });
   });
 

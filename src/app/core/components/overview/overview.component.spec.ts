@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverviewComponent } from './overview.component';
 import { TestModule } from 'src/test.module.spec';
+import { SpotComponent } from '../../../shared/spot/spot.component';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -9,7 +10,7 @@ describe('OverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OverviewComponent],
+      declarations: [OverviewComponent, SpotComponent],
       imports: [TestModule],
     }).compileComponents();
   }));
