@@ -36,9 +36,6 @@
       </button>
     </ngu-carousel>
   </div>
-  <mat-card-content *ngIf="spot.description">
-    <p>{{ spot.description }}</p>
-  </mat-card-content>
   <mat-card-actions *ngIf="withActions">
     <button mat-raised-button
       [disabled]="!spotsService.likable(spot)"
