@@ -11,6 +11,7 @@
     "build-prod-ngsw": "npm run build:prod && npm run ngsw-config && npm run ngsw-copy",
     "serve-prod-ngsw": "npm run build-prod-ngsw && http-server dist/spotted -p 8080",
     "test": "ng test",
+    "test:CI": "ng test --watch=false --progress=false --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
