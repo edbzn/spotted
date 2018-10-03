@@ -1,3 +1,4 @@
+import { AuthService } from './app/authentication/auth.service';
 import { WINDOW_PROVIDERS } from './app/core/services/window.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -16,9 +17,11 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from './environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { angularFireAuthStub } from './auth.spec';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
+    RouterModule,
     RouterTestingModule,
     TranslateModule.forRoot({
       loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
@@ -39,6 +42,7 @@ import { angularFireAuthStub } from './auth.spec';
   declarations: [],
   entryComponents: [],
   exports: [
+    RouterModule,
     TranslateModule,
     RouterTestingModule,
     MaterialModule,
