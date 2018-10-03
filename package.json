@@ -10,8 +10,8 @@
     "ngsw-copy": "cp node_modules/@angular/service-worker/ngsw-worker.js dist/spotted/",
     "build-prod-ngsw": "npm run build:prod && npm run ngsw-config && npm run ngsw-copy",
     "serve-prod-ngsw": "npm run build-prod-ngsw && http-server dist/spotted -p 8080",
-    "test": "ng test",
-    "test:CI": "ng test --watch=false --progress=false --browsers=ChromeHeadlessCI",
+    "test": "ng test --sourceMap=false",
+    "test:CI": "ng test --sourceMap=false --watch=false --progress=false --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.1",
-    "@angular/cli": "^6.2.1",
+    "@angular/cli": "^6.2.4",
     "@angular/compiler-cli": "^6.1.7",
     "@angular/language-service": "^6.1.7",
     "@angularclass/hmr": "^2.1.3",
