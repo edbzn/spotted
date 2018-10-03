@@ -1,7 +1,7 @@
 import { ErrorHandler } from '@angular/core';
 import * as Raven from 'raven-js';
 
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 const raven = Raven.config(environment.ravenDNS).install();
 
