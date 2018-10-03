@@ -3,7 +3,6 @@ export declare namespace Api {
     id: string;
     name: string;
     type: Type;
-    description: string;
     difficulty: Difficulty;
     disciplines: Array<Disciplines>;
     location: Location;

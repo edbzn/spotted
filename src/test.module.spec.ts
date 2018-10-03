@@ -1,27 +1,44 @@
-import { AuthService } from './app/authentication/auth.service';
-import { WINDOW_PROVIDERS } from './app/core/services/window.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import {
-  TranslateModule,
-  TranslateLoader,
-  TranslateFakeLoader,
-} from '@ngx-translate/core';
+import 'hammerjs';
+
+import { AgmCoreModule } from '@agm/core';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from './app/shared/material.module';
-import { ProgressBarService } from './app/core/services/progress-bar.service';
-import { StorageService } from './app/core/services/storage.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NguCarouselModule } from '@ngu/carousel';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+} from '@ngx-translate/core';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
-import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireModule } from 'angularfire2';
+
+import { ProgressBarService } from './app/core/services/progress-bar.service';
+import { StorageService } from './app/core/services/storage.service';
+import { WINDOW_PROVIDERS } from './app/core/services/window.service';
+import { MaterialModule } from './app/shared/material.module';
 import { environment } from './environments/environment';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    RouterModule,
     RouterTestingModule,
+    NguCarouselModule,
+    NoopAnimationsModule,
+    LeafletModule.forRoot(),
+    ScrollToModule.forRoot(),
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: false,
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleApiKey,
+      libraries: ['places'],
+    }),
     TranslateModule.forRoot({
       loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
     }),
@@ -36,9 +53,10 @@ import { RouterModule } from '@angular/router';
   declarations: [],
   entryComponents: [],
   exports: [
-    RouterModule,
-    TranslateModule,
     RouterTestingModule,
+    NguCarouselModule,
+    TranslateModule,
+    LeafletModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,53 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AuthService } from './auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { appConfiguration } from '../app-config';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { filter } from 'rxjs/operators';
 
-const credentialsMock = {
-  email: 'test@email.com',
-  password: 'password',
-  name: 'M. Test',
-};
-
-const userMock = {
-  uid: '45876978',
-  email: credentialsMock.email,
-  displayName: credentialsMock.name,
-  photoURL: appConfiguration.defaultPhotoUrl,
-  updateProfile: async ({ displayName, photoURL }) => {
-    userMock.displayName = displayName;
-    userMock.photoURL = photoURL;
-  },
-};
-
-const fakeUser = new BehaviorSubject(null);
-
-const fakeSignInHandler = (email, password): Promise<any> => {
-  fakeUser.next(userMock);
-  return Promise.resolve(userMock);
-};
-
-const fakeSignOutHandler = (): Promise<any> => {
-  fakeUser.next(null);
-  return Promise.resolve();
-};
-
-const angularFireAuthStub = {
-  user: fakeUser,
-  auth: {
-    currentUser: null,
-    createUserWithEmailAndPassword: jasmine
-      .createSpy('createUserWithEmailAndPassword')
-      .and.callFake(fakeSignInHandler),
-    signInWithEmailAndPassword: jasmine
-      .createSpy('signInWithEmailAndPassword')
-      .and.callFake(fakeSignInHandler),
-    signOut: jasmine.createSpy('signOut').and.callFake(fakeSignOutHandler),
-  },
-};
+import {
+  angularFireAuthStub,
+  credentialsMock,
+  fakeUser,
+  userMock,
+} from './auth.fake-fire-auth.service.spec';
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
