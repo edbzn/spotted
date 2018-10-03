@@ -7,6 +7,7 @@ import {
 import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import * as Raven from 'raven-js';
 
 import { environment } from '../environments/environment';
 import { AuthService } from './authentication/auth.service';
@@ -38,6 +39,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.pushService.subscribeToPush();
     this.updateService.handleVersionUpdate();
+    this.setRavenContext();
   }
 
   ngAfterViewInit() {
@@ -65,5 +67,16 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
 
     return supported;
+  }
+
+  private setRavenContext(): void {
+    if (this.auth.authenticated) {
+      const { user } = this.auth;
+      Raven.setUserContext({
+        username: user.displayName,
+        email: user.email,
+        id: user.uid,
+      });
+    }
   }
 }

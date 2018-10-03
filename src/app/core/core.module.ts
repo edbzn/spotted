@@ -11,7 +11,7 @@ import { MapComponent } from './components/map/map.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { throwIfAlreadyLoaded } from './module-import-guard';
-import { ExceptionHandler } from './services/exception.handler.service';
+import { provideErrorHandler } from './services/exception.handler.service';
 import { ProgressBarService } from './services/progress-bar.service';
 import { WINDOW_PROVIDERS } from './services/window.service';
 
@@ -42,7 +42,7 @@ import { WINDOW_PROVIDERS } from './services/window.service';
       deps: [ProgressBarService],
     },
     { provide: HTTP_INTERCEPTORS, useClass: TimingInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: ExceptionHandler },
+    { provide: ErrorHandler, useFactory: provideErrorHandler },
   ],
   exports: [NavbarComponent],
 })
