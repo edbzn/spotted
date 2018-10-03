@@ -29,10 +29,7 @@ export class AuthService {
    * Login using credentials
    */
   async login(email: string, password: string): Promise<User> {
-    await this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(
-      email,
-      password
-    );
+    await this.auth.auth.signInWithEmailAndPassword(email, password);
 
     const user = this.auth.auth.currentUser;
     this.authenticate(user);
