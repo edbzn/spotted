@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapComponent } from './map.component';
 import { TestModule } from 'src/test.module.spec';
+import { Map } from 'leaflet';
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -22,5 +23,17 @@ describe('MapComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create a map in DOM', () => {
+    const map = (fixture.nativeElement as HTMLElement).querySelector(
+      '.leaflet-container'
+    );
+    expect(map).toBeTruthy();
+  });
+
+  it('should have a map instantiated', () => {
+    const map = component.map;
+    expect(map instanceof Map).toBe(true);
   });
 });
