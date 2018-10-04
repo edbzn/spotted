@@ -309,19 +309,18 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     const { navigator } = this.window;
 
     // Try HTML5 geolocation.
-    if (navigator && 'geolocation' in navigator) {
+    if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
           this.setPosition(latLng(latitude, longitude));
         },
         () => {
-          // @todo center map, handle error
+          this.setPosition(latLng(45.75, 4.85)); // Lyon by default
         }
       );
     } else {
-      // Browser doesn't support Geolocation
-      // @todo center map, handle error
+      this.setPosition(latLng(45.75, 4.85)); // Lyon by default
     }
   }
 
@@ -333,8 +332,9 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
   private mapSpotsToMarkers(spots: Api.Spot[]): Layer[] {
     return spots.map(spot => {
       const { latitude, longitude } = spot.location;
+      const location = latLng(latitude, longitude);
 
-      const spotMarker = marker(latLng(latitude, longitude), {
+      const spotMarker = marker(location, {
         icon: icon({
           ...this.iconConfig,
           iconUrl: `assets/images/marker-${this.getMarkerColor(spot)}.png`,
@@ -344,9 +344,20 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
           spot.location.address
         }`,
       });
+
       this.map.addLayer(spotMarker);
 
-      spotMarker.getElement().addEventListener('click', () => {
+      spotMarker.on('click', (event: LeafletMouseEvent) => {
+        popup({
+          maxWidth: 1,
+          minWidth: 1,
+          maxHeight: 1,
+          closeButton: false,
+        })
+          .setLatLng(event.latlng)
+          .setPopupContent('<div class="spot-selected"></div>')
+          .openOn(this.map);
+
         this.spotClicked.emit(spot);
       });
 
