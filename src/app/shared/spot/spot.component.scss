@@ -1,5 +1,10 @@
+@import '~@angular/material/theming';
+
 .spot {
   margin: 12px;
+  &.selected {
+    @include mat-elevation(8);
+  }
 }
 
 .spot-carousel-item {

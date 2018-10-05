@@ -13,8 +13,9 @@
       (scroll)="scrollChanged.emit($event)"
       [@slideInOut]="spots.length"
       *ngIf="initialized; else loading">
-      <div *ngFor="let spot of spots; trackBy: trackByFn">
+      <div *ngFor="let spot of spots; let i = index; trackBy: trackByFn">
         <spt-spot [spot]="spot"
+          [selected]="spotIndexToScroll === i"
           (locate)="locate($event)">
         </spt-spot>
       </div>
