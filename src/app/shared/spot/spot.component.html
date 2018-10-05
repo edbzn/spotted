@@ -1,8 +1,9 @@
-<mat-card class="spot">
+<mat-card class="spot"
+  [class.selected]="selected">
   <mat-card-header>
     <mat-card-title class="header">
       <mat-chip-list>
-        <mat-chip>{{ spot.type }}</mat-chip>
+        <mat-chip [selected]="selected">{{ spot.type }}</mat-chip>
       </mat-chip-list>
       <div class="title">
         <h2>{{ spot.name }}</h2>

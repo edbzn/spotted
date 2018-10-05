@@ -99,8 +99,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         takeWhile(() => this.alive)
       )
       .subscribe(spots => {
-        this.spots = spots;
-        this.changeDetector.detectChanges();
+        this.updateSpots(spots);
       });
 
     this.map.mapInteracted
@@ -192,5 +191,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.map.map.getBounds().getWest()) *
       100
     );
+  }
+
+  private updateSpots(spots: Api.Spot[]): void {
+    this.spots = spots;
+    this.changeDetector.detectChanges();
   }
 }

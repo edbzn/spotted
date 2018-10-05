@@ -26,9 +26,10 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   ScrollToConfigOptions,
   ScrollToService,
+  ScrollToEvent,
 } from '@nicky-lenaers/ngx-scroll-to';
 import { LatLng, latLng } from 'leaflet';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -148,10 +149,16 @@ export class OverviewComponent extends Loadable
   formStatusChangeSub: Subscription;
 
   /**
-   * Components ref
+   * Spot refs
    */
   @ViewChildren(SpotComponent, { read: ElementRef })
   spotsElementRefs: QueryList<ElementRef>;
+
+  /**
+   * Spot component refs
+   */
+  @ViewChildren(SpotComponent)
+  spotsComponents: QueryList<SpotComponent>;
 
   /**
    * Spot index to scroll when tab animation needs to complete
@@ -340,6 +347,9 @@ export class OverviewComponent extends Loadable
     this.scrollToSpotIndex();
   }
 
+  /**
+   * @todo fix multiple upload
+   */
   async onFileAdded(event: any) {
     if (
       !event ||
@@ -364,13 +374,14 @@ export class OverviewComponent extends Loadable
     });
   }
 
-  private scrollToSpotIndex(): void {
+  private scrollToSpotIndex(): Observable<ScrollToEvent> {
     const target = this.spotsElementRefs.find((_, i) => {
       return this.spotIndexToScroll === i;
     });
 
     const config: ScrollToConfigOptions = { target };
-    this.scrollToService.scrollTo(config);
-    this.spotIndexToScroll = null;
+    this.changeDetector.detectChanges();
+
+    return this.scrollToService.scrollTo(config);
   }
 }

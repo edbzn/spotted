@@ -26,6 +26,12 @@ export class SpotComponent implements OnInit {
   spot: Api.Spot;
 
   /**
+   * Wether spot is emphasis or not
+   */
+  @Input()
+  selected = false;
+
+  /**
    * Display card actions
    */
   @Input()
