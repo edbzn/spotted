@@ -222,4 +222,15 @@
       </ng-template>
     </div>
   </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="mr"
+        matBadgePosition="above after">search</mat-icon>
+      <span>{{ 'overview.search' | translate }}</span>
+    </ng-template>
+    <div class="mt-5 mb-5"
+      fxLayoutAlign="center top">
+      <mat-spinner></mat-spinner>
+    </div>
+  </mat-tab>
 </mat-tab-group>
