@@ -13,6 +13,7 @@ import {
   SimpleChanges,
   ViewChild,
   ViewChildren,
+  AfterViewInit,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,7 +21,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar, MatStepper } from '@angular/material';
+import { MatSnackBar, MatStepper, MatTab } from '@angular/material';
 import { NguCarouselConfig } from '@ngu/carousel';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -48,6 +49,7 @@ import { SpotComponent } from '../../../shared/spot/spot.component';
 import { AuthService } from './../../../authentication/auth.service';
 import { OverviewStepperIndex } from './stepper-index.enum';
 import { OverviewTabIndex } from './tapbar-index.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'spt-overview',
@@ -163,7 +165,7 @@ export class OverviewComponent extends Loadable
   /**
    * Spot index to scroll when tab animation needs to complete
    */
-  private spotIndexToScroll: number | null = null;
+  spotIndexToScroll: number | null = null;
 
   /**
    * Form valid
@@ -200,6 +202,7 @@ export class OverviewComponent extends Loadable
     private translateService: TranslateService,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
+    private router: Router,
     public spotsService: SpotsService,
     public upload: UploadService,
     public auth: AuthService
@@ -333,6 +336,9 @@ export class OverviewComponent extends Loadable
   onTabAnimationDone(): void {
     if (typeof this.spotIndexToScroll === 'number') {
       this.scrollToSpotIndex();
+    }
+    if (this.selectedTab === OverviewTabIndex.Search) {
+      this.router.navigate(['search']);
     }
   }
 

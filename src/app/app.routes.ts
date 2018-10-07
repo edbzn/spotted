@@ -13,6 +13,10 @@ export const routes: Routes = [
     loadChildren: './spot-detail/spot-detail.module#SpotModule',
   },
   {
+    path: 'search',
+    loadChildren: './search/search.module#SearchModule',
+  },
+  {
     path: 'not-found',
     loadChildren: './not-found/not-found.module#NotFoundModule',
   },
