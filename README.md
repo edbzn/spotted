@@ -4,7 +4,7 @@
 
 ## :rainbow: Development
 
-Run `yarn start` to serve the project, navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `yarn start` to serve the project and navigate to `http://localhost:4200`.
 
 ## :hammer: Build
 
@@ -19,7 +19,3 @@ Run `yarn nx affected:test` to execute the unit tests affected by a change.
 Run `yarn nx e2e spotted` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
 Run `yarn nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Workspace
-
-Run `yarn nx dep-graph` to see a diagram of the dependencies of your projects.

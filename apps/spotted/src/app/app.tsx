@@ -10,18 +10,7 @@ export const App = () => {
       .then(setMessage);
   }, []);
 
-  return (
-    <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to spotted!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png"
-        />
-      </div>
-      <div>{m.message}</div>
-    </>
-  );
+  return <>Hello {m.message}.</>;
 };
 
 export default App;

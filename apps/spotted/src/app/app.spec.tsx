@@ -11,11 +11,11 @@ describe('App', () => {
   it('should render successfully', async () => {
     global['fetch'] = jest.fn().mockResolvedValueOnce({
       json: () => ({
-        message: 'my message',
+        message: 'world',
       }),
     });
 
     const { baseElement } = render(<App />);
-    await wait(() => getByText(baseElement, 'my message'));
+    await wait(() => getByText(baseElement, 'world'));
   });
 });
